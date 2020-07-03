@@ -1,0 +1,355 @@
+openapi: 3.0.0
+
+servers:
+  - description: Local test server
+    url: http://127.0.0.1:3000
+
+info:
+  version: '1.0.0'
+  title: 'U-link'
+  description: 'University-link'
+  contact:
+    email: deadlock@kakao.com
+tags:
+  - name: User
+    description: Access user data
+  - name: Schedule
+    description: Access schedule data
+
+
+paths:
+  /user/signup:
+    post:
+      tags:
+        - User
+      summary: 유저 회원가입
+      operationId: userSignUp
+      description: 유저 회원가입
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserSignUp'
+        description: User data to sign up
+      responses:
+        '201':
+          description: User Sign up
+          content:
+            application/json:
+              schema:
+                properties:
+                  status:
+                    type: integer
+                    example: 200
+                  success:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: 회원 가입 성공
+                  data:
+                    $ref: '#/components/schemas/UserIdIdx'
+        '400':
+          description: 'invalid input, object invalid'
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/Fail'
+
+
+  /user/signin:
+    post:
+      tags:
+        - User
+      summary: 유저 로그인
+      operationId: userSignIn
+      description: 유저 로그인
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserSignIn'
+        description: User data to sign in
+      responses:
+        '200':
+          description: User login
+          content:
+            application/json:
+              schema:
+                properties:
+                  status:
+                    type: integer
+                    example: 200
+                  success:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: 로그인 성공
+                  data:
+                    $ref: '#/components/schemas/Token'
+        '400':
+          description: 'invalid input, object invalid'
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/Fail'
+
+
+  /user/profile:
+    post:
+      tags:
+        - User
+      summary: 프로필 사진 업데이트
+      operationId: updateProfile
+      description: 특정 유저 프로필 업데이트
+      consumes:
+        - multipart/form-data
+      parameters:
+        - in: formData
+          name: profile_image
+          required: true
+          schema:
+            type: file
+          description: 프로필 이미지 사진
+        - in: header
+          name: token
+          required: true
+          schema:
+            type: string
+          description: JWT 토큰
+      responses:
+        '200':
+          description: 프로필 사진 업데이트 완료
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: integer
+                    example: 200
+                  success:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: 프로필 이미지 업데이트 성공
+                  data:
+                    type: object
+                    example: {
+                        "id": "qhqo",
+                        "name": "김보배",
+                        "email": "tree9295@gachon.ac.kr",
+                        "school": "가천대학교",
+                        "profile_image": "https://bbs3.s3.ap-northeast-2.amazonaws.com/1593689580981.png"
+                    }
+        '400':
+          description: 'invalid input, object invalid'
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/Fail'
+
+    get:
+      tags:
+        - User
+      summary: 모든 프로필 조회
+      operationId: userProfile
+      description: 모든 유저 프로필 조회 (debugging)
+      responses:
+        '200':
+          description: Get all profile
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: integer
+                    example: 200
+                  success:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: 프로필 조회 성공
+                  data:
+                    type: object
+                    example: {
+                      "userList": [
+                          {
+                              "user_idx": 1,
+                              "id": "qhqo",
+                              "name": "김보배",
+                              "email": "tree9295@gachon.ac.kr",
+                              "nickname": "instant_bronze_harrier",
+                              "school": "가천대학교",
+                              "check": 0,
+                              "profile_image": "https://~.amazonaws.com/294021890.jpg",
+                              "like": 10,
+                              "point": 124,
+                              "level": "신입생",
+                              "major": null
+                          },
+                          {
+                              "user_idx": 2,
+                              "id": "tjddms",
+                              "name": "황지혜",
+                              "email": "ghkdghkgd@email.ac.kr",
+                              "nickname": "beautiful_rqjelk_quelea",
+                              "school": "성신여자대학교",
+                              "check": 0,
+                              "profile_image": "https://~.amazonaws.com/294021890.jpg",
+                              "like": 52,
+                              "point": 521,
+                              "level": "신입생",
+                              "major": null
+                          },
+                          ...
+                      ]
+                  }
+        '400':
+          description: 'invalid input, object invalid'
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/Fail'
+
+
+  /user/profile/{id}:
+    get:
+      tags:
+        - User
+      summary: 특정 ID 유저 프로필 조회
+      operationId: userSpecificProfile
+      description: 특정 유저 프로필 조회
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+          description: 유저 ID
+      responses:
+        '200':
+          description: 아아디를 통해 특정 프로필 조회
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: integer
+                    example: 200
+                  success:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: 프로필 조회 성공
+                  data:
+                    type: object
+                    example: {
+                        "userId": "qhqo",
+                        "name": "김보배",
+                        "email": "tree9295@gachon.ac.kr",
+                        "nickname": "instant_bronze_harrier",
+                        "school": "가천대학교",
+                        "check": 0,
+                        "profileImage": "https://~.amazonaws.com/294021890.jpg",
+                        "like": 0,
+                        "point": 0,
+                        "level": "신입생"
+                    }
+        '400':
+          description: 'invalid input, object invalid'
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/Fail'
+
+
+
+components:
+  schemas:
+
+    Token:
+      required:
+        - accessToken
+      properties:
+        accessToken:
+          type: string
+          example: eyJhbGkpXVCJ9.eyJ1c2VySWR4Ijoob29sIjoi6rCA7LKc64yA7Z.WZ6rWQIiwiaWF0IjoxNTkzNjcyMTI5LC
+        
+    UserIdIdx:
+      required:
+        - userId
+        - userIdx
+      properties:
+        userId:
+          type: string
+          example: bappe0925
+        userIdx:
+          type: int
+          example: 12
+
+    Fail:
+      required:
+        - status
+        - success
+        - message
+      properties:
+        status:
+          type: int
+          example: status code number (400~)
+        success:
+          type: boolean
+          example: false
+        message:
+          type: string
+          example: Fail message
+      type: object
+
+    UserSignUp:
+      required:
+        - id
+        - name
+        - password
+        - email
+        - school
+      properties:
+        id:
+          type: string
+          example: bappe0925
+        name:
+          type: string
+          example: 김보배
+        password:
+          type: string
+          example: passwordword
+        email:
+          type: string
+          example: bappe0925@email.com
+        school:
+          type: string
+          example: 가천대학교
+      type: object
+
+    UserSignIn:
+      required:
+        - id
+        - password
+      properties:
+        id:
+          type: string
+          example: bappe0925
+        password:
+          type: string
+          example: passwordword
+      type: object
