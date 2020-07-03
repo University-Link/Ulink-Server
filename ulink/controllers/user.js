@@ -143,7 +143,7 @@ const user = {
 
         const result = await userModel.updateProfile(userIdx, profileImg);
         return res.status(statusCode.OK)
-            .send(util.success(statusCode.OK, resMessage.PROFILE_SUCCESS, result));
+            .send(util.success(statusCode.OK, resMessage.PROFILE_SUCCESS, result[0]));
     }
 }
 
