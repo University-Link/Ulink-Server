@@ -2,6 +2,19 @@ module.exports = {
     NULL_VALUE: "필요한 값이 없습니다",
     OUT_OF_VALUE: "파라미터 값이 잘못되었습니다",
 
+
+    // 스케쥴
+    READ_SCHEDULE_SUCCESS: "시간표 조회 성공",
+    READ_SUBJECT_SUCCESS: "과목 조회 성공",
+
+
+    // 프로필
+    READ_PROFILE_SUCCESS: "프로필 조회 성공",
+    PROFILE_SUCCESS: "프로필 이미지 업데이트 성공",
+    PROFILE_FAIL: "프로필 이미지 업데이트 실패",
+    PROFILE_NO_IMAGE: "프로필 이미지가 없습니다.",
+    PROFILE_UNSUPPORTED_TYPE: "지원하지 않는 이미지 확장자 입니다.",
+
     // token
     EMPTY_TOKEN: '토큰 값이 없습니다.',
     EXPIRED_TOKEN: '토큰 값이 만료되었습니다.',
