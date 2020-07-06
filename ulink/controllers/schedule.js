@@ -12,10 +12,15 @@ const mapping = (schedule, isSubject) => {
 const schedule = {
     getMainSchedule: async (req, res) => {
         const user = req.decoded;
+        const semester = await moment.getSemester();
 
-        const scheduleBasic = await scheduleModel.getScheduleBasic(user.userIdx);
-        const schedulePersonalList = await scheduleModel.getSchedulePersonal(scheduleBasic[0].schedule_idx);
-        const scheduleSchoolList = await scheduleModel.getScheduleSchool(scheduleBasic[0].schedule_idx);
+        const mainScheduleList = await scheduleModel.getSemesterMainSchedule(user.userIdx, semester);
+        if (mainScheduleList < 0) {
+            return res.status(statusCode.BAD_REQUEST)
+                .send(util.fail(statusCode.BAD_REQUEST, resMessage.DB_ERROR));
+        }
+        const schedulePersonalList = await scheduleModel.getSchedulePersonal(mainScheduleList[0].schedule_idx);
+        const scheduleSchoolList = await scheduleModel.getScheduleSchool(mainScheduleList[0].schedule_idx);
         if (schedulePersonalList < 0 || scheduleSchoolList < 0) {
             return res.status(statusCode.BAD_REQUEST)
                 .send(util.fail(statusCode.BAD_REQUEST, resMessage.DB_ERROR));
@@ -28,8 +33,8 @@ const schedule = {
 
         return res.status(statusCode.OK)
             .send(util.success(statusCode.OK, resMessage.READ_SCHEDULE_SUCCESS, {
-                meta: scheduleBasic,
-                schedule: schedule
+                timeTable: mainScheduleList[0],
+                subjects: schedule
             }));
 
     },
