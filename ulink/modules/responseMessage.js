@@ -15,6 +15,11 @@ module.exports = {
     // 채팅
     READ_CHAT_LIST_SUCCESS: "채팅 목록 조회 성공",
 
+    // 공지
+    READ_NOTICE_LIST_SUCCESS: "공지 목록 조회 성공",
+    READ_NOTICE_SUCCESS: "공지 조회 성공",
+    UPDATE_NOTICE_SUCCESS: "공지 업데이트 성공",
+    
     // 프로필
     READ_PROFILE_SUCCESS: "프로필 조회 성공",
     PROFILE_SUCCESS: "프로필 이미지 업데이트 성공",
