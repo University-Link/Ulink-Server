@@ -2,18 +2,16 @@
   S.O.P.T 26기 Sever 파트 앱잼 프로젝트
   
   <img width="300" src="https://user-images.githubusercontent.com/50284754/86553933-26c29d00-bf87-11ea-8c88-174ef6d70073.png">
-  
+
 ![node_badge](https://img.shields.io/badge/node-v12.18.1-green)![npm_bedge](https://img.shields.io/badge/npm-v6.14.5-blue)
-  
+
 * 프로젝트 기간: 2020.06.29 ~ 2020.06.18
-  * [📚 API 문서](http://127.0.0.1:3000/Docs/)
-  
 
 
 
   ## 프로젝트 설명
 
-*  '**Ulink**' : 시간표 기반, 대학생 지식교류  플랫폼
+* **Ulink** : 시간표 기반, 대학생 지식교류  플랫폼
 
   ## Workflow
 
@@ -23,14 +21,23 @@
 
   ## 핵심 기능
 
+  ### 시간표
+
+  사용자가 해당하는 학교 시간표를 필터검색과 카테고리별로 수업시간표 데이터를 사용자에게 편리하게 알려줍니다.<br>	<br/>
+
+
+    ### 캘린더
+
+  수업 별 일정을 최신순으로 확인하고 대화방의 수업공지와 연동하여 수업별 시험, 과제, 수업, 실습 공지등을 사용자에게 알려줍니다.<br>	<br/>
+
   ### 크롤링
 
-​	대학별 시간표 정보를 대학별 사이트에서 파이썬의 Requests와 BeautifulSoup을 활용하여 크롤링합니다. <br>	<br/>	해당 크롤링 코드는 의존성을 줄이기 위해 Google Cloud Function을 이용하여 Google Cron 서비스로 학기별 DB를 업데이트 합니다. 	<br>	<br/>
+  대학별 시간표 정보를 대학별 사이트에서 파이썬의 Selenium과 BeautifulSoup을 활용하여 크롤링합니다. <br><br/>해당 크롤링 코드는 의존성을 줄이기 위해 Google Cloud Function을 이용하여 Google Cron 서비스로 학기별 DB를 업데이트 합니다. <br><br/>
 
 
-  ### 채팅 서비스
+    ### 채팅 서비스
 
-​	클라이언트와의 원활한 소통을 위해 Firebase RealTime Database를 이용한 채팅 서비스를 합니다<br>	<br/>
+  시간표 작성 후, 시간표 데이터를 기반으로 이번 학기 수업 별 소통방이 생성됩니다. 생성된 소통방에서는 클라이언트와의 원활한 소통을 위해 Firebase RealTime Database를 이용한 채팅 서비스를 합니다.<br><br/>
 
   ## Architecture
 
@@ -108,17 +115,12 @@
 
   ## 시작하기
 
-  소스 코드는 Windows10 64bit + Visiau Studio Code + Node v10.16.0 + NPM v6.13.4 + Express 4.16.1 환경에서 제작되었습니다.
-
-  * Node.js의 Async/Await 도구를 사용해 (Promise) 비동기 제어를 하고 있습니다.
-
-  
-
   #### 설치하기
 
-  * `nodejs`와 `npm`을 을치합니다. (설치 방법 :  [nodejs.org](https://nodejs.org/) 를 참고)
+  * `nodejs`와 `npm`을 설치합니다. (설치 방법 :  [nodejs.org](https://nodejs.org/) 를 참고)
   * Node.js 12 LTS 버전을 설치합니다.
   * 실행에 필요한 의존성을 설치합니다.
+  * 버전 정보 : 업데이트 예정
 
   ```
   npm install -g express express-generator
