@@ -29,7 +29,7 @@ const schedule = {
     - 가져오기: 수업 idx, 수업 이름, 수업 시작시간, 수업 종료시간, 수업 요일, 수업 장소, 색상
     */
     getScheduleSchool: async (scheduleIdx) => {
-        const query = `SELECT s.schedule_school_idx AS idx, s.name, tp.starttime, tp.endtime, tp.week, tp.place, s.color
+        const query = `SELECT s.schedule_school_idx AS idx, s.name, tp.start_time, tp.end_time, tp.week, tp.place, s.color
             FROM (
                 SELECT s1.schedule_school_idx, s2.subject_idx, s2.name, s1.color FROM
                     (
@@ -58,7 +58,7 @@ const schedule = {
     - 가져오기: 개인일정 idx, 개인일정 이름, 개인일정 시작시간, 개인일정 종료시간, 개인일정 요일, 장소, 색상
     */
     getSchedulePersonal: async (scheduleIdx) => {
-        const query = `SELECT schedule_personal_idx AS idx, name, starttime, endtime, week, place, color 
+        const query = `SELECT schedule_personal_idx AS idx, name, start_time, end_time, week, place, color 
             FROM schedule_personal WHERE schedule_idx = ${scheduleIdx}`;
         
         try {
@@ -136,7 +136,7 @@ const schedule = {
     개인 일정 등록하기
     */
     createSchedulePersonal: async (name, startTime, endTime, week, place, color, scheduleIdx) => {
-        const fields = 'name, starttime, endtime, week, place, color, schedule_idx';
+        const fields = 'name, start_time, end_time, week, place, color, schedule_idx';
         const questions = '?, ?, ?, ?, ?, ?, ?';
         const values = [name, startTime, endTime, week, place, color, scheduleIdx];
         const query = `INSERT INTO schedule_personal(${fields}) VALUES(${questions})`;
