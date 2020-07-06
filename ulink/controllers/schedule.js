@@ -1,6 +1,7 @@
 const util = require('../modules/util')
 const statusCode = require('../modules/statusCode');
 const resMessage = require('../modules/responseMessage');
+const moment = require('../modules/moment');
 const scheduleModel = require('../models/schedule');
 
 const mapping = (schedule, isSubject) => {
