@@ -1,8 +1,9 @@
 const util = require('../modules/util')
 const statusCode = require('../modules/statusCode');
 const resMessage = require('../modules/responseMessage');
-
+const moment = require('../modules/moment');
 const noticeModel = require('../models/notice');
+const scheduleModel = require('../models/schedule');
 
 const notice = {
     /*
@@ -10,26 +11,50 @@ const notice = {
     - 유저의 메인 스케줄 과목들의 모든 공지 데이터를 가져오기 (시간별?)
     */
     getNoticeList: async (req, res) => {
-        // const user = req.decoded;
-        // const semester = await moment.getSemester();
-        // const mainScheduleList = await scheduleModel.getSemesterMainSchedule(user.userIdx, semester);
-        // console.log(mainScheduleList);
+        const user = req.decoded;
+        const year = req.query.year, month = req.query.month;
+        if (!year || !month){
+            return res.status(statusCode.BAD_REQUEST)
+                .send(util.fail(statusCode.BAD_REQUEST, resMessage.NULL_VALUE));
+        }
 
-        // if (mainScheduleList < 0) {
-        //     return res.status(statusCode.BAD_REQUEST)
-        //         .send(util.fail(statusCode.BAD_REQUEST, resMessage.DB_ERROR));
-        // }
-        // const notice = await noticeModel.getNoticeList(mainScheduleList[0].schedule_idx);
-        // console.log(notice);
+        const semester = await moment.getSemester();
+        const mainScheduleList = await scheduleModel.getSemesterMainSchedule(user.userIdx, semester);
+
+        if (mainScheduleList < 0) {
+            return res.status(statusCode.BAD_REQUEST)
+                .send(util.fail(statusCode.BAD_REQUEST, resMessage.DB_ERROR));
+        }
+        const notices = await noticeModel.getNoticeList(mainScheduleList[0].schedule_idx, year, month);
+
+        const result = [];
+        let notice_list = [];
+        let date_before = notices[0].date;
+
+        for(let notice of notices){
+            const date = notice.date;
+            if (date_before !== date){
+                result.push({'date':date_before, 'notice':notice_list});
+                notice_list = []
+            }
+            delete notice.date;
+            notice_list.push(notice);
+            date_before = date;
+        }
+        result.push({'date':date_before, 'notice':notice_list});
 
 
-        // const result = {
-        //     'semester': semester,
-        //     'chat': notice
-        // };
-        // return res.status(statusCode.OK)
-        //     .send(util.success(statusCode.OK, resMessage.READ_CHAT_LIST_SUCCESS, result));
+
+        return res.status(statusCode.OK)
+            .send(util.success(statusCode.OK, resMessage.READ_NOTICE_LIST_SUCCESS, result));
     },
+    /*
+    과목 공지 등록하기
+    - 특정과목의 공지 등록하기
+    */
+    createNotice: async (req, res) => {
+},
+
     /*
     특정 과목 공지 목록 가져오기
     - scheduleSchoolIdx를 받아 특정 과목을 인식하고, 그 과목에 대한 Notice 목록을 가져온다.

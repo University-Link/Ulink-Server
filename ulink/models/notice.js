@@ -1,10 +1,13 @@
 const pool = require('../modules/pool');
 
 const notice = {
-    getNoticeList: async (scheduleIdx, subjectIdx) => {
+    getNoticeList: async (scheduleIdx, year, month) => {
         const query1 = `SELECT * FROM schedule_school WHERE schedule_idx = ${scheduleIdx}`;
-        const query2 = `SELECT s.* FROM (${query1}) q1 INNER JOIN subject s ON q1.subject_idx = s.subject_idx`;
-        const query3 = `SELECT * FROM (${query2}) q2 INNER JOIN notice n ON q2.subject_idx = n.subject_idx`;
+        const query2 = `SELECT s.subject_idx, s.name, q1.color 
+        FROM (${query1}) q1 INNER JOIN subject s ON q1.subject_idx = s.subject_idx`;
+        const query3 = `SELECT q2.name, q2.color, n.notice_idx, n.category, n.date, n.start_time, n.end_time, n.title 
+        FROM (${query2}) q2 INNER JOIN notice n ON q2.subject_idx = n.subject_idx 
+        WHERE YEAR(date) = ${year} AND MONTH(date) = ${month} ORDER BY n.date, n.start_time`;
         try {
             const temp = await pool.queryParam(query2);
             const result = await pool.queryParam(query3);
