@@ -34,7 +34,11 @@ const social = {
             console.log('쿼리로 뽑아온 데이터: ', result);
             return result;
         } catch (err) {
-            console.log('getFollowingList ERROR : ', err);
+            if (err.errno == 1062) {
+                console.log('getFollowerList ERROR : ', err.errno, err.code);
+                return -1;
+            }
+            console.log('getFollowerList ERROR : ', err);
             throw err;
         }
     },
@@ -90,6 +94,11 @@ const social = {
             console.log('Delete post - result: ', result);
             return result;
         } catch (err) {
+            if (err.errno == 1062) {
+                console.log('deleteFollowing ERROR : ', err.errno, err.code);
+                return -1;
+            }
+            console.log('deleteFollowing ERROR: ', err);
             throw err;
         }
     },
