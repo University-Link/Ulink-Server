@@ -1,15 +1,14 @@
 const pool = require('../modules/pool');
 
 const notice = {
-    getNoticeList: async (scheduleIdx, year, month) => {
+    getNoticeList: async (scheduleIdx, start, end) => {
         const query1 = `SELECT * FROM schedule_school WHERE schedule_idx = ${scheduleIdx}`;
         const query2 = `SELECT s.subject_idx, s.name, q1.color 
         FROM (${query1}) q1 INNER JOIN subject s ON q1.subject_idx = s.subject_idx`;
         const query3 = `SELECT q2.name, q2.color, n.notice_idx, n.category, n.date, n.start_time, n.end_time, n.title 
         FROM (${query2}) q2 INNER JOIN notice n ON q2.subject_idx = n.subject_idx 
-        WHERE YEAR(date) = ${year} AND MONTH(date) = ${month} ORDER BY n.date, n.start_time`;
+        WHERE date BETWEEN "${start}" AND "${end}" ORDER BY n.date, n.start_time`;
         try {
-            const temp = await pool.queryParam(query2);
             const result = await pool.queryParam(query3);
             return result;
         } catch (err) {
@@ -21,11 +20,27 @@ const notice = {
             throw err;
         }
     },
-    getNotice: async (scheduleSchoolIdx) => {
-        const query = `
-        SELECT q2.notice_idx, q2.category, q2.date, q2.title, q2.start_time, q2.end_time FROM (
-            SELECT subject_idx FROM schedule_school WHERE schedule_school_idx = ${scheduleSchoolIdx}
-        ) q1 INNER JOIN notice q2 ON q1.subject_idx = q2.subject_idx`;
+    createNotice: async (subjectIdx, category, date, startTime, endTime, title, content) => {
+        const fields = 'subject_idx, category, date, start_time, end_time, title, content';
+        const questions = '?, ?, ?, ?, ?, ?, ?';
+        const values = [subjectIdx, category, date, startTime, endTime, title, content];
+        const query = `INSERT INTO notice(${fields}) VALUES(${questions})`;
+        try {
+            const result = await pool.queryParamArr(query, values);
+            const insertId = result.insertId;
+            return insertId;
+        } catch (err) {
+            if (err.errno == 1062) {
+                console.log('createNotice ERROR : ', err.errno, err.code);
+                return -1;
+            }
+            console.log('createNotice ERROR: ', err);
+            throw err;
+        }
+    },
+    getNotice: async (subjectIdx) => {
+        const query = `SELECT notice_idx, category, title, start_time, end_time
+        FROM notice WHERE subject_idx = ${subjectIdx}`;
         try {
             const result = await pool.queryParam(query);
             return result;

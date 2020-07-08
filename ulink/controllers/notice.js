@@ -12,8 +12,8 @@ const notice = {
     */
     getNoticeList: async (req, res) => {
         const user = req.decoded;
-        const year = req.query.year, month = req.query.month;
-        if (!year || !month){
+        const start = req.query.start, end = req.query.end;
+        if (!start || !end){
             return res.status(statusCode.BAD_REQUEST)
                 .send(util.fail(statusCode.BAD_REQUEST, resMessage.NULL_VALUE));
         }
@@ -25,7 +25,7 @@ const notice = {
             return res.status(statusCode.BAD_REQUEST)
                 .send(util.fail(statusCode.BAD_REQUEST, resMessage.DB_ERROR));
         }
-        const notices = await noticeModel.getNoticeList(mainScheduleList[0].schedule_idx, year, month);
+        const notices = await noticeModel.getNoticeList(mainScheduleList[0].schedule_idx, start, end);
 
         const result = [];
         let notice_list = [];
@@ -43,8 +43,6 @@ const notice = {
         }
         result.push({'date':date_before, 'notice':notice_list});
 
-
-
         return res.status(statusCode.OK)
             .send(util.success(statusCode.OK, resMessage.READ_NOTICE_LIST_SUCCESS, result));
     },
@@ -53,20 +51,43 @@ const notice = {
     - 특정과목의 공지 등록하기
     */
     createNotice: async (req, res) => {
-},
+        const subjectIdx = req.params.idx;
+        const {
+            category,
+            date,
+            startTime,
+            endTime,
+            title,
+            content
+        } = req.body;
+        
+        if (!subjectIdx || isNaN(subjectIdx) || !category || !date || !startTime || !endTime || !title || !content) {
+            return res.status(statusCode.BAD_REQUEST)
+                .send(util.fail(statusCode.BAD_REQUEST, resMessage.NULL_VALUE));
+        }
+
+        const idx = await noticeModel.createNotice(subjectIdx, category, date, startTime, endTime, title, content);
+        if (idx === -1) {
+            return res.status(statusCode.BAD_REQUEST)
+                .send(util.fail(statusCode.BAD_REQUEST, resMessage.DB_ERROR));
+        }
+
+        res.status(statusCode.OK)
+            .send(util.success(statusCode.OK, resMessage.CREATE_NOTICE_SUCCESS));
+    },
 
     /*
     특정 과목 공지 목록 가져오기
     - scheduleSchoolIdx를 받아 특정 과목을 인식하고, 그 과목에 대한 Notice 목록을 가져온다.
     */
     getNotice: async (req, res) => {
-        const scheduleSchoolIdx = req.params.idx;
-        if (!scheduleSchoolIdx) {
+        const subjectIdx = req.params.idx;
+        if (!subjectIdx || isNaN(subjectIdx)) {
             return res.status(statusCode.BAD_REQUEST)
                 .send(util.fail(statusCode.BAD_REQUEST, resMessage.NULL_VALUE));
         }
 
-        const noticeList = await noticeModel.getNotice(scheduleSchoolIdx);
+        const noticeList = await noticeModel.getNotice(subjectIdx);
         if (noticeList < 0) {
             return res.status(statusCode.BAD_REQUEST)
                 .send(util.fail(statusCode.BAD_REQUEST, resMessage.DB_ERROR));
@@ -98,7 +119,7 @@ const notice = {
     */
     getSpecificNotice: async (req, res) => {
         const noticeIdx = req.params.idx;
-        if (!noticeIdx) {
+        if (!noticeIdx || isNaN(noticeIdx)) {
             return res.status(statusCode.BAD_REQUEST)
                 .send(util.fail(statusCode.BAD_REQUEST, resMessage.NULL_VALUE));
         }
@@ -110,7 +131,7 @@ const notice = {
         }
 
         return res.status(statusCode.OK)
-            .send(util.success(statusCode.OK, resMessage.READ_NOTICE_SUCCESS, result));
+            .send(util.success(statusCode.OK, resMessage.READ_NOTICE_SUCCESS, result[0]));
     },
     /*
     특정 공지 업데이트
@@ -120,7 +141,7 @@ const notice = {
         const noticeIdx = req.params.idx;
         const {category, date, startTime, endTime, title, content} = req.body;
 
-        if (!noticeIdx || !category || !date || !startTime || !endTime || !title || !content) {
+        if (!noticeIdx || isNaN(noticeIdx) || !category || !date || !startTime || !endTime || !title || !content) {
             return res.status(statusCode.BAD_REQUEST)
                 .send(util.fail(statusCode.BAD_REQUEST, resMessage.NULL_VALUE));
         }

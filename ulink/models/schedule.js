@@ -78,7 +78,7 @@ const schedule = {
             FROM schedule_school s1, schedule_school s2 
             WHERE s1.subject_idx = s2.subject_idx group by s1.schedule_school_idx`;
 
-        const query3 = `SELECT q1.schedule_school_idx, q1.name, q1.color, q1.total, q2.current
+        const query3 = `SELECT q1.subject_idx, q1.name, q1.color, q1.total, q2.current
         FROM (${query1}) q1 INNER JOIN (${query2}) q2 
         ON q1.schedule_school_idx = q2.schedule_school_idx`;
         try {
