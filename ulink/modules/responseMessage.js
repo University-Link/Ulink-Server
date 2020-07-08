@@ -5,7 +5,7 @@ module.exports = {
 
     // 스케쥴
     READ_SCHEDULE_SUCCESS: "시간표 조회 성공",
-    READ_SCHEDULE_FAIL:"시간표 조회 실패",
+    READ_SCHEDULE_FAIL: "시간표 조회 실패",
     READ_SUBJECT_SUCCESS: "과목 조회 성공",
     READ_SUBJECT_FAIL: "과목 조회 실패",
     CREATE_SCHEDULE_SUCCESS: "일정 생성 성공",
@@ -34,6 +34,13 @@ module.exports = {
     DELETE_USER: "회원 탈퇴 성공",
     ALREADY_ID: "이미 사용중인 아이디입니다.",
     INVALID_SCHOOL: "학교 이름이 잘못되었습니다.",
+
+    // 로그인
+    LOGIN_SUCCESS: "로그인 성공",
+    LOGIN_FAIL: "로그인 실패",
+    NO_USER: "존재하지 않는 회원입니다.",
+    MISS_MATCH_PW: "비밀번호가 맞지 않습니다.",
+
 
     // 소셜-팔로잉, 팔로워
     SOCIAL_SUCCESS: "소셜 조회 성공",
