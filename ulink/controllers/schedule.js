@@ -1,6 +1,7 @@
 const util = require('../modules/util')
 const statusCode = require('../modules/statusCode');
 const resMessage = require('../modules/responseMessage');
+const moment = require('../modules/moment');
 const scheduleModel = require('../models/schedule');
 
 const mapping = (schedule, isSubject) => {
@@ -88,7 +89,7 @@ const schedule = {
                 idx: result
             }));
     },
-    getSpecificScheduleSchool: async(req, res) => {
+    getSpecificScheduleSchool: async (req, res) => {
         const scheduleSchoolIdx = req.params.idx;
         if (!scheduleSchoolIdx || isNaN(scheduleSchoolIdx)) {
             return res.status(statusCode.BAD_REQUEST)
@@ -100,7 +101,7 @@ const schedule = {
             return res.status(statusCode.BAD_REQUEST)
                 .send(util.fail(statusCode.BAD_REQUEST, resMessage.DB_ERROR));
         }
-        if (result.length === 0){
+        if (result.length === 0) {
             return res.status(statusCode.BAD_REQUEST)
                 .send(util.fail(statusCode.BAD_REQUEST, resMessage.READ_SCHEDULE_FAIL));
         }
@@ -109,7 +110,7 @@ const schedule = {
 
 
     },
-    getSpecificSchedulePersonal: async(req, res) => {
+    getSpecificSchedulePersonal: async (req, res) => {
         const schedulePersonalIdx = req.params.idx;
         if (!schedulePersonalIdx || isNaN(schedulePersonalIdx)) {
             return res.status(statusCode.BAD_REQUEST)
@@ -121,7 +122,7 @@ const schedule = {
             return res.status(statusCode.BAD_REQUEST)
                 .send(util.fail(statusCode.BAD_REQUEST, resMessage.DB_ERROR));
         }
-        if (result.length === 0){
+        if (result.length === 0) {
             return res.status(statusCode.BAD_REQUEST)
                 .send(util.fail(statusCode.BAD_REQUEST, resMessage.READ_SCHEDULE_FAIL));
         }
@@ -180,11 +181,21 @@ const schedule = {
             return res.status(statusCode.BAD_REQUEST)
                 .send(util.fail(statusCode.BAD_REQUEST, resMessage.READ_SUBJECT_FAIL));
         }
-        
+
         return res.status(statusCode.OK)
             .send(util.success(statusCode.OK, resMessage.READ_SUBJECT_SUCCESS, {
                 subjectList
             }));
+    },
+    getSemesterList: async (req, res) => {
+        const user = req.decoded;
+        const semesterList = await scheduleModel.getSemesterList(user.userIdx);
+        if (semesterList === -1) {
+            return res.status(statusCode.BAD_REQUEST)
+                .send(util.fail(statusCode.BAD_REQUEST, resMessage.DB_ERROR));
+        }
+        return res.status(statusCode.OK)
+            .send(util.success(statusCode.OK, resMessage.READ_SUBJECT_SUCCESS, semesterList));
     }
 }
 

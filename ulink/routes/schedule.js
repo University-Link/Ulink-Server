@@ -16,4 +16,6 @@ router.delete('/personal/:idx', authUtil.checkToken, scheduleController.deleteSc
 
 router.get('/subject', authUtil.checkToken, scheduleController.getSubject);
 
+router.get('/list', authUtil.checkToken, scheduleController.getSemesterList);
+
 module.exports = router;
