@@ -28,40 +28,40 @@ const schedule = {
     - 가져오기: 시간표 idx, 학기, 시간표 이름
     */
     getMainSchedule: async (userIdx) => {
-    const query = `SELECT schedule_idx, semester, name FROM ${table} 
+        const query = `SELECT schedule_idx, semester, name FROM ${table} 
     WHERE user_idx = ${userIdx} and main = 1`;
-    try {
-        const result = await pool.queryParam(query);
-        return result;
-    } catch (err) {
-        if (err.errno == 1062) {
-            console.log('getMainSchedule ERROR : ', err.errno, err.code);
-            return -1;
+        try {
+            const result = await pool.queryParam(query);
+            return result;
+        } catch (err) {
+            if (err.errno == 1062) {
+                console.log('getMainSchedule ERROR : ', err.errno, err.code);
+                return -1;
+            }
+            console.log('getMainSchedule ERROR: ', err);
+            throw err;
         }
-        console.log('getMainSchedule ERROR: ', err);
-        throw err;
-    }
-},
+    },
     /*
     특정 학기 기본 메인 시간표 가져오기
     - 토큰으로 유저에 해당하는 메인 시간표의 정보를 가져온다.
     - 가져오기: 시간표 idx, 학기, 시간표 이름
     */
     getSemesterMainSchedule: async (userIdx, semester) => {
-    const query = `SELECT schedule_idx, semester, name FROM ${table} 
+        const query = `SELECT schedule_idx, semester, name FROM ${table} 
     WHERE user_idx = ${userIdx} and semester = "${semester}" and main = 1`;
-    try {
-        const result = await pool.queryParam(query);
-        return result;
-    } catch (err) {
-        if (err.errno == 1062) {
-            console.log('getSemesterMainSchedule ERROR : ', err.errno, err.code);
-            return -1;
+        try {
+            const result = await pool.queryParam(query);
+            return result;
+        } catch (err) {
+            if (err.errno == 1062) {
+                console.log('getSemesterMainSchedule ERROR : ', err.errno, err.code);
+                return -1;
+            }
+            console.log('getSemesterMainSchedule ERROR: ', err);
+            throw err;
         }
-        console.log('getSemesterMainSchedule ERROR: ', err);
-        throw err;
-    }
-},
+    },
     /*
     학교 수업목록 가져오기
     - scheduleIdx에 해당하는 학교 수업목록을 가져온다.
@@ -302,6 +302,36 @@ const schedule = {
                 return -1;
             }
             console.log('getSubject ERROR: ', err);
+            throw err;
+        }
+    },
+    /*
+    모든 학기 수업 시간표 목록 가져오기
+    - token을 통해 자신의 학교의 모든 학기 수업 기간표 목록을 가져온다.
+    - 가져오기: 자신의 시간표 목록
+    */
+    getSemesterList: async (userIdx) => {
+        const query1 = `SELECT DISTINCT semester FROM ${table} WHERE user_idx = ${userIdx}`;
+        try {
+            const semesters = await pool.queryParamArr(query1);
+            let result = [];
+            for (let data of semesters) {
+                let query2 = `SELECT schedule_idx, name, main As isMain FROM ${table} WHERE semester="${data.semester}"`;
+                
+                const timeTableList = await pool.queryParamArr(query2);
+                let result2 = {
+                    "semester":data.semester,
+                    "timeTableList":timeTableList
+                };
+                result.push(result2);
+            }
+            return result;
+        } catch (err) {
+            if (err.errno == 1062) {
+                console.log('getSemesterList ERROR : ', err.errno, err.code);
+                return -1;
+            }
+            console.log('getSemesterList ERROR: ', err);
             throw err;
         }
     }
