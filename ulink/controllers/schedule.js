@@ -190,9 +190,9 @@ const schedule = {
     getSemesterList: async (req, res) => {
         const user = req.decoded;
         const semesterList = await scheduleModel.getSemesterList(user.userIdx);
-        if (semesterList.length === -1) {
+        if (semesterList === -1) {
             return res.status(statusCode.BAD_REQUEST)
-                .send(util.fail(statusCode.BAD_REQUEST, resMessage.READ_SCHEDULE_FAIL));
+                .send(util.fail(statusCode.BAD_REQUEST, resMessage.DB_ERROR));
         }
         return res.status(statusCode.OK)
             .send(util.success(statusCode.OK, resMessage.READ_SUBJECT_SUCCESS, semesterList));
