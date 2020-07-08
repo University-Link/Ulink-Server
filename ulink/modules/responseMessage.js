@@ -35,11 +35,13 @@ module.exports = {
     ALREADY_ID: "이미 사용중인 아이디입니다.",
     INVALID_SCHOOL: "학교 이름이 잘못되었습니다.",
 
-    // 로그인
-    LOGIN_SUCCESS: "로그인 성공",
-    LOGIN_FAIL: "로그인 실패",
-    NO_USER: "존재하지 않는 회원입니다.",
-    MISS_MATCH_PW: "비밀번호가 맞지 않습니다.",
+    // 소셜-팔로잉, 팔로워
+    SOCIAL_SUCCESS: "소셜 조회 성공",
+    SOCIAL_FAIL: "소셜 조회 실패",
+    SOCIAL_POST_SUCCESS: "소셜 추가 성공",
+    SOCIAL_POST_FAIL: "소셜 추가 실패",
+    SOCIAL_DELETE_SUCCESS: "소셜 삭제 성공",
+    SOCIAL_DELETE_FAIL: "소셜 삭제 실패",
 
     DB_ERROR: "DB 오류"
 };
