@@ -3,13 +3,15 @@ const table = 'social';
 const table2 = 'user';
 
 const social = {
-    /*
-        팔로잉 하는 사람들의 목록
-        - 토큰으로 유저에 해당하는 소셜의 정보를 가져온다.
-        - 가져오기: 팔로잉한 사람들의 idx, name, profileImage
+    /** 
+    * 팔로잉 하는 사람들의 목록
+    * @type SELECT
+    * @param 유저 인덱스
+    * @return 팔로잉한 사람들의 인덱스, 이름, 프로필 이미지
     */
     getFollowing: async (userIdx) => {
-        const query = `SELECT userIdx, name, profileImage FROM ${table2} WHERE userIdx IN (SELECT followingIdx FROM ${table} WHERE userIdx = "${userIdx}")`;
+        const query = `SELECT userIdx, name, profileImage FROM ${table2} WHERE userIdx 
+        IN (SELECT followingIdx FROM ${table} WHERE userIdx = ${userIdx})`;
         try {
             const result = await pool.queryParam(query);
             return result;
@@ -22,16 +24,17 @@ const social = {
             throw err;
         }
     },
-    /*
-        팔로워하는 사람들의 목록
-        - 토큰으로 유저에 해당하는 소셜의 정보를 가져온다.
-        - 가져오기: 팔로워한 사람들의 idx, name, profileImage
+    /** 
+    * 팔로워하는 사람들의 목록
+    * @type SELECT
+    * @param 유저 인덱스
+    * @return 팔로워한 사람들의 인덱스, 이름, 프로필 이미지
     */
     getFollower: async (userIdx) => {
-        const query = `SELECT userIdx, name, profileImage FROM ${table2} WHERE userIdx IN (SELECT userIdx FROM ${table} WHERE followingIdx = "${userIdx}")`;
+        const query = `SELECT userIdx, name, profileImage FROM ${table2} WHERE userIdx 
+        IN (SELECT userIdx FROM ${table} WHERE followingIdx = ${userIdx})`;
         try {
             const result = await pool.queryParam(query);
-            console.log('쿼리로 뽑아온 데이터: ', result);
             return result;
         } catch (err) {
             if (err.errno == 1062) {
@@ -42,8 +45,11 @@ const social = {
             throw err;
         }
     },
-    /*
-        팔로잉하는 사람 추가하기
+    /** 
+    * 팔로잉 정보 추가
+    * @type INSERT
+    * @param 유저 인덱스 (자신), 팔로잉 할 유저 인덱스
+    * @return 팔로잉 할 유저 인덱스
     */
     postFollowing: async (userIdx, idx) => {
         const fields = 'userIdx, followingIdx';
@@ -63,11 +69,14 @@ const social = {
             throw err;
         }
     },
-    /*
-        팔로잉 하는 사람 중복 체크
+    /** 
+    * 팔로잉 정보 찾기
+    * @type SELECT
+    * @param 유저 인덱스 (자신), 팔로잉 확인하고 싶은 유저 인덱스
+    * @return 팔로잉 상태 (Boolean)
     */
     checkFollowing: async (userIdx, idx) => {
-        const query = `SELECT * FROM ${table} WHERE followingIdx = "${idx}" AND userIdx = "${userIdx}"`;
+        const query = `SELECT * FROM ${table} WHERE followingIdx = ${idx} AND userIdx = ${userIdx}`;
         try {
             const result = await pool.queryParam(query);
             if (result.length === 0) {
@@ -84,14 +93,16 @@ const social = {
             throw err;
         }
     },
-    /*
-        팔로잉 하는 사람 삭제
+    /** 
+    * 팔로잉 정보 삭제
+    * @type DELETE
+    * @param 유저 인덱스 (자신), 팔로잉 취소하고 싶은 유저 인덱스
+    * @return 정보 삭제 정보
     */
-    deleteFollowing: async (idx) => {
-        const query = `DELETE FROM ${table} WHERE followingIdx = "${idx}"`;
+    deleteFollowing: async (userIdx, idx) => {
+        const query = `DELETE FROM ${table} WHERE followingIdx = ${idx} AND userIdx = ${userIdx}`;
         try {
             const result = await pool.queryParamArr(query);
-            console.log('Delete post - result: ', result);
             return result;
         } catch (err) {
             if (err.errno == 1062) {

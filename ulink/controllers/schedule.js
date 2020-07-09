@@ -11,6 +11,12 @@ const mapping = (schedule, isSubject) => {
 };
 
 const schedule = {
+    /** 
+    * 메인 시간표 정보 가져오기
+    * @summary 현재 학기 메인 시간표 정보 및 일정 가져오기
+    * @param 토큰
+    * @return 현재 학기 시간표 정보 및 일정 
+    */
     getMainSchedule: async (req, res) => {
         const user = req.decoded;
         const semester = await moment.getSemester();
@@ -19,6 +25,10 @@ const schedule = {
         if (mainScheduleList < 0) {
             return res.status(statusCode.BAD_REQUEST)
                 .send(util.fail(statusCode.BAD_REQUEST, resMessage.DB_ERROR));
+        }
+        if (mainScheduleList.length == 0){
+            return res.status(statusCode.BAD_REQUEST)
+            .send(util.fail(statusCode.BAD_REQUEST, resMessage.READ_MAIN_SCHEDULE_FAIL));
         }
         const schedulePersonalList = await scheduleModel.getSchedulePersonal(mainScheduleList[0].scheduleIdx);
         const scheduleSchoolList = await scheduleModel.getScheduleSchool(mainScheduleList[0].scheduleIdx);
@@ -39,6 +49,12 @@ const schedule = {
             }));
 
     },
+    /** 
+    * 시간표에 학교 일정 추가하기
+    * @summary 시간표에 학교 일정 (과목) 추가하기
+    * @param 과목 인덱스, 색상, 시간표 인덱스
+    * @return 추가한 데이터 인덱스
+    */
     createScheduleSchool: async (req, res) => {
         const {
             subjectIdx,
@@ -62,6 +78,12 @@ const schedule = {
             }));
 
     },
+    /** 
+    * 시간표에 개인 일정 추가하기
+    * @summary 시간표에 개인 일정 추가하기
+    * @param 개인 일정 이름, 시작시간, 종료시간, 요일, 내용, 색상, 시간표 인덱스
+    * @return 추가한 데이터 인덱스
+    */
     createSchedulePersonal: async (req, res) => {
         const {
             name,
@@ -89,19 +111,25 @@ const schedule = {
                 idx: result
             }));
     },
+    /** 
+    * 일정 상세정보 (통합)
+    * @summary 일정에 대한 상세 정보 가져오기
+    * @param 일정 인덱스, 학교일정(T)/개인일정(F) (Boolean)
+    * @return 일정에 대한 상세 정보
+    */
     getSpecificSchedule: async (req, res) => {
-        const scheduleIdx = req.params.idx;
+        const idx = req.params.idx;
         const isSubject = req.query.isSubject;
-        if (!scheduleIdx || isNaN(scheduleIdx) || !isSubject) {
+        if (!idx || isNaN(idx) || !isSubject) {
             return res.status(statusCode.BAD_REQUEST)
                 .send(util.fail(statusCode.BAD_REQUEST, resMessage.NULL_VALUE));
         }
         
         let result;
         if (isSubject === 'true'){
-            result = await scheduleModel.getSpecificScheduleSchool(scheduleIdx);
+            result = await scheduleModel.getSpecificScheduleSchool(idx);
         } else if(isSubject === 'false'){
-            result = await scheduleModel.getSpecificSchedulePersonal(scheduleIdx);
+            result = await scheduleModel.getSpecificSchedulePersonal(idx);
         } else {
             return res.status(statusCode.BAD_REQUEST)
                 .send(util.fail(statusCode.BAD_REQUEST, resMessage.NULL_VALUE));
@@ -118,6 +146,12 @@ const schedule = {
         return res.status(statusCode.OK)
             .send(util.success(statusCode.OK, resMessage.READ_SCHEDULE_SUCCESS, result[0]));
     },
+    /** 
+    * 학교 일정 상세정보
+    * @summary 학교 일정에 대한 상세 정보 가져오기
+    * @param 학교 일정 인덱스
+    * @return 학교 일정에 대한 상세 정보
+    */
     getSpecificScheduleSchool: async (req, res) => {
         const scheduleSchoolIdx = req.params.idx;
         if (!scheduleSchoolIdx || isNaN(scheduleSchoolIdx)) {
@@ -137,6 +171,12 @@ const schedule = {
         return res.status(statusCode.OK)
             .send(util.success(statusCode.OK, resMessage.READ_SCHEDULE_SUCCESS, result[0]));
     },
+    /** 
+    * 개인 일정 상세정보
+    * @summary 개인 일정에 대한 상세 정보 가져오기
+    * @param 개인 일정 인덱스
+    * @return 개인 일정에 대한 상세 정보
+    */
     getSpecificSchedulePersonal: async (req, res) => {
         const schedulePersonalIdx = req.params.idx;
         if (!schedulePersonalIdx || isNaN(schedulePersonalIdx)) {
@@ -156,19 +196,25 @@ const schedule = {
         return res.status(statusCode.OK)
             .send(util.success(statusCode.OK, resMessage.READ_SCHEDULE_SUCCESS, result[0]));
     },
+    /** 
+    * 일정 삭제 (통합)
+    * @summary 일정 삭제
+    * @param 일정 인덱스
+    * @return 삭제한 일정 인덱스
+    */
     deleteSpecificSchedule: async (req, res) => {
-        const scheduleIdx = req.params.idx;
+        const idx = req.params.idx;
         const isSubject = req.query.isSubject;
-        if (!scheduleIdx || isNaN(scheduleIdx) || !isSubject) {
+        if (!idx || isNaN(idx) || !isSubject) {
             return res.status(statusCode.BAD_REQUEST)
                 .send(util.fail(statusCode.BAD_REQUEST, resMessage.NULL_VALUE));
         }
         
         let result;
         if (isSubject === 'true'){
-            result = await scheduleModel.deleteScheduleSchool(scheduleIdx);
+            result = await scheduleModel.deleteScheduleSchool(idx);
         } else if(isSubject === 'false'){
-            result = await scheduleModel.deleteSchedulePersonal(scheduleIdx);
+            result = await scheduleModel.deleteSchedulePersonal(idx);
         } else {
             return res.status(statusCode.BAD_REQUEST)
                 .send(util.fail(statusCode.BAD_REQUEST, resMessage.NULL_VALUE));
@@ -185,9 +231,15 @@ const schedule = {
 
         return res.status(statusCode.OK)
             .send(util.success(statusCode.OK, resMessage.DELETE_SCHEDULE_SUCCESS, {
-                idx: scheduleIdx
+                idx: idx
             }));
     },
+    /** 
+    * 학교 일정 삭제
+    * @summary 학교 일정 삭제
+    * @param 학교 일정 인덱스
+    * @return 삭제한 학교 일정 인덱스
+    */
     deleteScheduleSchool: async (req, res) => {
         const scheduleSchoolIdx = req.params.idx;
         if (!scheduleSchoolIdx || isNaN(scheduleSchoolIdx)) {
@@ -210,6 +262,12 @@ const schedule = {
                 idx: scheduleSchoolIdx
             }));
     },
+    /** 
+    * 개인 일정 삭제
+    * @summary 개인 일정 삭제
+    * @param 개인 일정 인덱스
+    * @return 삭제한 개인 일정 인덱스
+    */
     deleteSchedulePersonal: async (req, res) => {
         const schedulePersonalIdx = req.params.idx;
         if (!schedulePersonalIdx || isNaN(schedulePersonalIdx)) {
@@ -232,6 +290,12 @@ const schedule = {
                 idx: schedulePersonalIdx
             }));
     },
+    /** 
+    * 수업목록 가져오기
+    * @summary 사용자 학교의 수업 목록 가져오기
+    * @param 토큰
+    * @return 수업 목록
+    */
     getSubject: async (req, res) => {
         const user = req.decoded;
         const subjectList = await scheduleModel.getSubject(user.school);
@@ -246,6 +310,12 @@ const schedule = {
                 subjectList
             }));
     },
+    /** 
+    * 모든 학기 시간표 목록 가져오기
+    * @summary 유저의 모든 학기 시간표 목록 가져오기
+    * @param 토큰
+    * @return 시간표 목록과 각 시간표의 정보(인덱스, 이름, 메인여부)
+    */
     getSemesterList: async (req, res) => {
         const user = req.decoded;
         const semesterList = await scheduleModel.getSemesterList(user.userIdx);
@@ -256,6 +326,12 @@ const schedule = {
         return res.status(statusCode.OK)
             .send(util.success(statusCode.OK, resMessage.READ_SUBJECT_SUCCESS, semesterList));
     },
+    /** 
+    * 개인 일정 업데이트
+    * @summary 개인일정 수정
+    * @param 토큰, 개인 일정 인덱스, 업데이트 일정 이름, 내용, 시작시간, 종료시간, 요일
+    * @return 수정한 개인일정
+    */
     updateSchedulePersonal: async (req, res) => {
         const userIdx = req.decoded.userIdx;
         const schedulePersonalIdx = req.params.idx;

@@ -6,6 +6,7 @@ module.exports = {
     // 스케쥴
     READ_SCHEDULE_SUCCESS: "시간표 조회 성공",
     READ_SCHEDULE_FAIL: "시간표 조회 실패",
+    READ_MAIN_SCHEDULE_FAIL: "메인 시간표가 없습니다",
     READ_SUBJECT_SUCCESS: "과목 조회 성공",
     READ_SUBJECT_FAIL: "과목 조회 실패",
     CREATE_SCHEDULE_SUCCESS: "일정 생성 성공",

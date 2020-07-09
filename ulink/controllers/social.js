@@ -4,6 +4,12 @@ const resMessage = require('../modules/responseMessage');
 const socialModel = require('../models/social');
 
 const social = {
+    /** 
+    * 팔로잉 정보 가져오기
+    * @summary 유저의 팔로잉 리스트 가져오기
+    * @param 토큰
+    * @return 유저의 팔로잉 리스트
+    */
     getFollowing: async (req, res) => {
         const userIdx = req.decoded.userIdx;
         const followingList = await socialModel.getFollowing(userIdx);
@@ -16,6 +22,12 @@ const social = {
                 followingList
             }));
     },
+    /** 
+    * 팔로워 정보 가져오기
+    * @summary 유저의 팔로워 리스트 가져오기
+    * @param 토큰
+    * @return 유저의 팔로워 리스트
+    */
     getFollower: async (req, res) => {
         const userIdx = req.decoded.userIdx;
         const followerList = await socialModel.getFollower(userIdx);
@@ -28,6 +40,12 @@ const social = {
                 followerList
             }));
     },
+    /** 
+    * 팔로잉하기
+    * @summary 유저 팔로잉
+    * @param 토큰, 팔로잉 할 유저의 인덱스
+    * @return 팔로잉 한 유저의 인덱스
+    */
     postFollowing: async (req, res) => {
         const userIdx = req.decoded.userIdx;
         const idx = req.params.idx;
@@ -45,6 +63,12 @@ const social = {
             }))
         }
     },
+    /** 
+    * 팔로잉 취소하기
+    * @summary 유저 팔로잉 취소
+    * @param 토큰, 팔로잉 취소 할 유저의 인덱스
+    * @return 팔로잉 취소 한 유저의 인덱스
+    */
     deleteFollowing: async (req, res) => {
         const userIdx = req.decoded.userIdx;
         const idx = req.params.idx;
@@ -54,7 +78,7 @@ const social = {
             return res.status(statusCode.BAD_REQUEST)
                 .send(util.fail(statusCode.BAD_REQUEST, resMessage.SOCIAL_DELETE_FAIL));
         }
-        const deleteIdx = await socialModel.deleteFollowing(idx);
+        const deleteIdx = await socialModel.deleteFollowing(userIdx, idx);
         return res.status(statusCode.OK)
             .send(util.success(statusCode.OK, resMessage.SOCIAL_DELETE_SUCCESS, {
                 deleteIdx: idx
