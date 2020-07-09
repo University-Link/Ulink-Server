@@ -52,7 +52,7 @@ const user = {
         }
     },
     getUserByIdx: async (userIdx) => {
-        const query = `SELECT * FROM ${table} WHERE user_idx = "${userIdx}"`;
+        const query = `SELECT * FROM ${table} WHERE userIdx = "${userIdx}"`;
         try {
             return await pool.queryParam(query);
         } catch (err) {
@@ -79,10 +79,10 @@ const user = {
         }
     },
     updateProfile: async (userIdx, profile) => {
-        let query = `UPDATE ${table} SET profile_image="${profile}" WHERE user_idx="${userIdx}"`;
+        let query = `UPDATE ${table} SET profileImage="${profile}" WHERE userIdx="${userIdx}"`;
         try {
             await pool.queryParam(query);
-            query = `SELECT id, name, email, school, profile_image FROM ${table} WHERE user_idx="${userIdx}"`;
+            query = `SELECT id, name, email, school, profileImage FROM ${table} WHERE userIdx="${userIdx}"`;
             const result = await pool.queryParam(query);
             return result;
         } catch (err) {

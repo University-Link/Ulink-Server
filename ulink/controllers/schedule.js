@@ -20,8 +20,8 @@ const schedule = {
             return res.status(statusCode.BAD_REQUEST)
                 .send(util.fail(statusCode.BAD_REQUEST, resMessage.DB_ERROR));
         }
-        const schedulePersonalList = await scheduleModel.getSchedulePersonal(mainScheduleList[0].schedule_idx);
-        const scheduleSchoolList = await scheduleModel.getScheduleSchool(mainScheduleList[0].schedule_idx);
+        const schedulePersonalList = await scheduleModel.getSchedulePersonal(mainScheduleList[0].scheduleIdx);
+        const scheduleSchoolList = await scheduleModel.getScheduleSchool(mainScheduleList[0].scheduleIdx);
         if (schedulePersonalList < 0 || scheduleSchoolList < 0) {
             return res.status(statusCode.BAD_REQUEST)
                 .send(util.fail(statusCode.BAD_REQUEST, resMessage.DB_ERROR));
@@ -67,18 +67,18 @@ const schedule = {
             name,
             startTime,
             endTime,
-            week,
-            place,
+            day,
+            content,
             color,
             scheduleIdx
         } = req.body;
-        if (!name || !startTime || !endTime || !week || !place || !color || !scheduleIdx) {
+        if (!name || !startTime || !endTime || !day || !content || !color || !scheduleIdx) {
             return res.status(statusCode.BAD_REQUEST)
                 .send(util.fail(statusCode.BAD_REQUEST, resMessage.NULL_VALUE));
         }
 
         const result = await scheduleModel.createSchedulePersonal(name, startTime, endTime,
-            week, place, color, scheduleIdx);
+            day, content, color, scheduleIdx);
         if (result < 0) {
             return res.status(statusCode.BAD_REQUEST)
                 .send(util.fail(statusCode.BAD_REQUEST, resMessage.DB_ERROR));
@@ -264,15 +264,15 @@ const schedule = {
             content,
             startTime,
             endTime,
-            week
+            day
         } = req.body;
 
-        if (!name || !content || !startTime || !endTime || !week) {
+        if (!name || !content || !startTime || !endTime || !day) {
             return res.status(statusCode.BAD_REQUEST)
                 .send(util.fail(statusCode.BAD_REQUEST, resMessage.NULL_VALUE));
         }
 
-        const schedulePersonal = await scheduleModel.updateSchedulePersonal(schedulePersonalIdx, name, content, startTime, endTime, week);
+        const schedulePersonal = await scheduleModel.updateSchedulePersonal(schedulePersonalIdx, name, content, startTime, endTime, day);
 
         if (schedulePersonal) {
             return res.status(statusCode.BAD_REQUEST)
@@ -286,7 +286,7 @@ const schedule = {
                 content: content,
                 startTime: startTime,
                 endTime: endTime,
-                week: week
+                day: day
             }));
     },
 

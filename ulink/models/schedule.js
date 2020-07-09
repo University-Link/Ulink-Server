@@ -8,8 +8,8 @@ const schedule = {
     - 가져오기: 시간표 idx, 학기, 시간표 이름
     */
     getSchedule: async (userIdx) => {
-        const query = `SELECT schedule_idx, semester, name FROM ${table} 
-        WHERE user_idx = ${userIdx}`;
+        const query = `SELECT scheduleIdx, semester, name FROM ${table} 
+        WHERE userIdx = ${userIdx}`;
         try {
             const result = await pool.queryParam(query);
             return result;
@@ -28,8 +28,8 @@ const schedule = {
     - 가져오기: 시간표 idx, 학기, 시간표 이름
     */
     getMainSchedule: async (userIdx) => {
-        const query = `SELECT schedule_idx, semester, name FROM ${table} 
-    WHERE user_idx = ${userIdx} and main = 1`;
+        const query = `SELECT scheduleIdx, semester, name FROM ${table} 
+    WHERE userIdx = ${userIdx} and main = 1`;
         try {
             const result = await pool.queryParam(query);
             return result;
@@ -48,8 +48,8 @@ const schedule = {
     - 가져오기: 시간표 idx, 학기, 시간표 이름
     */
     getSemesterMainSchedule: async (userIdx, semester) => {
-        const query = `SELECT schedule_idx, semester, name FROM ${table} 
-    WHERE user_idx = ${userIdx} and semester = "${semester}" and main = 1`;
+        const query = `SELECT scheduleIdx, semester, name FROM ${table} 
+    WHERE userIdx = ${userIdx} and semester = "${semester}" and main = 1`;
         try {
             const result = await pool.queryParam(query);
             return result;
@@ -67,20 +67,20 @@ const schedule = {
     - scheduleIdx에 해당하는 학교 수업목록을 가져온다.
     */
     getScheduleSubject: async (scheduleIdx) => {
-        const query1 = `SELECT s1.schedule_school_idx, s2.subject_idx, s2.name, s2.people AS total, s1.color FROM
+        const query1 = `SELECT s1.scheduleSchoolIdx, s2.subjectIdx, s2.name, s2.people AS total, s1.color FROM
             (
                 SELECT * FROM schedule_school 
-                WHERE schedule_idx = ${scheduleIdx}
+                WHERE scheduleIdx = ${scheduleIdx}
             ) s1
-            INNER JOIN subject s2 ON s1.subject_idx = s2.subject_idx`;
+            INNER JOIN subject s2 ON s1.subjectIdx = s2.subjectIdx`;
 
-        const query2 = `SELECT s1.schedule_school_idx, count(*) AS current 
+        const query2 = `SELECT s1.scheduleSchoolIdx, count(*) AS current 
             FROM schedule_school s1, schedule_school s2 
-            WHERE s1.subject_idx = s2.subject_idx group by s1.schedule_school_idx`;
+            WHERE s1.subjectIdx = s2.subjectIdx group by s1.scheduleSchoolIdx`;
 
-        const query3 = `SELECT q1.subject_idx, q1.name, q1.color, q1.total, q2.current
+        const query3 = `SELECT q1.subjectIdx, q1.name, q1.color, q1.total, q2.current
         FROM (${query1}) q1 INNER JOIN (${query2}) q2 
-        ON q1.schedule_school_idx = q2.schedule_school_idx`;
+        ON q1.scheduleSchoolIdx = q2.scheduleSchoolIdx`;
         try {
             const result = await pool.queryParam(query3);
             return result;
@@ -101,16 +101,16 @@ const schedule = {
     - 가져오기: 수업 idx, 수업 이름, 수업 시작시간, 수업 종료시간, 수업 요일, 수업 장소, 색상
     */
     getScheduleSchool: async (scheduleIdx) => {
-        const query = `SELECT s.schedule_school_idx AS idx, s.name, tp.start_time, tp.end_time, tp.week AS day, tp.place, s.color
+        const query = `SELECT s.scheduleSchoolIdx AS idx, s.name, tp.startTime, tp.endTime, tp.day AS day, tp.place, s.color
             FROM (
-                SELECT s1.schedule_school_idx, s2.subject_idx, s2.name, s1.color FROM
+                SELECT s1.scheduleSchoolIdx, s2.subjectIdx, s2.name, s1.color FROM
                     (
                         SELECT * FROM schedule_school 
-                        WHERE schedule_idx = ${scheduleIdx}
+                        WHERE scheduleIdx = ${scheduleIdx}
                     ) s1
-                INNER JOIN subject s2 ON s1.subject_idx = s2.subject_idx
+                INNER JOIN subject s2 ON s1.subjectIdx = s2.subjectIdx
                 ) s 
-            INNER JOIN subject_timeplace tp ON s.subject_idx = tp.subject_idx`;
+            INNER JOIN subject_timeplace tp ON s.subjectIdx = tp.subjectIdx`;
 
         try {
             const result = await pool.queryParam(query);
@@ -130,8 +130,8 @@ const schedule = {
     - 가져오기: 개인일정 idx, 개인일정 이름, 개인일정 시작시간, 개인일정 종료시간, 개인일정 요일, 장소, 색상
     */
     getSchedulePersonal: async (scheduleIdx) => {
-        const query = `SELECT schedule_personal_idx AS idx, name, start_time, end_time, week AS day, place, color 
-            FROM schedule_personal WHERE schedule_idx = ${scheduleIdx}`;
+        const query = `SELECT schedulePersonalIdx AS idx, name, startTime, endTime, day AS day, content, color 
+            FROM schedule_personal WHERE scheduleIdx = ${scheduleIdx}`;
         try {
             const result = await pool.queryParam(query);
             return result;
@@ -148,15 +148,15 @@ const schedule = {
     학교 수업일정 상세 데이터 가져오기
     */
     getSpecificScheduleSchool: async (scheduleSchoolIdx) => {
-        const query1 = `SELECT subject_idx, color FROM schedule_school 
-        WHERE subject_idx = ${scheduleSchoolIdx}`;
+        const query1 = `SELECT subjectIdx, color FROM schedule_school 
+        WHERE subjectIdx = ${scheduleSchoolIdx}`;
         const query2 = `SELECT q1.color, subject.* 
         FROM (${query1}) q1 INNER JOIN subject
-        ON q1.subject_idx = subject.subject_idx`;
+        ON q1.subjectIdx = subject.subjectIdx`;
         const query3 = `SELECT q2.*, 
-        subject_timeplace.start_time, subject_timeplace.end_time, subject_timeplace.week, subject_timeplace.place
+        subject_timeplace.startTime, subject_timeplace.endTime, subject_timeplace.day, subject_timeplace.place
         FROM (${query2}) q2 INNER JOIN subject_timeplace
-        ON q2.subject_idx = subject_timeplace.subject_idx`;
+        ON q2.subjectIdx = subject_timeplace.subjectIdx`;
         try {
             const result = await pool.queryParam(query3);
             return result;
@@ -173,7 +173,7 @@ const schedule = {
     개인일정 상세 데이터 가져오기
     */
     getSpecificSchedulePersonal: async (schedulePersonalIdx) => {
-        const query = `SELECT * FROM schedule_personal WHERE schedule_personal_idx = ${schedulePersonalIdx}`;
+        const query = `SELECT * FROM schedule_personal WHERE schedulePersonalIdx = ${schedulePersonalIdx}`;
         try {
             const result = await pool.queryParam(query);
             return result;
@@ -190,7 +190,7 @@ const schedule = {
     학교 수업일정 등록하기
     */
     createScheduleSchool: async (subjectIdx, color, scheduleIdx) => {
-        const fields = 'subject_idx, color, schedule_idx';
+        const fields = 'subjectIdx, color, scheduleIdx';
         const questions = '?, ?, ?';
         const values = [subjectIdx, color, scheduleIdx];
         const query = `INSERT INTO schedule_school(${fields}) VALUES(${questions})`;
@@ -210,10 +210,10 @@ const schedule = {
     /*
     개인 일정 등록하기
     */
-    createSchedulePersonal: async (name, startTime, endTime, week, place, color, scheduleIdx) => {
-        const fields = 'name, start_time, end_time, week, place, color, schedule_idx';
+    createSchedulePersonal: async (name, startTime, endTime, day, content, color, scheduleIdx) => {
+        const fields = 'name, startTime, endTime, day, content, color, scheduleIdx';
         const questions = '?, ?, ?, ?, ?, ?, ?';
-        const values = [name, startTime, endTime, week, place, color, scheduleIdx];
+        const values = [name, startTime, endTime, day, content, color, scheduleIdx];
         const query = `INSERT INTO schedule_personal(${fields}) VALUES(${questions})`;
         try {
             const result = await pool.queryParamArr(query, values);
@@ -234,7 +234,7 @@ const schedule = {
     */
     deleteScheduleSchool: async (scheduleSchoolIdx) => {
         const query = `DELETE FROM schedule_school 
-        WHERE schedule_school_idx = ${scheduleSchoolIdx}`;
+        WHERE scheduleSchoolIdx = ${scheduleSchoolIdx}`;
         try {
             const result = await pool.queryParamArr(query);
             // console.log('Delete post - result: ', result);
@@ -255,7 +255,7 @@ const schedule = {
     */
     deleteSchedulePersonal: async (schedulePersonalIdx) => {
         const query = `DELETE FROM schedule_personal 
-        WHERE schedule_personal_idx = ${schedulePersonalIdx}`;
+        WHERE schedulePersonalIdx = ${schedulePersonalIdx}`;
         try {
             const result = await pool.queryParamArr(query);
             // console.log('Delete post - result: ', result);
@@ -295,12 +295,12 @@ const schedule = {
     - 가져오기: 자신의 시간표 목록
     */
     getSemesterList: async (userIdx) => {
-        const query1 = `SELECT DISTINCT semester FROM ${table} WHERE user_idx = ${userIdx}`;
+        const query1 = `SELECT DISTINCT semester FROM ${table} WHERE userIdx = ${userIdx}`;
         try {
             const semesters = await pool.queryParamArr(query1);
             let result = [];
             for (let data of semesters) {
-                let query2 = `SELECT schedule_idx, name, main As isMain FROM ${table} WHERE semester="${data.semester}"`;
+                let query2 = `SELECT scheduleIdx, name, main As isMain FROM ${table} WHERE semester="${data.semester}"`;
 
                 const timeTableList = await pool.queryParamArr(query2);
                 let result2 = {
@@ -321,11 +321,11 @@ const schedule = {
     },
     /*
     개인일정 수정하기
-    - schedule_personal_idx를 통해 개인일정데이터를 가져온다.
+    - schedulePersonalIdx를 통해 개인일정데이터를 가져온다.
     - 수정하기 : 자신의 개인시간표 일정 수정하기
     */
-    updateSchedulePersonal: async (schedulePersonalIdx, name, content, startTime, endTime, week) => {
-        const query = `UPDATE schedule_personal SET name = "${name}", place = "${content}", start_time = "${startTime}", end_time = "${endTime}", week = "${week}" WHERE schedule_personal_idx = "${schedulePersonalIdx}"`;
+    updateSchedulePersonal: async (schedulePersonalIdx, name, content, startTime, endTime, day) => {
+        const query = `UPDATE schedule_personal SET name = "${name}", content = "${content}", startTime = "${startTime}", endTime = "${endTime}", day = "${day}" WHERE schedulePersonalIdx = "${schedulePersonalIdx}"`;
         try {
             const result = await pool.queryParamArr(query);
             //console.log('Update post - result: ', result);

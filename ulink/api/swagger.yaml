@@ -114,7 +114,7 @@ paths:
         - multipart/form-data
       parameters:
         - in: formData
-          name: profile_image
+          name: profileImage
           required: true
           schema:
             type: file
@@ -149,7 +149,7 @@ paths:
                         "name": "김보배",
                         "email": "tree9295@gachon.ac.kr",
                         "school": "가천대학교",
-                        "profile_image": "https://bbs3.s3.ap-northeast-2.amazonaws.com/1593689580981.png"
+                        "profileImage": "https://bbs3.s3.ap-northeast-2.amazonaws.com/1593689580981.png"
                     }
         '400':
           description: 'invalid input, object invalid'
@@ -187,28 +187,28 @@ paths:
                     example: {
                       "userList": [
                           {
-                              "user_idx": 1,
+                              "userIdx": 1,
                               "id": "qhqo",
                               "name": "김보배",
                               "email": "tree9295@gachon.ac.kr",
                               "nickname": "instant_bronze_harrier",
                               "school": "가천대학교",
                               "check": 0,
-                              "profile_image": "https://~.amazonaws.com/294021890.jpg",
+                              "profileImage": "https://~.amazonaws.com/294021890.jpg",
                               "like": 10,
                               "point": 124,
                               "level": "신입생",
                               "major": null
                           },
                           {
-                              "user_idx": 2,
+                              "userIdx": 2,
                               "id": "tjddms",
                               "name": "황지혜",
                               "email": "ghkdghkgd@email.ac.kr",
                               "nickname": "beautiful_rqjelk_quelea",
                               "school": "성신여자대학교",
                               "check": 0,
-                              "profile_image": "https://~.amazonaws.com/294021890.jpg",
+                              "profileImage": "https://~.amazonaws.com/294021890.jpg",
                               "like": 52,
                               "point": 521,
                               "level": "신입생",
@@ -315,7 +315,7 @@ paths:
                     type: object
                     example: {
                       "timeTable": {
-                          "schedule_idx": 1,
+                          "scheduleIdx": 1,
                           "semester": "2020-1",
                           "name": "첫 시간표"
                       },
@@ -323,20 +323,20 @@ paths:
                           {
                               "idx": 3,
                               "name": "봉사",
-                              "start_time": "17:00",
-                              "end_time": "18:30",
+                              "startTime": "17:00",
+                              "endTime": "18:30",
                               "day": "wen",
-                              "place": "서울 양로원",
+                              "content": "서울 양로원",
                               "color": 12,
                               "subject": false
                           },
                           {
                               "idx": 4,
                               "name": "알바",
-                              "start_time": "19:30",
-                              "end_time": "20:00",
+                              "startTime": "19:30",
+                              "endTime": "20:00",
                               "day": "thu",
-                              "place": "커피빈",
+                              "content": "커피빈",
                               "color": 13,
                               "subject": false
                           },
@@ -388,8 +388,8 @@ paths:
                     example: {
                         "subjectList": [
                             {
-                                  "subject_idx": 1,
-                                  "subject_code": "1001001",
+                                  "subjectIdx": 1,
+                                  "subjectCode": "1001001",
                                   "name": "전자기학",
                                   "professor": "최아무개",
                                   "school": "서울대학교",
@@ -399,11 +399,11 @@ paths:
                                   "grade": "2",
                                   "credit": 3,
                                   "people": 30,
-                                  "classification": "전공필수"
+                                  "course": "전공필수"
                             },
                             {
-                                "subject_idx": 2,
-                                "subject_code": "1001002",
+                                "subjectIdx": 2,
+                                "subjectCode": "1001002",
                                 "name": "자료구조",
                                 "professor": "김아무개",
                                 "school": "서울대학교",
@@ -413,11 +413,11 @@ paths:
                                 "grade": "2",
                                 "credit": 3,
                                 "people": 40,
-                                "classification": "전공필수"
+                                "course": "전공필수"
                             },
                             {
-                                "subject_idx": 3,
-                                "subject_code": "1001003",
+                                "subjectIdx": 3,
+                                "subjectCode": "1001003",
                                 "name": "컴퓨터 네트워크",
                                 "professor": "이아무개",
                                 "school": "서울대학교",
@@ -427,7 +427,7 @@ paths:
                                 "grade": "2",
                                 "credit": 3,
                                 "people": 20,
-                                "classification": "전공선택"
+                                "course": "전공선택"
                             },
                             ...
                           ]
@@ -583,14 +583,14 @@ paths:
                   data:
                     type: object
                     example: {
-                        "schedule_personal_idx": 3,
+                        "schedulePersonalIdx": 3,
                         "name": "봉사",
-                        "start_time": "17:00",
-                        "end_time": "18:30",
-                        "week": "wen",
-                        "place": "서울 양로원",
+                        "startTime": "17:00",
+                        "endTime": "18:30",
+                        "day": "wen",
+                        "content": "서울 양로원",
                         "color": 12,
-                        "schedule_idx": 1
+                        "scheduleIdx": 1
                     }
         '400':
           description: 'invalid input, object invalid'
@@ -690,8 +690,8 @@ paths:
                   data:
                     type: object
                     example: {
-                        "subject_idx": 1,
-                        "subject_code": "1001001",
+                        "subjectIdx": 1,
+                        "subjectCode": "1001001",
                         "name": "전자기학",
                         "professor": "최아무개",
                         "school": "서울대학교",
@@ -701,7 +701,7 @@ paths:
                         "grade": "2",
                         "credit": 3,
                         "people": 30,
-                        "classification": "전공필수",
+                        "course": "전공필수",
                         "color": 5
                     }
         '400':
@@ -799,14 +799,14 @@ paths:
                         "semester": "2020-1",
                         "chat": [
                             {
-                                "schedule_school_idx": 1,
+                                "scheduleSchoolIdx": 1,
                                 "name": "전자기학",
                                 "color": 1,
                                 "total": 30,
                                 "current": 2
                             },
                             {
-                                "schedule_school_idx": 2,
+                                "scheduleSchoolIdx": 2,
                                 "name": "자료구조",
                                 "color": 2,
                                 "total": 40,
@@ -907,8 +907,8 @@ components:
         - name
         - startTime
         - endTime
-        - week
-        - place
+        - day
+        - content
         - color
         - scheduleIdx
       properties:
@@ -921,10 +921,10 @@ components:
         endTime:
           type: string
           example: "19:00"
-        week:
+        day:
           type: string
           example: fri
-        place: 
+        content: 
           type: string
           example: 독서실
         color:

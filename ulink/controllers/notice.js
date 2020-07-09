@@ -25,7 +25,7 @@ const notice = {
             return res.status(statusCode.BAD_REQUEST)
                 .send(util.fail(statusCode.BAD_REQUEST, resMessage.DB_ERROR));
         }
-        const notices = await noticeModel.getNoticeList(mainScheduleList[0].schedule_idx, start, end);
+        const notices = await noticeModel.getNoticeList(mainScheduleList[0].scheduleIdx, start, end);
 
         const result = [];
         let notice_list = [];

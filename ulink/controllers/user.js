@@ -107,7 +107,7 @@ const user = {
                 nickname: user[0].nickname,
                 school: user[0].school,
                 check: user[0].check,
-                profileImage: user[0].profile_image,
+                profileImage: user[0].profileImage,
                 like: user[0].like,
                 point: user[0].point,
                 level: user[0].level

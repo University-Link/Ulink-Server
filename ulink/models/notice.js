@@ -2,12 +2,12 @@ const pool = require('../modules/pool');
 
 const notice = {
     getNoticeList: async (scheduleIdx, start, end) => {
-        const query1 = `SELECT * FROM schedule_school WHERE schedule_idx = ${scheduleIdx}`;
-        const query2 = `SELECT s.subject_idx, s.name, q1.color 
-        FROM (${query1}) q1 INNER JOIN subject s ON q1.subject_idx = s.subject_idx`;
-        const query3 = `SELECT q2.name, q2.color, n.notice_idx, n.category, n.date, n.start_time, n.end_time, n.title 
-        FROM (${query2}) q2 INNER JOIN notice n ON q2.subject_idx = n.subject_idx 
-        WHERE date BETWEEN "${start}" AND "${end}" ORDER BY n.date, n.start_time`;
+        const query1 = `SELECT * FROM schedule_school WHERE scheduleIdx = ${scheduleIdx}`;
+        const query2 = `SELECT s.subjectIdx, s.name, q1.color 
+        FROM (${query1}) q1 INNER JOIN subject s ON q1.subjectIdx = s.subjectIdx`;
+        const query3 = `SELECT q2.name, q2.color, n.noticeIdx, n.category, n.date, n.startTime, n.endTime, n.title 
+        FROM (${query2}) q2 INNER JOIN notice n ON q2.subjectIdx = n.subjectIdx 
+        WHERE date BETWEEN "${start}" AND "${end}" ORDER BY n.date, n.startTime`;
         try {
             const result = await pool.queryParam(query3);
             return result;
@@ -21,7 +21,7 @@ const notice = {
         }
     },
     createNotice: async (subjectIdx, category, date, startTime, endTime, title, content) => {
-        const fields = 'subject_idx, category, date, start_time, end_time, title, content';
+        const fields = 'subjectIdx, category, date, startTime, endTime, title, content';
         const questions = '?, ?, ?, ?, ?, ?, ?';
         const values = [subjectIdx, category, date, startTime, endTime, title, content];
         const query = `INSERT INTO notice(${fields}) VALUES(${questions})`;
@@ -39,8 +39,8 @@ const notice = {
         }
     },
     getNotice: async (subjectIdx) => {
-        const query = `SELECT notice_idx, category, title, start_time, end_time
-        FROM notice WHERE subject_idx = ${subjectIdx}`;
+        const query = `SELECT noticeIdx, category, title, startTime, endTime
+        FROM notice WHERE subjectIdx = ${subjectIdx}`;
         try {
             const result = await pool.queryParam(query);
             return result;
@@ -54,8 +54,8 @@ const notice = {
         }
     },
     getSpecificNotice: async (noticeIdx) => {
-        const query = `SELECT notice_idx, category, date, start_time, end_time, title, content
-        FROM notice WHERE notice_idx = ${noticeIdx}`;
+        const query = `SELECT noticeIdx, category, date, startTime, endTime, title, content
+        FROM notice WHERE noticeIdx = ${noticeIdx}`;
         try {
             const result = await pool.queryParam(query);
             return result;
@@ -71,9 +71,9 @@ const notice = {
     updateSpecificNotice: async (updateNotice) => {
         const query = `UPDATE notice
         SET category = "${updateNotice.category}", date = "${updateNotice.date}",
-        start_time = "${updateNotice.startTime}", end_time = "${updateNotice.endTime}",
+        startTime = "${updateNotice.startTime}", endTime = "${updateNotice.endTime}",
         title = "${updateNotice.title}", content = "${updateNotice.content}"
-        WHERE notice_idx = ${updateNotice.noticeIdx}`;
+        WHERE noticeIdx = ${updateNotice.noticeIdx}`;
         try {
             const result = await pool.queryParam(query);
             if(result.affectedRows > 0) return result;
