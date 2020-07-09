@@ -335,6 +335,11 @@ const schedule = {
             throw err;
         }
     },
+    /*
+    개인일정 수정하기
+    - schedule_personal_idx를 통해 개인일정데이터를 가져온다.
+    - 수정하기 : 자신의 개인시간표 일정 수정하기
+    */
     updateSchedulePersonal: async (schedulePersonalIdx, name, content, startTime, endTime, week) => {
         const query = `UPDATE schedule_personal SET name = "${name}", place = "${content}", start_time = "${startTime}", end_time = "${endTime}", week = "${week}" WHERE schedule_personal_idx = "${schedulePersonalIdx}"`;
         try {
