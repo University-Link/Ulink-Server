@@ -89,6 +89,35 @@ const schedule = {
                 idx: result
             }));
     },
+    getSpecificSchedule: async (req, res) => {
+        const scheduleIdx = req.params.idx;
+        const isSubject = req.query.isSubject;
+        if (!scheduleIdx || isNaN(scheduleIdx) || !isSubject) {
+            return res.status(statusCode.BAD_REQUEST)
+                .send(util.fail(statusCode.BAD_REQUEST, resMessage.NULL_VALUE));
+        }
+        
+        let result;
+        if (isSubject === 'true'){
+            result = await scheduleModel.getSpecificScheduleSchool(scheduleIdx);
+        } else if(isSubject === 'false'){
+            result = await scheduleModel.getSpecificSchedulePersonal(scheduleIdx);
+        } else {
+            return res.status(statusCode.BAD_REQUEST)
+                .send(util.fail(statusCode.BAD_REQUEST, resMessage.NULL_VALUE));
+        }
+
+        if (result < 0) {
+            return res.status(statusCode.BAD_REQUEST)
+                .send(util.fail(statusCode.BAD_REQUEST, resMessage.DB_ERROR));
+        }
+        if (result.length === 0) {
+            return res.status(statusCode.BAD_REQUEST)
+                .send(util.fail(statusCode.BAD_REQUEST, resMessage.READ_SCHEDULE_FAIL));
+        }
+        return res.status(statusCode.OK)
+            .send(util.success(statusCode.OK, resMessage.READ_SCHEDULE_SUCCESS, result[0]));
+    },
     getSpecificScheduleSchool: async (req, res) => {
         const scheduleSchoolIdx = req.params.idx;
         if (!scheduleSchoolIdx || isNaN(scheduleSchoolIdx)) {
@@ -107,8 +136,6 @@ const schedule = {
         }
         return res.status(statusCode.OK)
             .send(util.success(statusCode.OK, resMessage.READ_SCHEDULE_SUCCESS, result[0]));
-
-
     },
     getSpecificSchedulePersonal: async (req, res) => {
         const schedulePersonalIdx = req.params.idx;
@@ -128,6 +155,38 @@ const schedule = {
         }
         return res.status(statusCode.OK)
             .send(util.success(statusCode.OK, resMessage.READ_SCHEDULE_SUCCESS, result[0]));
+    },
+    deleteSpecificSchedule: async (req, res) => {
+        const scheduleIdx = req.params.idx;
+        const isSubject = req.query.isSubject;
+        if (!scheduleIdx || isNaN(scheduleIdx) || !isSubject) {
+            return res.status(statusCode.BAD_REQUEST)
+                .send(util.fail(statusCode.BAD_REQUEST, resMessage.NULL_VALUE));
+        }
+        
+        let result;
+        if (isSubject === 'true'){
+            result = await scheduleModel.deleteScheduleSchool(scheduleIdx);
+        } else if(isSubject === 'false'){
+            result = await scheduleModel.deleteSchedulePersonal(scheduleIdx);
+        } else {
+            return res.status(statusCode.BAD_REQUEST)
+                .send(util.fail(statusCode.BAD_REQUEST, resMessage.NULL_VALUE));
+        }
+
+        if (result === 0) {
+            return res.status(statusCode.BAD_REQUEST)
+                .send(util.fail(statusCode.BAD_REQUEST, resMessage.DELETE_SCHEDULE_FAIL));
+        }
+        if (result < 0) {
+            return res.status(statusCode.BAD_REQUEST)
+                .send(util.fail(statusCode.BAD_REQUEST, resMessage.DB_ERROR));
+        }
+
+        return res.status(statusCode.OK)
+            .send(util.success(statusCode.OK, resMessage.DELETE_SCHEDULE_SUCCESS, {
+                idx: scheduleIdx
+            }));
     },
     deleteScheduleSchool: async (req, res) => {
         const scheduleSchoolIdx = req.params.idx;

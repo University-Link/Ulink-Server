@@ -5,6 +5,8 @@ const authUtil = require('../middlewares/auth');
 const scheduleController = require('../controllers/schedule');
 
 router.get('/', authUtil.checkToken, scheduleController.getMainSchedule);
+router.get('/:idx', authUtil.checkToken, scheduleController.getSpecificSchedule);
+router.delete('/:idx', authUtil.checkToken, scheduleController.deleteSpecificSchedule);
 
 router.post('/school', authUtil.checkToken, scheduleController.createScheduleSchool);
 router.get('/school/:idx', authUtil.checkToken, scheduleController.getSpecificScheduleSchool);

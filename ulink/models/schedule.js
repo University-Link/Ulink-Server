@@ -148,13 +148,17 @@ const schedule = {
     학교 수업일정 상세 데이터 가져오기
     */
     getSpecificScheduleSchool: async (scheduleSchoolIdx) => {
-        const query = `SELECT s2.*, s1.color FROM (
-            SELECT * FROM schedule_school 
-            WHERE schedule_school_idx = ${scheduleSchoolIdx}
-        ) s1
-        INNER JOIN subject s2 ON s1.subject_idx = s2.subject_idx`;
+        const query1 = `SELECT subject_idx, color FROM schedule_school 
+        WHERE subject_idx = ${scheduleSchoolIdx}`;
+        const query2 = `SELECT q1.color, subject.* 
+        FROM (${query1}) q1 INNER JOIN subject
+        ON q1.subject_idx = subject.subject_idx`;
+        const query3 = `SELECT q2.*, 
+        subject_timeplace.start_time, subject_timeplace.end_time, subject_timeplace.week, subject_timeplace.place
+        FROM (${query2}) q2 INNER JOIN subject_timeplace
+        ON q2.subject_idx = subject_timeplace.subject_idx`;
         try {
-            const result = await pool.queryParam(query);
+            const result = await pool.queryParam(query3);
             return result;
         } catch (err) {
             if (err.errno == 1062) {
@@ -252,26 +256,6 @@ const schedule = {
     deleteSchedulePersonal: async (schedulePersonalIdx) => {
         const query = `DELETE FROM schedule_personal 
         WHERE schedule_personal_idx = ${schedulePersonalIdx}`;
-        try {
-            const result = await pool.queryParamArr(query);
-            // console.log('Delete post - result: ', result);
-            if (result.affectedRows > 0) return 1;
-            else return 0;
-        } catch (err) {
-            if (err.errno == 1062) {
-                console.log('deleteSchedulePersonal ERROR : ', err.errno, err.code);
-                return -1;
-            }
-            console.log('deleteSchedulePersonal ERROR: ', err);
-            throw err;
-        }
-    },
-    /*
-    ddddd
-    */
-    deleteSchedulePersonal: async (schedulePersonalIdx) => {
-        const query = `DELETE FROM schedule_personal 
-    WHERE schedule_personal_idx = ${schedulePersonalIdx}`;
         try {
             const result = await pool.queryParamArr(query);
             // console.log('Delete post - result: ', result);
