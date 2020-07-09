@@ -14,6 +14,7 @@ router.delete('/school/:idx', authUtil.checkToken, scheduleController.deleteSche
 
 router.post('/personal', authUtil.checkToken, scheduleController.createSchedulePersonal);
 router.get('/personal/:idx', authUtil.checkToken, scheduleController.getSpecificSchedulePersonal);
+router.put('/personal/:idx', authUtil.checkToken, scheduleController.updateSchedulePersonal);
 router.delete('/personal/:idx', authUtil.checkToken, scheduleController.deleteSchedulePersonal);
 
 router.get('/subject', authUtil.checkToken, scheduleController.getSubject);

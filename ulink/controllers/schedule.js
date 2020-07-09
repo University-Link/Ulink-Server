@@ -255,7 +255,41 @@ const schedule = {
         }
         return res.status(statusCode.OK)
             .send(util.success(statusCode.OK, resMessage.READ_SUBJECT_SUCCESS, semesterList));
-    }
+    },
+    updateSchedulePersonal: async (req, res) => {
+        const userIdx = req.decoded.userIdx;
+        const schedulePersonalIdx = req.params.idx;
+        const {
+            name,
+            content,
+            startTime,
+            endTime,
+            week
+        } = req.body;
+
+        if (!name || !content || !startTime || !endTime || !week) {
+            return res.status(statusCode.BAD_REQUEST)
+                .send(util.fail(statusCode.BAD_REQUEST, resMessage.NULL_VALUE));
+        }
+
+        const schedulePersonal = await scheduleModel.updateSchedulePersonal(schedulePersonalIdx, name, content, startTime, endTime, week);
+
+        if (schedulePersonal) {
+            return res.status(statusCode.BAD_REQUEST)
+                .send(util.fail(statusCode.BAD_REQUEST, resMessage.UPDATE_SCHEDULE_FAIL));
+        }
+
+        return res.status(statusCode.OK)
+            .send(util.success(statusCode.OK, resMessage.UPDATE_SCHEDULE_SUCCESS, {
+                idx: schedulePersonalIdx,
+                name: name,
+                content: content,
+                startTime: startTime,
+                endTime: endTime,
+                week: week
+            }));
+    },
+
 }
 
 module.exports = schedule;
