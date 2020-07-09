@@ -3,6 +3,8 @@ openapi: 3.0.0
 servers:
   - description: Local test server
     url: http://127.0.0.1:3000
+  - description: Local test server
+    url: http://52.78.27.117:3000/
 
 info:
   version: '1.0.0'
@@ -15,6 +17,11 @@ tags:
     description: Access user data
   - name: Schedule
     description: Access schedule data
+  - name : Chatting
+    description: Access chatting data
+  - name : Notice
+    description: Access Notice data
+
 
 
 paths:
@@ -109,7 +116,7 @@ paths:
         - multipart/form-data
       parameters:
         - in: formData
-          name: profile_image
+          name: profileImage
           required: true
           schema:
             type: file
@@ -144,7 +151,7 @@ paths:
                         "name": "김보배",
                         "email": "tree9295@gachon.ac.kr",
                         "school": "가천대학교",
-                        "profile_image": "https://bbs3.s3.ap-northeast-2.amazonaws.com/1593689580981.png"
+                        "profileImage": "https://bbs3.s3.ap-northeast-2.amazonaws.com/1593689580981.png"
                     }
         '400':
           description: 'invalid input, object invalid'
@@ -182,28 +189,28 @@ paths:
                     example: {
                       "userList": [
                           {
-                              "user_idx": 1,
+                              "userIdx": 1,
                               "id": "qhqo",
                               "name": "김보배",
                               "email": "tree9295@gachon.ac.kr",
                               "nickname": "instant_bronze_harrier",
                               "school": "가천대학교",
                               "check": 0,
-                              "profile_image": "https://~.amazonaws.com/294021890.jpg",
+                              "profileImage": "https://~.amazonaws.com/294021890.jpg",
                               "like": 10,
                               "point": 124,
                               "level": "신입생",
                               "major": null
                           },
                           {
-                              "user_idx": 2,
+                              "userIdx": 2,
                               "id": "tjddms",
                               "name": "황지혜",
                               "email": "ghkdghkgd@email.ac.kr",
                               "nickname": "beautiful_rqjelk_quelea",
                               "school": "성신여자대학교",
                               "check": 0,
-                              "profile_image": "https://~.amazonaws.com/294021890.jpg",
+                              "profileImage": "https://~.amazonaws.com/294021890.jpg",
                               "like": 52,
                               "point": 521,
                               "level": "신입생",
@@ -274,6 +281,549 @@ paths:
                 type: object
                 $ref: '#/components/schemas/Fail'
 
+
+  /schedule:
+    get:
+      tags:
+        - Schedule
+      summary: 시간표 - 메인 시간표 조회
+      operationId: mainTimeTable
+      description: 시간표 - 메인 시간표 조회
+      parameters:
+        - in: header
+          name: token
+          required: true
+          schema:
+            type: string
+          description: JWT 토큰
+      responses:
+        '200':
+          description: 시간표 - 메인 시간표 조회
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: integer
+                    example: 200
+                  success:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: 시간표 조회 성공
+                  data:
+                    type: object
+                    example: {
+                      "timeTable": {
+                          "scheduleIdx": 1,
+                          "semester": "2020-1",
+                          "name": "첫 시간표"
+                      },
+                      "subjects": [
+                          {
+                              "idx": 3,
+                              "name": "봉사",
+                              "startTime": "17:00",
+                              "endTime": "18:30",
+                              "day": "wen",
+                              "content": "서울 양로원",
+                              "color": 12,
+                              "subject": false
+                          },
+                          {
+                              "idx": 4,
+                              "name": "알바",
+                              "startTime": "19:30",
+                              "endTime": "20:00",
+                              "day": "thu",
+                              "content": "커피빈",
+                              "color": 13,
+                              "subject": false
+                          },
+                          ...
+                      ]
+                  }
+        '400':
+          description: 'invalid input, object invalid'
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/Fail'
+
+
+  /schedule/subject:
+    get:
+      tags:
+        - Schedule
+      summary: 시간표 - 모든 학교 수업 데이터 조회
+      operationId: allSchoolTimeTable
+      description: 시간표 - 모든 학교 수업 데이터 조회
+      parameters:
+        - in: header
+          name: token
+          required: true
+          schema:
+            type: string
+          description: JWT 토큰
+      responses:
+        '200':
+          description: 시간표 - 모든 학교 수업 데이터 조회
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: integer
+                    example: 200
+                  success:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: 과목 조회 성공
+                  data:
+                    type: object
+                    example: {
+                        "subjectList": [
+                            {
+                                  "subjectIdx": 1,
+                                  "subjectCode": "1001001",
+                                  "name": "전자기학",
+                                  "professor": "최아무개",
+                                  "school": "서울대학교",
+                                  "college": "공과대학",
+                                  "major": "전자공학과",
+                                  "semester": "2020-1",
+                                  "grade": "2",
+                                  "credit": 3,
+                                  "people": 30,
+                                  "course": "전공필수"
+                            },
+                            {
+                                "subjectIdx": 2,
+                                "subjectCode": "1001002",
+                                "name": "자료구조",
+                                "professor": "김아무개",
+                                "school": "서울대학교",
+                                "college": "공과대학",
+                                "major": "컴퓨터공학과",
+                                "semester": "2020-1",
+                                "grade": "2",
+                                "credit": 3,
+                                "people": 40,
+                                "course": "전공필수"
+                            },
+                            {
+                                "subjectIdx": 3,
+                                "subjectCode": "1001003",
+                                "name": "컴퓨터 네트워크",
+                                "professor": "이아무개",
+                                "school": "서울대학교",
+                                "college": "공과대학",
+                                "major": "소프트웨어학과",
+                                "semester": "2020-1",
+                                "grade": "2",
+                                "credit": 3,
+                                "people": 20,
+                                "course": "전공선택"
+                            },
+                            ...
+                          ]
+                    }
+        '400':
+          description: 'invalid input, object invalid'
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/Fail'
+
+
+  /schedule/personal:
+    post:
+      tags:
+        - Schedule
+      summary: 시간표 - 개인일정 만들기
+      operationId: createPersonalTimeTable
+      description: 시간표 - 개인일정 만들기
+      parameters:
+        - in: header
+          name: token
+          required: true
+          schema:
+            type: string
+          description: JWT 토큰
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreatePersonalTimeTable'
+        description: Create Personal Timetable data
+      responses:
+        '200':
+          description: 시간표 - 개인일정만들기
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: integer
+                    example: 200
+                  success:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: 일정 생성 성공
+                  data:
+                    type: object
+                    example: {
+                      "idx": 16
+                    }
+        '400':
+          description: 'invalid input, object invalid'
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/Fail'
+
+
+  /schedule/school:
+    post:
+      tags:
+        - Schedule
+      summary: 시간표 - 학교수업일정 만들기
+      operationId: createSchoolTimeTable
+      description: 시간표 - 학교수업일정 만들기
+      parameters:
+        - in: header
+          name: token
+          required: true
+          schema:
+            type: string
+          description: JWT 토큰
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateSchoolTimeTable'
+        description: Create School Timetable data
+      responses:
+        '200':
+          description: 시간표 - 학교일정만들기
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: integer
+                    example: 200
+                  success:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: 일정 생성 성공
+                  data:
+                    type: object
+                    example: {
+                      "idx": 16
+                    }
+        '400':
+          description: 'invalid input, object invalid'
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/Fail'
+
+
+  /schedule/personal/{idx}:
+    get:
+      tags:
+        - Schedule
+      summary: 특정 시간표 - 개인일정 상세정보 조회
+      operationId: getSpecificPersonalTimeTable
+      description: 특정 시간표 - 개인일정 상세정보 조회
+      parameters:
+        - in: header
+          name: token
+          required: true
+          schema:
+            type: string
+          description: JWT 토큰
+        - in: path
+          name: idx
+          required: true
+          schema:
+            type: string
+          description: 개인일정 idx
+      responses:
+        '200':
+          description: 특정 시간표- 개인일정 상세정보 조회
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: integer
+                    example: 200
+                  success:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: 시간표 조회 성공
+                  data:
+                    type: object
+                    example: {
+                        "schedulePersonalIdx": 3,
+                        "name": "봉사",
+                        "startTime": "17:00",
+                        "endTime": "18:30",
+                        "day": "wen",
+                        "content": "서울 양로원",
+                        "color": 12,
+                        "scheduleIdx": 1
+                    }
+        '400':
+          description: 'invalid input, object invalid'
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/Fail'
+
+    delete: 
+      tags:
+        - Schedule
+      summary: 특정 시간표 - 개인일정 삭제
+      operationId: deleteSpecificPersonalTimeTable
+      description: 특정 시간표 - 개인일정 삭제
+      parameters:
+        - in: header
+          name: token
+          required: true
+          schema:
+            type: string
+          description: JWT 토큰
+        - in: path
+          name: idx
+          required: true
+          schema:
+            type: string
+          description: 개인일정 idx
+      responses:
+        '200':
+          description: 특정 시간표- 개인일정 삭제
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: integer
+                    example: 200
+                  success:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: 일정 삭제 성공
+                  data:
+                    type: object
+                    example: {
+                        "idx": "3"
+                    }
+        '400':
+          description: 'invalid input, object invalid'
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/Fail'
+
+
+  /schedule/school/{idx}:
+    get:
+      tags:
+        - Schedule
+      summary: 특정 시간표 - 학교수업일정 상세정보 조회
+      operationId: getSpecificSchoolTimeTable
+      description: 특정 시간표 - 학교수업일정 상세정보 조회
+      parameters:
+        - in: header
+          name: token
+          required: true
+          schema:
+            type: string
+          description: JWT 토큰
+        - in: path
+          name: idx
+          required: true
+          schema:
+            type: string
+          description: 학교수업일정 idx
+      responses:
+        '200':
+          description: 특정 시간표 - 학교수업일정 상세정보 조회
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: integer
+                    example: 200
+                  success:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: 시간표 조회 성공
+                  data:
+                    type: object
+                    example: {
+                        "subjectIdx": 1,
+                        "subjectCode": "1001001",
+                        "name": "전자기학",
+                        "professor": "최아무개",
+                        "school": "서울대학교",
+                        "college": "공과대학",
+                        "major": "전자공학과",
+                        "semester": "2020-1",
+                        "grade": "2",
+                        "credit": 3,
+                        "people": 30,
+                        "course": "전공필수",
+                        "color": 5
+                    }
+        '400':
+          description: 'invalid input, object invalid'
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/Fail'
+
+    delete: 
+      tags:
+        - Schedule
+      summary: 특정 시간표 - 학교수업일정 삭제
+      operationId: deleteSpecificSchoolTimeTable
+      description: 특정 시간표 - 학교수업일정 삭제
+      parameters:
+        - in: header
+          name: token
+          required: true
+          schema:
+            type: string
+          description: JWT 토큰
+        - in: path
+          name: idx
+          required: true
+          schema:
+            type: string
+          description: 학교수업일정 idx
+      responses:
+        '200':
+          description: 특정 시간표- 학교수업일정 삭제
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: integer
+                    example: 200
+                  success:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: 일정 삭제 성공
+                  data:
+                    type: object
+                    example: {
+                        "idx": "15"
+                    }
+        '400':
+          description: 'invalid input, object invalid'
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/Fail'
+
+
+  /chat:
+    get:
+      tags:
+        - Chatting
+      summary: 채팅방 리스트 조회
+      operationId: chattingList
+      description: 채팅방 리스트 조회
+      parameters:
+        - in: header
+          name: token
+          required: true
+          schema:
+            type: string
+          description: JWT 토큰
+      responses:
+        '200':
+          description: 채팅방 리스트 조회
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: integer
+                    example: 200
+                  success:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: 채팅 목록 조회 성공
+                  data:
+                    type: object
+                    example: {
+                        "semester": "2020-1",
+                        "chat": [
+                            {
+                                "scheduleSchoolIdx": 1,
+                                "name": "전자기학",
+                                "color": 1,
+                                "total": 30,
+                                "current": 2
+                            },
+                            {
+                                "scheduleSchoolIdx": 2,
+                                "name": "자료구조",
+                                "color": 2,
+                                "total": 40,
+                                "current": 2
+                            },
+                            ...
+                        ]
+                    }
+        '400':
+          description: 'invalid input, object invalid'
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/Fail'
 
 
 components:
@@ -352,4 +902,54 @@ components:
         password:
           type: string
           example: passwordword
+      type: object
+
+    CreatePersonalTimeTable:
+      required:
+        - name
+        - startTime
+        - endTime
+        - day
+        - content
+        - color
+        - scheduleIdx
+      properties:
+        name:
+          type: string
+          example: 자습
+        startTime:
+          type: string
+          example: "18:00"
+        endTime:
+          type: string
+          example: "19:00"
+        day:
+          type: string
+          example: fri
+        content: 
+          type: string
+          example: 독서실
+        color:
+          type: string
+          example: "2"
+        scheduleIdx:
+          type: string
+          example: "1"
+      type: object
+    
+    CreateSchoolTimeTable:
+      required:
+        - subjectIdx
+        - color
+        - scheduleIdx
+      properties:
+        subjectIdx:
+          type: string
+          example: "5"
+        color:
+          type: string
+          example: "9"
+        scheduleIdx:
+          type: string
+          example: "1"
       type: object
