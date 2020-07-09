@@ -8,7 +8,7 @@ const scheduleModel = require('../models/schedule');
 const notice = {
     /*
     캘린더 뷰 - 메인 스케줄의 모든 공지 가져오기
-    - 유저의 메인 스케줄 과목들의 모든 공지 데이터를 가져오기 (시간별?)
+    - 유저의 메인 스케줄 과목들의 모든 공지 데이터를 가져오기
     */
     getNoticeList: async (req, res) => {
         const user = req.decoded;
