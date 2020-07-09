@@ -1,7 +1,6 @@
 const util = require('../modules/util')
 const statusCode = require('../modules/statusCode');
 const resMessage = require('../modules/responseMessage');
-const chatModel = require('../models/chat');
 const scheduleModel = require('../models/schedule');
 const moment = require('../modules/moment');
 
