@@ -317,11 +317,11 @@ const schedule = {
             let result = [];
             for (let data of semesters) {
                 let query2 = `SELECT schedule_idx, name, main As isMain FROM ${table} WHERE semester="${data.semester}"`;
-                
+
                 const timeTableList = await pool.queryParamArr(query2);
                 let result2 = {
-                    "semester":data.semester,
-                    "timeTableList":timeTableList
+                    "semester": data.semester,
+                    "timeTableList": timeTableList
                 };
                 result.push(result2);
             }
@@ -334,7 +334,24 @@ const schedule = {
             console.log('getSemesterList ERROR: ', err);
             throw err;
         }
+    },
+    updateSchedulePersonal: async (schedulePersonalIdx, name, content, startTime, endTime, week) => {
+        const query = `UPDATE schedule_personal SET name = "${name}", place = "${content}", start_time = "${startTime}", end_time = "${endTime}", week = "${week}" WHERE schedule_personal_idx = "${schedulePersonalIdx}"`;
+        try {
+            const result = await pool.queryParamArr(query);
+            //console.log('Update post - result: ', result);
+            if (result.affectedRows > 0) return false;
+            else return true;
+        } catch (err) {
+            if (err.errno == 1062) {
+                console.log('updateSchedulePersonal ERROR : ', err.errno, err.code);
+                return -1;
+            }
+            console.log('updateSchedulePersonal ERROR: ', err);
+            throw err;
+        }
     }
+
 }
 
 module.exports = schedule;

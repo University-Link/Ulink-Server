@@ -18,4 +18,6 @@ router.get('/subject', authUtil.checkToken, scheduleController.getSubject);
 
 router.get('/list', authUtil.checkToken, scheduleController.getSemesterList);
 
+router.put('/personal/:idx', authUtil.checkToken, scheduleController.updateSchedulePersonal);
+
 module.exports = router;

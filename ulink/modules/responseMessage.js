@@ -11,6 +11,8 @@ module.exports = {
     CREATE_SCHEDULE_SUCCESS: "일정 생성 성공",
     DELETE_SCHEDULE_SUCCESS: "일정 삭제 성공",
     DELETE_SCHEDULE_FAIL: "일정 삭제 실패",
+    UPDATE_SCHEDULE_SUCCESS: "일정 수정 성공",
+    UPDATE_SCHEDULE_FAIL: "일정 수정 실패",
 
     // 채팅
     READ_CHAT_LIST_SUCCESS: "채팅 목록 조회 성공",
