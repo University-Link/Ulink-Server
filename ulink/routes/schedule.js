@@ -8,8 +8,6 @@ router.get('/', authUtil.checkToken, scheduleController.getMainSchedule);
 
 router.get('/list', authUtil.checkToken, scheduleController.getSemesterList);
 
-router.get('/subject', authUtil.checkToken, scheduleController.getSubject);
-
 router.post('/school', authUtil.checkToken, scheduleController.createScheduleSchool);
 router.get('/school/:idx', authUtil.checkToken, scheduleController.getSpecificScheduleSchool);
 router.delete('/school/:idx', authUtil.checkToken, scheduleController.deleteScheduleSchool);
