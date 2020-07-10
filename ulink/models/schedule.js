@@ -367,7 +367,144 @@ const schedule = {
             console.log('updateSchedulePersonal ERROR: ', err);
             throw err;
         }
-    }
+    },
+    /*
+    시간표 이름 수정하기
+    - scheduleIdx를 통해 시간표데이터를 가져온다.
+    - 수정하기 : 자신의 시간표 이름 수정하기
+    */
+    updateMainNameSchedule: async (scheduleIdx, name) => {
+        const query = `UPDATE ${table} SET name = "${name}" WHERE scheduleIdx = "${scheduleIdx}"`;
+        try {
+            const result = await pool.queryParamArr(query);
+            //console.log('Update post - result: ', result);
+            if (result.affectedRows > 0) return false;
+            else return true;
+        } catch (err) {
+            if (err.errno == 1062) {
+                console.log('updateMainNameSchedule ERROR : ', err.errno, err.code);
+                return -1;
+            }
+            console.log('updateMainNameSchedule ERROR: ', err);
+            throw err;
+        }
+    },
+    deleteMainSchedule: async (scheduleIdx) => {
+        const query = `DELETE FROM ${table} WHERE scheduleIdx = "${scheduleIdx}"`;
+        try {
+            const result = await pool.queryParamArr(query);
+            //console.log('Delete - result: ', result);
+            if (result.affectedRows > 0) return 1;
+            else return 0;
+        } catch (err) {
+            if (err.errno == 1062) {
+                console.log('deleteMainSchedule ERROR : ', err.errno, err.code);
+                return -1;
+            }
+            console.log('deleteMainSchedule ERROR: ', err);
+            throw err;
+        }
+    },
+    getScheduleIdx: async (semester) => {
+        const query = `SELECT MIN(scheduleIdx) AS scheduleIdx FROM ${table} WHERE semester = "${semester}"`;
+        try {
+            const result = await pool.queryParam(query);
+            console.log("결과값3: ", result);
+            return result;
+        } catch (err) {
+            if (err.errno == 1062) {
+                console.log('getScheduleIdx ERROR : ', err.errno, err.code);
+                return -1;
+            }
+            console.log('getScheduleIdx ERROR: ', err);
+            throw err;
+        }
+    },
+    updateMainSchedule: async (scheduleIdx) => {
+        const query = `UPDATE schedule SET main=1 WHERE scheduleIdx=${scheduleIdx}`;
+        try {
+            const result = await pool.queryParamArr(query);
+            //console.log('Update post - result: ', result);
+            //아무 시간표도 없을때! => 0이 나와도 좋은 거지!
+            console.log("결과값2: ", result);
+            if (result.affectedRows >= 0) return 1;
+            else return 0;
+        } catch (err) {
+            if (err.errno == 1062) {
+                console.log('updateMainSchedule ERROR : ', err.errno, err.code);
+                return -1;
+            }
+            console.log('updateMainSchedule ERROR: ', err);
+            throw err;
+        }
+    },
+    updateMainOffSchedule: async (semester) => {
+        const query = `UPDATE schedule SET main=0 WHERE main=1 AND semester="${semester}"`;
+        try {
+            const result = await pool.queryParam(query);
+            if (result.affectedRows === 1) return 1;
+            else return 0;
+        } catch (err) {
+            if (err.errno == 1062) {
+                console.log('updateMainOffSchedule ERROR : ', err.errno, err.code);
+                return -1;
+            }
+            console.log('updateMainOffSchedule ERROR: ', err);
+            throw err;
+        }
+    },
+    updateMainOnSchedule: async (scheduleIdx) => {
+        const query = `UPDATE schedule SET main=1 WHERE scheduleIdx=${scheduleIdx}`;
+        try {
+            const result = await pool.queryParamArr(query);
+            if (result.affectedRows === 1) return 1;
+            else return 0;
+        } catch (err) {
+            if (err.errno == 1062) {
+                console.log('updateMainOnSchedule ERROR : ', err.errno, err.code);
+                return -1;
+            }
+            console.log('updateMainOnSchedule ERROR: ', err);
+            throw err;
+        }
+    },
+    checkSchedule: async (idx) => {
+        const query = `SELECT * FROM ${table} WHERE scheduleIdx = ${idx} AND main = 1`;
+        try {
+            const result = await pool.queryParam(query);
+            if (result.length === 1) {
+                return true;
+            } else {
+                return false;
+            }
+        } catch (err) {
+            if (err.errno == 1062) {
+                console.log('checkSchedule ERROR : ', err.errno, err.code);
+                return -1;
+            }
+            console.log('checkSchedule ERROR: ', err);
+            throw err;
+        }
+    },
+    getScheduleSemester: async (userIdx, scheduleIdx) => {
+        const query = `SELECT semester FROM ${table} WHERE scheduleIdx = ${scheduleIdx} AND userIdx = ${userIdx}`
+        //{semester: "2020-2"}
+        //result.semester => 2020-2
+        try {
+            const result = await pool.queryParam(query);
+            console.log("결과값: ", result);
+            return result;
+        } catch (err) {
+            if (err.errno == 1062) {
+                console.log('getScheduleSemester ERROR : ', err.errno, err.code);
+                return -1;
+            }
+            console.log('getScheduleSemester ERROR: ', err);
+            throw err;
+        }
+    },
+    
+
 
 }
 
