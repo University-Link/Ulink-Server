@@ -2,10 +2,11 @@ const pool = require('../modules/pool');
 const table = 'schedule';
 
 const schedule = {
-    /*
-    유저 시간표 가져오기
-    - 토큰으로 유저에 해당하는 시간표의 정보를 가져온다.
-    - 가져오기: 시간표 idx, 학기, 시간표 이름
+    /** 
+    * 유저 시간표 가져오기
+    * @type SELECT
+    * @param 유저 인덱스
+    * @return 시간표 정보(인덱스, 학기, 이름)
     */
     getSchedule: async (userIdx) => {
         const query = `SELECT scheduleIdx, semester, name FROM ${table} 
@@ -22,10 +23,11 @@ const schedule = {
             throw err;
         }
     },
-    /*
-    유저 메인 시간표 가져오기
-    - 토큰으로 유저에 해당하는 유저 메인 시간표의 정보를 가져온다.
-    - 가져오기: 시간표 idx, 학기, 시간표 이름
+    /** 
+    * 유저 메인 시간표 가져오기
+    * @type SELECT
+    * @param 유저 인덱스
+    * @return 메인 시간표 정보(인덱스, 학기, 이름)
     */
     getMainSchedule: async (userIdx) => {
         const query = `SELECT scheduleIdx, semester, name FROM ${table} 
@@ -42,10 +44,11 @@ const schedule = {
             throw err;
         }
     },
-    /*
-    특정 학기 기본 메인 시간표 가져오기
-    - 토큰으로 유저에 해당하는 메인 시간표의 정보를 가져온다.
-    - 가져오기: 시간표 idx, 학기, 시간표 이름
+    /** 
+    * 현재학기 유저 메인 시간표 가져오기
+    * @type SELECT
+    * @param 유저 인덱스, 현재학기
+    * @return 현재학기 메인 시간표 정보(인덱스, 학기, 이름)
     */
     getSemesterMainSchedule: async (userIdx, semester) => {
         const query = `SELECT scheduleIdx, semester, name FROM ${table} 
@@ -62,9 +65,11 @@ const schedule = {
             throw err;
         }
     },
-    /*
-    학교 수업목록 가져오기
-    - scheduleIdx에 해당하는 학교 수업목록을 가져온다.
+    /** 
+    * 시간표 수업 목록 가져오기
+    * @type SELECT
+    * @param 시간표 인덱스
+    * @return 시간표에 해당하는 수업 목록 가져오기(수업 인덱스, 이름, 색상, 총 인원수, 현재 인원수)
     */
     getScheduleSubject: async (scheduleIdx) => {
         const query1 = `SELECT s1.scheduleSchoolIdx, s2.subjectIdx, s2.name, s2.people AS total, s1.color FROM
@@ -93,15 +98,14 @@ const schedule = {
             throw err;
         }
     },
-    /*
-    학교 시간표 가져오기
-    - scheduleIdx에 해당하는 학교 시간표를 가져온다.
-    - schedule_school, subject 테이블을 조인하여 수업에 대한 정보를 가져오고 
-    - subject_timeplace와 조인하여 시간과 장소에 대한 정보도 가져온다.
-    - 가져오기: 수업 idx, 수업 이름, 수업 시작시간, 수업 종료시간, 수업 요일, 수업 장소, 색상
+    /** 
+    * 학교 일정 가져오기
+    * @type SELECT
+    * @param 시간표 인덱스
+    * @return 수업 일정 인덱스, 이름, 시작시간, 종료시간, 요일, 장소, 색상
     */
     getScheduleSchool: async (scheduleIdx) => {
-        const query = `SELECT s.scheduleSchoolIdx AS idx, s.name, tp.startTime, tp.endTime, tp.day AS day, tp.place, s.color
+        const query = `SELECT s.scheduleSchoolIdx AS idx, s.name, tp.startTime, tp.endTime, tp.day, tp.place, s.color
             FROM (
                 SELECT s1.scheduleSchoolIdx, s2.subjectIdx, s2.name, s1.color FROM
                     (
@@ -124,13 +128,14 @@ const schedule = {
             throw err;
         }
     },
-    /*
-    개인 일정 시간표 가져오기
-    - scheduleIdx에 해당하는 개인 시간표를 가져온다.
-    - 가져오기: 개인일정 idx, 개인일정 이름, 개인일정 시작시간, 개인일정 종료시간, 개인일정 요일, 장소, 색상
+    /** 
+    * 개인 일정 가져오기
+    * @type SELECT
+    * @param 시간표 인덱스
+    * @return 개인 일정 인덱스, 이름, 시작시간, 종료시간, 요일, 내용, 색상
     */
     getSchedulePersonal: async (scheduleIdx) => {
-        const query = `SELECT schedulePersonalIdx AS idx, name, startTime, endTime, day AS day, content, color 
+        const query = `SELECT schedulePersonalIdx AS idx, name, startTime, endTime, day, content, color 
             FROM schedule_personal WHERE scheduleIdx = ${scheduleIdx}`;
         try {
             const result = await pool.queryParam(query);
@@ -144,12 +149,17 @@ const schedule = {
             throw err;
         }
     },
-    /*
-    학교 수업일정 상세 데이터 가져오기
+    /** 
+    * 학교 일정 상세 정보 가져오기
+    * @type SELECT
+    * @param 학교 일정 인덱스
+    * @return 일정 색상, 과목 시작시간, 종료시간, 요일, 장소
+            과목 인덱스, 이름, 교수명, 학교명, 학부명, 전공, 학기, 학년, 학점, 총 인원수, 
+            과목 시작시간, 종료시간, 요일, 장소, 이수구분(전공/교양, 필수/선택)
     */
     getSpecificScheduleSchool: async (scheduleSchoolIdx) => {
         const query1 = `SELECT subjectIdx, color FROM schedule_school 
-        WHERE subjectIdx = ${scheduleSchoolIdx}`;
+        WHERE scheduleSchoolIdx = ${scheduleSchoolIdx}`;
         const query2 = `SELECT q1.color, subject.* 
         FROM (${query1}) q1 INNER JOIN subject
         ON q1.subjectIdx = subject.subjectIdx`;
@@ -169,11 +179,15 @@ const schedule = {
             throw err;
         }
     },
-    /*
-    개인일정 상세 데이터 가져오기
+    /** 
+    * 개인 일정 상세 정보 가져오기
+    * @type SELECT
+    * @param 개인일정 인덱스
+    * @return 개인일정 인덱스, 이름(제목), 시작시간, 종료시간, 요일, 내용, 색상
     */
     getSpecificSchedulePersonal: async (schedulePersonalIdx) => {
-        const query = `SELECT * FROM schedule_personal WHERE schedulePersonalIdx = ${schedulePersonalIdx}`;
+        const query = `SELECT schedulePersonalIdx, name, startTime, endTime, day, content, color 
+        FROM schedule_personal WHERE schedulePersonalIdx = ${schedulePersonalIdx}`;
         try {
             const result = await pool.queryParam(query);
             return result;
@@ -186,8 +200,11 @@ const schedule = {
             throw err;
         }
     },
-    /*
-    학교 수업일정 등록하기
+    /** 
+    * 학교 일정 추가
+    * @type INSERT
+    * @param 과목 인덱스, 색상, 시간표 인덱스
+    * @return 추가된 학교 일정 인덱스
     */
     createScheduleSchool: async (subjectIdx, color, scheduleIdx) => {
         const fields = 'subjectIdx, color, scheduleIdx';
@@ -207,8 +224,11 @@ const schedule = {
             throw err;
         }
     },
-    /*
-    개인 일정 등록하기
+    /** 
+    * 개인 일정 추가
+    * @type INSERT
+    * @param 개인 일정 이름, 시작시간, 종료시간, 요일, 내용, 색상, 시간표 인덱스
+    * @return 추가된 개인 일정 인덱스
     */
     createSchedulePersonal: async (name, startTime, endTime, day, content, color, scheduleIdx) => {
         const fields = 'name, startTime, endTime, day, content, color, scheduleIdx';
@@ -228,9 +248,11 @@ const schedule = {
             throw err;
         }
     },
-    /*
-    학교 수업일정 삭제하기
-    - 현재 시간표에서 학교 수업일정 삭제
+    /** 
+    * 학교 일정 삭제
+    * @type DELETE
+    * @param 학교 일정 인덱스
+    * @return 삭제 성공여부 (Boolean)
     */
     deleteScheduleSchool: async (scheduleSchoolIdx) => {
         const query = `DELETE FROM schedule_school 
@@ -249,9 +271,11 @@ const schedule = {
             throw err;
         }
     },
-    /*
-    개인 일정 삭제하기
-    - 현재 시간표에서 개인일정 삭제
+    /** 
+    * 개인 일정 삭제
+    * @type DELETE
+    * @param 개인 일정 인덱스
+    * @return 삭제 성공여부 (Boolean)
     */
     deleteSchedulePersonal: async (schedulePersonalIdx) => {
         const query = `DELETE FROM schedule_personal 
@@ -270,10 +294,11 @@ const schedule = {
             throw err;
         }
     },
-    /*
-    모든 수업 데이터 가져오기
-    - token을 통해 자신의 학교의 모든 수업 데이터를 가져온다.
-    - 가져오기: 자신의 학교에 해당하는 모든 수업 정보
+    /** 
+    * 모든 수업 데이터 조회
+    * @type SELECT
+    * @param 학교명
+    * @return 학교에 해당하는 모든 수업 목록
     */
     getSubject: async (school) => {
         const query = `SELECT * FROM subject WHERE school = "${school}"`;
@@ -289,10 +314,11 @@ const schedule = {
             throw err;
         }
     },
-    /*
-    모든 학기 수업 시간표 목록 가져오기
-    - token을 통해 자신의 학교의 모든 학기 수업 기간표 목록을 가져온다.
-    - 가져오기: 자신의 시간표 목록
+    /** 
+    * 모든 학기 수업 시간표 목록 가져오기
+    * @type SELECT
+    * @param 유저 인덱스
+    * @return 유저의 모든 학기에 대해 수업 시간표 목록 정보
     */
     getSemesterList: async (userIdx) => {
         const query1 = `SELECT DISTINCT semester FROM ${table} WHERE userIdx = ${userIdx}`;
@@ -319,16 +345,18 @@ const schedule = {
             throw err;
         }
     },
-    /*
-    개인일정 수정하기
-    - schedulePersonalIdx를 통해 개인일정데이터를 가져온다.
-    - 수정하기 : 자신의 개인시간표 일정 수정하기
+    /** 
+    * 개인일정 수정하기
+    * @type UPDATE
+    * @param 개인일정 인덱스, 수정할 이름, 내용, 시작시간, 종료시간, 요일
+    * @return 수정여부 (Boolean)
     */
     updateSchedulePersonal: async (schedulePersonalIdx, name, content, startTime, endTime, day) => {
-        const query = `UPDATE schedule_personal SET name = "${name}", content = "${content}", startTime = "${startTime}", endTime = "${endTime}", day = "${day}" WHERE schedulePersonalIdx = "${schedulePersonalIdx}"`;
+        const query = `UPDATE schedule_personal 
+        SET name = "${name}", content = "${content}", startTime = "${startTime}", endTime = "${endTime}", day = "${day}" 
+        WHERE schedulePersonalIdx = "${schedulePersonalIdx}"`;
         try {
             const result = await pool.queryParamArr(query);
-            //console.log('Update post - result: ', result);
             if (result.affectedRows > 0) return false;
             else return true;
         } catch (err) {

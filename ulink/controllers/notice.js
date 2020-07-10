@@ -6,9 +6,11 @@ const noticeModel = require('../models/notice');
 const scheduleModel = require('../models/schedule');
 
 const notice = {
-    /*
-    캘린더 뷰 - 메인 스케줄의 모든 공지 가져오기
-    - 유저의 메인 스케줄 과목들의 모든 공지 데이터를 가져오기
+    /** 
+    * 메인 스케줄의 모든 공지 가져오기 (Calendar view)
+    * @summary 유저 메인 스케줄의 모든 공지 가져오기
+    * @param 토큰, 조회 시작날짜, 조회 종료날짜
+    * @return 각 날짜마다의 공지 정보
     */
     getNoticeList: async (req, res) => {
         const user = req.decoded;
@@ -46,9 +48,11 @@ const notice = {
         return res.status(statusCode.OK)
             .send(util.success(statusCode.OK, resMessage.READ_NOTICE_LIST_SUCCESS, result));
     },
-    /*
-    과목 공지 등록하기
-    - 특정과목의 공지 등록하기
+    /** 
+    * 공지 등록하기
+    * @summary 과목의 공지 등록하기
+    * @param 과목 인덱스, 공지 카테고리, 날짜, 시작시간, 종료시간, 제목, 내용
+    * @return 성공 메시지
     */
     createNotice: async (req, res) => {
         const subjectIdx = req.params.idx;
@@ -75,10 +79,11 @@ const notice = {
         res.status(statusCode.OK)
             .send(util.success(statusCode.OK, resMessage.CREATE_NOTICE_SUCCESS));
     },
-
-    /*
-    특정 과목 공지 목록 가져오기
-    - scheduleSchoolIdx를 받아 특정 과목을 인식하고, 그 과목에 대한 Notice 목록을 가져온다.
+    /** 
+    * 특정 과목의 공지 가져오기
+    * @summary 특정 과목의 공지목록 가져오기
+    * @param 과목 인덱스
+    * @return 각 카테고리별 공지 데이터
     */
     getNotice: async (req, res) => {
         const subjectIdx = req.params.idx;
@@ -113,9 +118,11 @@ const notice = {
         return res.status(statusCode.OK)
             .send(util.success(statusCode.OK, resMessage.READ_NOTICE_LIST_SUCCESS, result));
     },
-    /*
-    특정 공지 가져오기
-    - noticeIdx 받아 특정 공지를 인식하고, 상세 데이터를 가져온다.
+    /** 
+    * 공지 상세조회
+    * @summary 공지의 상세정보 조회
+    * @param 공지 인덱스
+    * @return 공지의 상세정보
     */
     getSpecificNotice: async (req, res) => {
         const noticeIdx = req.params.idx;
@@ -133,9 +140,11 @@ const notice = {
         return res.status(statusCode.OK)
             .send(util.success(statusCode.OK, resMessage.READ_NOTICE_SUCCESS, result[0]));
     },
-    /*
-    특정 공지 업데이트
-    - noticeIdx와 수정된 사항을 받아 공지 데이터를 업데이트한다.
+    /** 
+    * 공지 업데이트
+    * @summary 공지 정보 업데이트
+    * @param 공지 인덱스, 카테고리, 날짜, 시작시간, 종료시간, 제목, 내용
+    * @return 업데이트 성공 여부 메시지
     */
     updateSpecificNotice: async (req, res) => {
         const noticeIdx = req.params.idx;
