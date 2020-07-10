@@ -7,9 +7,7 @@ const moment = require('../modules/moment');
 const cart = {
     getCartList: async (req, res) => {
         const userIdx = req.decoded.userIdx;
-        const {
-            semester
-        } = req.body;
+        const semester = req.query.semester;
         if (!semester || !userIdx) {
             return res.status(statusCode.BAD_REQUEST)
                 .send(util.fail(statusCode.BAD_REQUEST, resMessage.NULL_VALUE));
@@ -20,9 +18,9 @@ const cart = {
                 .send(util.fail(statusCode.BAD_REQUEST, resMessage.DB_ERROR));
         }
         return res.status(statusCode.OK)
-            .send(util.success(statusCode.OK, resMessage.CART_SUCCESS, {
+            .send(util.success(statusCode.OK, resMessage.CART_SUCCESS,
                 getCartList
-            }));
+            ));
     },
     createCart: async (req, res) => {
         const userIdx = req.decoded.userIdx;
