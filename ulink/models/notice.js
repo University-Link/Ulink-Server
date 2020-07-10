@@ -57,7 +57,7 @@ const notice = {
     * @return 공지 인덱스, 카테고리, 제목, 시작시간, 종료시간
     */
     getNotice: async (subjectIdx) => {
-        const query = `SELECT noticeIdx, category, title, startTime, endTime
+        const query = `SELECT noticeIdx, category, title, startTime, endTime, date
         FROM notice WHERE subjectIdx = ${subjectIdx}`;
         try {
             const result = await pool.queryParam(query);

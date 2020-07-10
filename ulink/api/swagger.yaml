@@ -4,7 +4,7 @@ servers:
   - description: Local test server
     url: http://127.0.0.1:3000
   - description: Local test server
-    url: http://52.78.27.117:3000/
+    url: http://52.78.27.117:3000
 
 info:
   version: '1.0.0'
