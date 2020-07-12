@@ -5,7 +5,7 @@ const authUtil = require('../middlewares/auth');
 const subjectController = require('../controllers/subject');
 
 router.get('/', authUtil.checkToken, subjectController.getSubject);
-router.post('/recommend', authUtil.checkToken, subjectController.getLikeSubject);
-router.post('/search', authUtil.checkToken, subjectController.getSearchSubject);
+router.get('/recommend', authUtil.checkToken, subjectController.getRecommendSubject);
+router.get('/search', authUtil.checkToken, subjectController.getSearchSubject);
 
 module.exports = router;

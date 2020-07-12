@@ -98,7 +98,7 @@ const subject = {
      * @param 학교, 키워드 (자모분리)
      * @return 키워드와 비슷한 수업 리스트
      */
-    getLikeSubject: async (school, nameAtomic) => {
+    getRecommendSubject: async (school, nameAtomic) => {
         const query = `SELECT name FROM subject 
         WHERE school = "${school}" AND nameAtomic LIKE "${nameAtomic}%"
         ORDER BY name`;
@@ -107,10 +107,10 @@ const subject = {
             return result;
         } catch (err) {
             if (err.errno == 1062) {
-                console.log('getLikeSubject ERROR : ', err.errno, err.code);
+                console.log('getRecommendSubject ERROR : ', err.errno, err.code);
                 return -1;
             }
-            console.log('getLikeSubject ERROR: ', err);
+            console.log('getRecommendSubject ERROR: ', err);
             throw err;
         }
     },

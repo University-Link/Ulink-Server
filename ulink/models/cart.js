@@ -2,6 +2,14 @@ const pool = require('../modules/pool');
 const table = 'cart';
 
 const cart = {
+    /** 
+    * 장바구니(후보 과목) 가져오기
+    * @type SELECT
+    * @param 유저 인덱스, 학기
+    * @return 유저와 학기의 장바구니(과목) 정보
+        (장바구니 인덱스, 유저 인덱스, 과목 인덱스, 학기, 과목이름, 
+        학수번호, 교수명, 학교, 전공명, 학년, 학점, 최대인원 수, 교과정보(전필/전선/교양/교필...))
+    */
     getCartList: async (userIdx, semester) => {
         const query = `SELECT * FROM
         (
@@ -21,6 +29,12 @@ const cart = {
             throw err;
         }
     },
+    /** 
+    * 장바구니(후보 과목) 추가
+    * @type INSERT
+    * @param 유저 인덱스, 과목 인덱스, 학기
+    * @return 추가된 장바구니 과목 인덱스
+    */
     createCart: async (userIdx, subjectIdx, semester) => {
         const fields = 'userIdx, subjectIdx, semester';
         const questions = '?,?,?';
@@ -38,6 +52,12 @@ const cart = {
             throw err;
         }
     },
+    /** 
+    * 장바구니(후보 과목) 확인
+    * @type SELECT
+    * @param 유저 인덱스, 과목 인덱스, 학기
+    * @return 장바구니 존재여부 (Boolean)
+    */
     checkCart: async (userIdx, subjectIdx, semester) => {
         const query = `SELECT * FROM ${table} WHERE subjectIdx = ${subjectIdx} AND userIdx = ${userIdx} AND semester="${semester}"`;
         try {
@@ -56,6 +76,12 @@ const cart = {
             throw err;
         }
     },
+    /** 
+    * 장바구니(후보 과목) 삭제
+    * @type DELETE
+    * @param 유저 인덱스, 과목 인덱스, 학기
+    * @return 삭제한 장바구니 과목 인덱스
+    */
     deleteCart: async (userIdx, subjectIdx, semester) => {
         const query = `DELETE FROM ${table} WHERE subjectIdx = ${subjectIdx} AND userIdx = ${userIdx} AND semester="${semester}"`;
         try {
