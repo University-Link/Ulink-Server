@@ -9,10 +9,10 @@ const user = {
     * @param 아이디, 비밀번호, Salt, 이름, 이메일, 별명, 학교명
     * @return 추가된 Idx
     */
-    signUp: async (id, password, salt, name, email, nickname, school) => {
-        const fields = 'id, password, salt, name, email, nickname, school';
-        const questions = '?, ?, ?, ?, ?, ?, ?';
-        const values = [id, password, salt, name, email, nickname, school];
+    signUp: async (id, password, salt, name, email, nickname, school, gender) => {
+        const fields = 'id, password, salt, name, email, nickname, school, gender';
+        const questions = '?, ?, ?, ?, ?, ?, ?, ?';
+        const values = [id, password, salt, name, email, nickname, school, gender];
         const query = `INSERT INTO ${table}(${fields}) VALUES(${questions})`;
         try {
             const result = await pool.queryParamArr(query, values);

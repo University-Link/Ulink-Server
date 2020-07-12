@@ -3,11 +3,11 @@ const table = 'schedule';
 
 const schedule = {
     /** 
-    * 유저 시간표 가져오기
-    * @type SELECT
-    * @param 유저 인덱스
-    * @return 시간표 정보(인덱스, 학기, 이름)
-    */
+     * 유저 시간표 가져오기
+     * @type SELECT
+     * @param 유저 인덱스
+     * @return 시간표 정보(인덱스, 학기, 이름)
+     */
     getSchedule: async (userIdx) => {
         const query = `SELECT scheduleIdx, semester, name FROM ${table} 
         WHERE userIdx = ${userIdx}`;
@@ -24,11 +24,11 @@ const schedule = {
         }
     },
     /** 
-    * 유저 메인 시간표 가져오기
-    * @type SELECT
-    * @param 유저 인덱스
-    * @return 메인 시간표 정보(인덱스, 학기, 이름)
-    */
+     * 유저 메인 시간표 가져오기
+     * @type SELECT
+     * @param 유저 인덱스
+     * @return 메인 시간표 정보(인덱스, 학기, 이름)
+     */
     getMainSchedule: async (userIdx) => {
         const query = `SELECT scheduleIdx, semester, name FROM ${table} 
     WHERE userIdx = ${userIdx} and main = 1`;
@@ -45,11 +45,11 @@ const schedule = {
         }
     },
     /** 
-    * 현재학기 유저 메인 시간표 가져오기
-    * @type SELECT
-    * @param 유저 인덱스, 현재학기
-    * @return 현재학기 메인 시간표 정보(인덱스, 학기, 이름)
-    */
+     * 현재학기 유저 메인 시간표 가져오기
+     * @type SELECT
+     * @param 유저 인덱스, 현재학기
+     * @return 현재학기 메인 시간표 정보(인덱스, 학기, 이름)
+     */
     getSemesterMainSchedule: async (userIdx, semester) => {
         const query = `SELECT scheduleIdx, semester, name FROM ${table} 
     WHERE userIdx = ${userIdx} and semester = "${semester}" and main = 1`;
@@ -66,11 +66,11 @@ const schedule = {
         }
     },
     /** 
-    * 시간표 수업 목록 가져오기
-    * @type SELECT
-    * @param 시간표 인덱스
-    * @return 시간표에 해당하는 수업 목록 가져오기(수업 인덱스, 이름, 색상, 총 인원수, 현재 인원수)
-    */
+     * 시간표 수업 목록 가져오기
+     * @type SELECT
+     * @param 시간표 인덱스
+     * @return 시간표에 해당하는 수업 목록 가져오기(수업 인덱스, 이름, 색상, 총 인원수, 현재 인원수)
+     */
     getScheduleSubject: async (scheduleIdx) => {
         const query1 = `SELECT s1.scheduleSchoolIdx, s2.subjectIdx, s2.name, s2.people AS total, s1.color FROM
             (
@@ -99,11 +99,11 @@ const schedule = {
         }
     },
     /** 
-    * 학교 일정 가져오기
-    * @type SELECT
-    * @param 시간표 인덱스
-    * @return 수업 일정 인덱스, 이름, 시작시간, 종료시간, 요일, 장소, 색상
-    */
+     * 학교 일정 가져오기
+     * @type SELECT
+     * @param 시간표 인덱스
+     * @return 수업 일정 인덱스, 이름, 시작시간, 종료시간, 요일, 장소, 색상
+     */
     getScheduleSchool: async (scheduleIdx) => {
         const query = `SELECT s.scheduleSchoolIdx AS idx, s.name, tp.startTime, tp.endTime, tp.day, tp.place, s.color
             FROM (
@@ -129,11 +129,11 @@ const schedule = {
         }
     },
     /** 
-    * 개인 일정 가져오기
-    * @type SELECT
-    * @param 시간표 인덱스
-    * @return 개인 일정 인덱스, 이름, 시작시간, 종료시간, 요일, 내용, 색상
-    */
+     * 개인 일정 가져오기
+     * @type SELECT
+     * @param 시간표 인덱스
+     * @return 개인 일정 인덱스, 이름, 시작시간, 종료시간, 요일, 내용, 색상
+     */
     getSchedulePersonal: async (scheduleIdx) => {
         const query = `SELECT schedulePersonalIdx AS idx, name, startTime, endTime, day, content, color 
             FROM schedule_personal WHERE scheduleIdx = ${scheduleIdx}`;
@@ -180,11 +180,11 @@ const schedule = {
         }
     },
     /** 
-    * 개인 일정 상세 정보 가져오기
-    * @type SELECT
-    * @param 개인일정 인덱스
-    * @return 개인일정 인덱스, 이름(제목), 시작시간, 종료시간, 요일, 내용, 색상
-    */
+     * 개인 일정 상세 정보 가져오기
+     * @type SELECT
+     * @param 개인일정 인덱스
+     * @return 개인일정 인덱스, 이름(제목), 시작시간, 종료시간, 요일, 내용, 색상
+     */
     getSpecificSchedulePersonal: async (schedulePersonalIdx) => {
         const query = `SELECT schedulePersonalIdx, name, startTime, endTime, day, content, color 
         FROM schedule_personal WHERE schedulePersonalIdx = ${schedulePersonalIdx}`;
@@ -201,11 +201,35 @@ const schedule = {
         }
     },
     /** 
-    * 학교 일정 추가
-    * @type INSERT
-    * @param 과목 인덱스, 색상, 시간표 인덱스
-    * @return 추가된 학교 일정 인덱스
-    */
+     * 시간표 추가
+     * @type INSERT
+     * @param 유저 인덱스, 학기, 시간표 이름, 메인 시간표 여부
+     * @return 스케줄 생성 여부
+     */
+    createSchedule: async (userIdx, semester, name, main) => {
+        const fields = 'userIdx, semester, name, main';
+        const questions = '?, ?, ?, ?';
+        const values = [userIdx, semester, name, main];
+        const query = `INSERT INTO schedule(${fields}) VALUES(${questions})`;
+        try {
+            const result = await pool.queryParamArr(query, values);
+            const insertId = result.insertId;
+            return insertId;
+        } catch (err) {
+            if (err.errno == 1062) {
+                console.log('createSchedule ERROR : ', err.errno, err.code);
+                return -1;
+            }
+            console.log('createSchedule ERROR: ', err);
+            throw err;
+        }
+    },
+    /** 
+     * 학교 일정 추가
+     * @type INSERT
+     * @param 과목 인덱스, 색상, 시간표 인덱스
+     * @return 추가된 학교 일정 인덱스
+     */
     createScheduleSchool: async (subjectIdx, color, scheduleIdx) => {
         const fields = 'subjectIdx, color, scheduleIdx';
         const questions = '?, ?, ?';
@@ -225,11 +249,11 @@ const schedule = {
         }
     },
     /** 
-    * 개인 일정 추가
-    * @type INSERT
-    * @param 개인 일정 이름, 시작시간, 종료시간, 요일, 내용, 색상, 시간표 인덱스
-    * @return 추가된 개인 일정 인덱스
-    */
+     * 개인 일정 추가
+     * @type INSERT
+     * @param 개인 일정 이름, 시작시간, 종료시간, 요일, 내용, 색상, 시간표 인덱스
+     * @return 추가된 개인 일정 인덱스
+     */
     createSchedulePersonal: async (name, startTime, endTime, day, content, color, scheduleIdx) => {
         const fields = 'name, startTime, endTime, day, content, color, scheduleIdx';
         const questions = '?, ?, ?, ?, ?, ?, ?';
@@ -249,11 +273,11 @@ const schedule = {
         }
     },
     /** 
-    * 학교 일정 삭제
-    * @type DELETE
-    * @param 학교 일정 인덱스
-    * @return 삭제 성공여부 (Boolean)
-    */
+     * 학교 일정 삭제
+     * @type DELETE
+     * @param 학교 일정 인덱스
+     * @return 삭제 성공여부 (Boolean)
+     */
     deleteScheduleSchool: async (scheduleSchoolIdx) => {
         const query = `DELETE FROM schedule_school 
         WHERE scheduleSchoolIdx = ${scheduleSchoolIdx}`;
@@ -272,11 +296,11 @@ const schedule = {
         }
     },
     /** 
-    * 개인 일정 삭제
-    * @type DELETE
-    * @param 개인 일정 인덱스
-    * @return 삭제 성공여부 (Boolean)
-    */
+     * 개인 일정 삭제
+     * @type DELETE
+     * @param 개인 일정 인덱스
+     * @return 삭제 성공여부 (Boolean)
+     */
     deleteSchedulePersonal: async (schedulePersonalIdx) => {
         const query = `DELETE FROM schedule_personal 
         WHERE schedulePersonalIdx = ${schedulePersonalIdx}`;
@@ -295,11 +319,11 @@ const schedule = {
         }
     },
     /** 
-    * 모든 수업 데이터 조회
-    * @type SELECT
-    * @param 학교명
-    * @return 학교에 해당하는 모든 수업 목록
-    */
+     * 모든 수업 데이터 조회
+     * @type SELECT
+     * @param 학교명
+     * @return 학교에 해당하는 모든 수업 목록
+     */
     getSubject: async (school) => {
         const query = `SELECT * FROM subject WHERE school = "${school}"`;
         try {
@@ -315,11 +339,11 @@ const schedule = {
         }
     },
     /** 
-    * 모든 학기 수업 시간표 목록 가져오기
-    * @type SELECT
-    * @param 유저 인덱스
-    * @return 유저의 모든 학기에 대해 수업 시간표 목록 정보
-    */
+     * 모든 학기 수업 시간표 목록 가져오기
+     * @type SELECT
+     * @param 유저 인덱스
+     * @return 유저의 모든 학기에 대해 수업 시간표 목록 정보
+     */
     getSemesterList: async (userIdx) => {
         const query1 = `SELECT DISTINCT semester FROM ${table} WHERE userIdx = ${userIdx}`;
         try {
@@ -346,11 +370,11 @@ const schedule = {
         }
     },
     /** 
-    * 개인일정 수정하기
-    * @type UPDATE
-    * @param 개인일정 인덱스, 수정할 이름, 내용, 시작시간, 종료시간, 요일
-    * @return 수정여부 (Boolean)
-    */
+     * 개인일정 수정하기
+     * @type UPDATE
+     * @param 개인일정 인덱스, 수정할 이름, 내용, 시작시간, 종료시간, 요일
+     * @return 수정여부 (Boolean)
+     */
     updateSchedulePersonal: async (schedulePersonalIdx, name, content, startTime, endTime, day) => {
         const query = `UPDATE schedule_personal 
         SET name = "${name}", content = "${content}", startTime = "${startTime}", endTime = "${endTime}", day = "${day}" 
@@ -537,9 +561,6 @@ const schedule = {
             throw err;
         }
     },
-    
-
-
 }
 
 module.exports = schedule;
