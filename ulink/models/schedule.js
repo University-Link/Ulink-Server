@@ -213,7 +213,6 @@ const schedule = {
         const query = `INSERT INTO schedule(${fields}) VALUES(${questions})`;
         try {
             const result = await pool.queryParamArr(query, values);
-            console.log(result);
             const insertId = result.insertId;
             return insertId;
         } catch (err) {

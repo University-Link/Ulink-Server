@@ -26,10 +26,31 @@ const schedule = {
             return res.status(statusCode.BAD_REQUEST)
                 .send(util.fail(statusCode.BAD_REQUEST, resMessage.DB_ERROR));
         }
+
+        // result template
+        const result = {'mon':[], 'tue':[], 'wed':[],
+                        'thu':[], 'fri':[]};
+
+        // 현재학기 시간표가 존재하지 않을 경우, 자동으로 새로운 메인 시간표를 생성
         if (mainScheduleList.length == 0) {
-            return res.status(statusCode.BAD_REQUEST)
-                .send(util.fail(statusCode.BAD_REQUEST, resMessage.READ_MAIN_SCHEDULE_FAIL));
+            // userIdx, semester, name, main
+            const scheduleIdx = await scheduleModel.createSchedule(user.userIdx, semester, semester+'학기 첫 시간표', 1);
+            if (scheduleIdx < 0){
+                return res.status(statusCode.BAD_REQUEST)
+                .send(util.fail(statusCode.BAD_REQUEST, resMessage.DB_ERROR));
+            }
+            return res.status(statusCode.OK)
+            .send(util.success(statusCode.OK, resMessage.READ_SCHEDULE_SUCCESS, {
+                timeTable: {
+                    "scheduleIdx": scheduleIdx,
+                    "semester": semester,
+                    "name": semester+'학기 첫 시간표'
+                },
+                subjects: result
+            }));
         }
+
+        // 현재학기 시간표가 존재 할 경우, 메인 시간표 일정을 조회
         const schedulePersonalList = await scheduleModel.getSchedulePersonal(mainScheduleList[0].scheduleIdx);
         const scheduleSchoolList = await scheduleModel.getScheduleSchool(mainScheduleList[0].scheduleIdx);
         if (schedulePersonalList < 0 || scheduleSchoolList < 0) {
@@ -37,29 +58,17 @@ const schedule = {
                 .send(util.fail(statusCode.BAD_REQUEST, resMessage.DB_ERROR));
         }
 
+        // Add a variable that verifies that it is a subject
         mapping(schedulePersonalList, false);
         mapping(scheduleSchoolList, true);
 
         const schedule = await schedulePersonalList.concat(scheduleSchoolList);
-        const result = {};
-        result.mon = [];
-        result.tue = [];
-        result.wen = [];
-        result.tru = [];
-        result.fri = [];
+        
+        // Pack per day
         schedule.forEach((s) => {
-            if (s.day == 'mon') {
-                result.mon.push(s);
-            } else if (s.day == 'tue') {
-                result.tue.push(s);
-            } else if (s.day == 'wen') {
-                result.wen.push(s);
-            } else if (s.day == 'tru') {
-                result.tru.push(s);
-            } else {
-                result.fri.push(s);
-            }
-        })
+            result[s.day].push(s);
+        });
+
         return res.status(statusCode.OK)
             .send(util.success(statusCode.OK, resMessage.READ_SCHEDULE_SUCCESS, {
                 timeTable: mainScheduleList[0],
