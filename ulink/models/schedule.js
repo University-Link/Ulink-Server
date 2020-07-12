@@ -368,16 +368,16 @@ const schedule = {
             throw err;
         }
     },
-    /*
-    시간표 이름 수정하기
-    - scheduleIdx를 통해 시간표데이터를 가져온다.
-    - 수정하기 : 자신의 시간표 이름 수정하기
+    /** 
+    * 메인 시간표 이름 수정하기
+    * @type UPDATE
+    * @param 시간표 인덱스, 이름
+    * @return 수정 여부 (Boolean)
     */
     updateMainNameSchedule: async (scheduleIdx, name) => {
         const query = `UPDATE ${table} SET name = "${name}" WHERE scheduleIdx = "${scheduleIdx}"`;
         try {
             const result = await pool.queryParamArr(query);
-            //console.log('Update post - result: ', result);
             if (result.affectedRows > 0) return false;
             else return true;
         } catch (err) {
@@ -389,11 +389,16 @@ const schedule = {
             throw err;
         }
     },
+    /** 
+    * 메인 시간표 삭제하기
+    * @type DELETE
+    * @param 시간표 인덱스
+    * @return 삭제 성공여부 (Boolean)
+    */
     deleteMainSchedule: async (scheduleIdx) => {
         const query = `DELETE FROM ${table} WHERE scheduleIdx = "${scheduleIdx}"`;
         try {
             const result = await pool.queryParamArr(query);
-            //console.log('Delete - result: ', result);
             if (result.affectedRows > 0) return 1;
             else return 0;
         } catch (err) {
@@ -405,11 +410,16 @@ const schedule = {
             throw err;
         }
     },
+    /** 
+    * 메인 시간표 삭제 시 메인 시간표를 설정하기 위한 해당 학기의 가장 작은 시간표 인덱스 찾기
+    * @type SELECT
+    * @param 학기
+    * @return 시간표 인덱스
+    */
     getScheduleIdx: async (semester) => {
         const query = `SELECT MIN(scheduleIdx) AS scheduleIdx FROM ${table} WHERE semester = "${semester}"`;
         try {
             const result = await pool.queryParam(query);
-            console.log("결과값3: ", result);
             return result;
         } catch (err) {
             if (err.errno == 1062) {
@@ -420,13 +430,16 @@ const schedule = {
             throw err;
         }
     },
+    /** 
+    * 메인 시간표 삭제 시 다른 시간표 메인 시간표로 설정하기
+    * @type UPDATE
+    * @param 시간표 인덱스
+    * @return 수정여부
+    */
     updateMainSchedule: async (scheduleIdx) => {
         const query = `UPDATE schedule SET main=1 WHERE scheduleIdx=${scheduleIdx}`;
         try {
             const result = await pool.queryParamArr(query);
-            //console.log('Update post - result: ', result);
-            //아무 시간표도 없을때! => 0이 나와도 좋은 거지!
-            console.log("결과값2: ", result);
             if (result.affectedRows >= 0) return 1;
             else return 0;
         } catch (err) {
@@ -438,6 +451,12 @@ const schedule = {
             throw err;
         }
     },
+    /** 
+    * 메인 시간표 수정하기(메인o->x)
+    * @type UPDATE
+    * @param 학기
+    * @return 수정여부
+    */
     updateMainOffSchedule: async (semester) => {
         const query = `UPDATE schedule SET main=0 WHERE main=1 AND semester="${semester}"`;
         try {
@@ -453,6 +472,12 @@ const schedule = {
             throw err;
         }
     },
+    /** 
+    * 메인 시간표 수정하기(메인x->o)
+    * @type UPDATE
+    * @param 시간표 인덱스
+    * @return 수정여부
+    */
     updateMainOnSchedule: async (scheduleIdx) => {
         const query = `UPDATE schedule SET main=1 WHERE scheduleIdx=${scheduleIdx}`;
         try {
@@ -468,6 +493,12 @@ const schedule = {
             throw err;
         }
     },
+    /** 
+    * 해당 시간표가 메인 시간표이면 시간표 가져오기
+    * @type SELECT
+    * @param 시간표 인덱스
+    * @return 시간표 인덱스, 학기, 메인시간표여부, 이름, 유저인덱스
+    */
     checkSchedule: async (idx) => {
         const query = `SELECT * FROM ${table} WHERE scheduleIdx = ${idx} AND main = 1`;
         try {
@@ -486,13 +517,16 @@ const schedule = {
             throw err;
         }
     },
+    /** 
+    * 해당 시간표의 학기 가져오기
+    * @type SELECT
+    * @param 유저 인덱스, 시간표 인덱스
+    * @return 학기
+    */
     getScheduleSemester: async (userIdx, scheduleIdx) => {
-        const query = `SELECT semester FROM ${table} WHERE scheduleIdx = ${scheduleIdx} AND userIdx = ${userIdx}`
-        //{semester: "2020-2"}
-        //result.semester => 2020-2
+        const query = `SELECT semester FROM ${table} WHERE scheduleIdx = ${scheduleIdx} AND userIdx = ${userIdx}`;
         try {
             const result = await pool.queryParam(query);
-            console.log("결과값: ", result);
             return result;
         } catch (err) {
             if (err.errno == 1062) {

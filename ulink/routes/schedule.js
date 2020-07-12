@@ -7,7 +7,7 @@ const scheduleController = require('../controllers/schedule');
 router.get('/', authUtil.checkToken, scheduleController.getMainSchedule);
 router.put('/:idx', authUtil.checkToken, scheduleController.updateMainNameSchedule);
 router.put('/main/:idx', authUtil.checkToken, scheduleController.updateMainSchedule);
-router.delete('/:idx', authUtil.checkToken, scheduleController.deleteMainSchedule);
+router.delete('/main/:idx', authUtil.checkToken, scheduleController.deleteMainSchedule);
 
 router.get('/list', authUtil.checkToken, scheduleController.getSemesterList);
 
