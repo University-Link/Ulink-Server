@@ -28,26 +28,31 @@ const schedule = {
         }
 
         // result template
-        const result = {'mon':[], 'tue':[], 'wed':[],
-                        'thu':[], 'fri':[]};
+        const result = {
+            'mon': [],
+            'tue': [],
+            'wed': [],
+            'thu': [],
+            'fri': []
+        };
 
         // 현재학기 시간표가 존재하지 않을 경우, 자동으로 새로운 메인 시간표를 생성
         if (mainScheduleList.length == 0) {
             // userIdx, semester, name, main
-            const scheduleIdx = await scheduleModel.createSchedule(user.userIdx, semester, semester+'학기 첫 시간표', 1);
-            if (scheduleIdx < 0){
+            const scheduleIdx = await scheduleModel.createSchedule(user.userIdx, semester, semester + '학기 첫 시간표', 1);
+            if (scheduleIdx < 0) {
                 return res.status(statusCode.BAD_REQUEST)
-                .send(util.fail(statusCode.BAD_REQUEST, resMessage.DB_ERROR));
+                    .send(util.fail(statusCode.BAD_REQUEST, resMessage.DB_ERROR));
             }
             return res.status(statusCode.OK)
-            .send(util.success(statusCode.OK, resMessage.READ_SCHEDULE_SUCCESS, {
-                timeTable: {
-                    "scheduleIdx": scheduleIdx,
-                    "semester": semester,
-                    "name": semester+'학기 첫 시간표'
-                },
-                subjects: result
-            }));
+                .send(util.success(statusCode.OK, resMessage.READ_SCHEDULE_SUCCESS, {
+                    timeTable: {
+                        "scheduleIdx": scheduleIdx,
+                        "semester": semester,
+                        "name": semester + '학기 첫 시간표'
+                    },
+                    subjects: result
+                }));
         }
 
         // 현재학기 시간표가 존재 할 경우, 메인 시간표 일정을 조회
@@ -63,7 +68,7 @@ const schedule = {
         mapping(scheduleSchoolList, true);
 
         const schedule = await schedulePersonalList.concat(scheduleSchoolList);
-        
+
         // Pack per day
         schedule.forEach((s) => {
             result[s.day].push(s);
@@ -88,16 +93,15 @@ const schedule = {
             name
         } = req.body;
         let main;
-        if(!user || !semester || !name){
+        if (!user || !semester || !name) {
             return res.status(statusCode.BAD_REQUEST)
                 .send(util.fail(statusCode.BAD_REQUEST, resMessage.NULL_VALUE));
         }
 
         const mainSchedule = await scheduleModel.getSemesterMainSchedule(user.userIdx, semester);
-        if (mainSchedule.length == 0){
+        if (mainSchedule.length == 0) {
             main = 1;
-        }
-        else{
+        } else {
             main = 0;
         }
 
@@ -106,7 +110,7 @@ const schedule = {
         return res.status(statusCode.OK)
             .send(util.success(statusCode.OK, resMessage.CREATE_SCHEDULE_SUCCESS, {
                 idx: result
-        }));
+            }));
 
 
 
@@ -433,7 +437,7 @@ const schedule = {
      * @param 토큰, 시간표 인덱스, 업데이트 시간표 이름
      * @return 수정한 시간표 인덱스 , 수정한 시간표 이름
      */
-    updateMainNameSchedule: async (req, res) => {
+    updateNameSchedule: async (req, res) => {
         const userIdx = req.decoded.userIdx;
         const scheduleIdx = req.params.idx;
         const {
@@ -445,7 +449,7 @@ const schedule = {
                 .send(util.fail(statusCode.BAD_REQUEST, resMessage.NULL_VALUE));
         }
 
-        const scheduleMain = await scheduleModel.updateMainNameSchedule(scheduleIdx, name);
+        const scheduleMain = await scheduleModel.updateNameSchedule(scheduleIdx, name);
 
         if (scheduleMain) {
             return res.status(statusCode.BAD_REQUEST)
@@ -521,6 +525,46 @@ const schedule = {
         return res.status(statusCode.OK)
             .send(util.success(statusCode.OK, resMessage.DELETE_SCHEDULE_SUCCESS, {
                 idx: scheduleIdx
+            }));
+    },
+    /** 
+     * 시간표 색상 수정하기 (통합)
+     * @summary 시간표 색상 수정하기
+     * @param 일정 인덱스, 학교일정(T)/개인일정(F) (Boolean), 색상 인덱스
+     * @return 변경한 일정 인덱스
+     */
+    updateSpecificSchedule: async (req, res) => {
+        const idx = req.params.idx;
+        const isSubject = req.query.isSubject;
+        const {
+            color
+        } = req.body;
+        if (!idx || isNaN(idx) || !isSubject || !color) {
+            return res.status(statusCode.BAD_REQUEST)
+                .send(util.fail(statusCode.BAD_REQUEST, resMessage.NULL_VALUE));
+        }
+
+        let result;
+        if (isSubject === 'true') {
+            result = await scheduleModel.updateSpecificScheduleSchool(idx, color);
+        } else if (isSubject === 'false') {
+            result = await scheduleModel.updateSpecificSchedulePersonal(idx, color);
+        } else {
+            return res.status(statusCode.BAD_REQUEST)
+                .send(util.fail(statusCode.BAD_REQUEST, resMessage.NULL_VALUE));
+        }
+
+        if (result < 0) {
+            return res.status(statusCode.BAD_REQUEST)
+                .send(util.fail(statusCode.BAD_REQUEST, resMessage.DB_ERROR));
+        }
+        if (result === 0) {
+            return res.status(statusCode.BAD_REQUEST)
+                .send(util.fail(statusCode.BAD_REQUEST, resMessage.UPDATE_SCHEDULE_FAIL));
+        }
+        return res.status(statusCode.OK)
+            .send(util.success(statusCode.OK, resMessage.UPDATE_SCHEDULE_SUCCESS, {
+                idx: idx
             }));
     },
 }
