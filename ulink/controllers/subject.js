@@ -32,7 +32,7 @@ const subject = {
      */
     getSearchSubject: async (req, res) => {
         const user = req.decoded;
-        const name = req.body.name;
+        const name = req.query.name;
 
         const subjectList = await subjectModel.getSearchSubject(user.school, name);
 
@@ -50,9 +50,9 @@ const subject = {
      * @param 토큰, 검색 키워드
      * @return 자동완성 수업 목록
      */
-    getLikeSubject: async (req, res) => {
+    getRecommendSubject: async (req, res) => {
         const user = req.decoded;
-        const name = req.body.name;
+        const name = req.query.name;
         let subjectName = [];
 
         if (!name || name === "") {
@@ -60,7 +60,7 @@ const subject = {
                 .send(util.success(statusCode.OK, resMessage.READ_SUBJECT_SUCCESS, subjectName));
         }
         const nameAtomic = Hangul.disassemble(name.replace(/(\s*)/g, "")).join('');
-        const subjectList = await subjectModel.getLikeSubject(user.school, nameAtomic);
+        const subjectList = await subjectModel.getRecommendSubject(user.school, nameAtomic);
         if (subjectList < 0) {
             return res.status(statusCode.BAD_REQUEST)
                 .send(util.fail(statusCode.BAD_REQUEST, resMessage.DB_ERROR));
