@@ -28,8 +28,7 @@ const schedule = {
         }
 
         // result template
-        const result = {'mon':[], 'tue':[], 'wed':[],
-                        'thu':[], 'fri':[]};
+        const result = {0:[], 1:[], 2:[], 3:[], 4:[]};
 
         // 현재학기 시간표가 존재하지 않을 경우, 자동으로 새로운 메인 시간표를 생성
         if (mainScheduleList.length == 0) {
