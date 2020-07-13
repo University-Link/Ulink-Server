@@ -95,6 +95,7 @@ const user = {
 
         return res.status(statusCode.OK)
             .send(util.success(statusCode.OK, resMessage.LOGIN_SUCCESS, {
+                uid: user[0].uidChat,
                 accessToken: token
             }));
     },

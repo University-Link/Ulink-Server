@@ -7,7 +7,7 @@ const subjectController = require('../controllers/subject');
 router.get('/', authUtil.checkToken, subjectController.getSubject);
 router.get('/course', authUtil.checkToken, subjectController.getCourseSubject);
 router.get('/course/list', authUtil.checkToken, subjectController.getCourse);
-router.post('/recommend', authUtil.checkToken, subjectController.getLikeSubject);
-router.post('/search', authUtil.checkToken, subjectController.getSearchSubject);
+router.get('/recommend', authUtil.checkToken, subjectController.getRecommendSubject);
+router.get('/search', authUtil.checkToken, subjectController.getSearchSubject);
 
 module.exports = router;
