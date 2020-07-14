@@ -168,7 +168,7 @@ post:
                 example: true
               message:
                 type: string
-                example: 일정 생성 성공
+                example: 공지 생성 성공
     '400':
       description: 'invalid input, object invalid'
       content:

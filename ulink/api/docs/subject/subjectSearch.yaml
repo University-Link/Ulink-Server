@@ -36,7 +36,51 @@ get:
                 example: 과목 조회 성공
               data:
                 type: object
-                example: ...
+                example: [
+                    {
+                      "subjectIdx": 2166,
+                      "name": "고체전자물리개론",
+                      "professor": "정재경",
+                      "credit": 3,
+                      "course": "전공핵심",
+                      "startTime": [
+                        "13:00"
+                      ],
+                      "endTime": [
+                        "14:30"
+                      ],
+                      "day": [
+                        1
+                      ],
+                      "content": [
+                        "서울 제1공학관 602강의실"
+                      ]
+                    },
+                    {
+                      "subjectIdx": 309,
+                      "name": "고체전자물리개론",
+                      "professor": "박재근",
+                      "credit": 3,
+                      "course": "전공핵심",
+                      "startTime": [
+                        "13:00",
+                        "13:00"
+                      ],
+                      "endTime": [
+                        "14:30",
+                        "14:30"
+                      ],
+                      "day": [
+                        0,
+                        1
+                      ],
+                      "content": [
+                        "서울 제2공학관 204강의실",
+                        "서울 제2공학관 210강의실"
+                      ]
+                    },
+                    ...
+                  ]
     '400':
       description: 'invalid input, object invalid'
       content:

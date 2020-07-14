@@ -79,3 +79,5 @@ paths:
     $ref: './docs/subject/subjectRecommend.yaml'
   /subject/search:
     $ref: './docs/subject/subjectSearch.yaml'
+  /subject/course:
+      $ref: './docs/subject/subjectCourse.yaml'

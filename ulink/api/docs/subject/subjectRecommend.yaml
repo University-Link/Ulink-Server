@@ -36,7 +36,17 @@ get:
                 example: 과목 조회 성공
               data:
                 type: object
-                example: ...
+                example: [
+                  "캡스톤디자인미술교육",
+                  "캡스톤디자인산학협력",
+                  "캡스톤디자인스튜디오",
+                  "캡스톤소프트웨어프로젝트1",
+                  "커리어개발Ⅰ:취.창업진로로드맵",
+                  "콘크리트공학및실험",
+                  "쿼크에서빅뱅까지",
+                  "크리에이터영상제작론",
+                  ...
+                ]
     '400':
       description: 'invalid input, object invalid'
       content:

@@ -120,7 +120,7 @@ put:
                 example: true
               message:
                 type: string
-                example: 일정 수정 성공
+                example: 공지 수정 성공
               data:
                 type: object
                 example: {
