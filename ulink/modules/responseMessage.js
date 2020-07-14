@@ -23,7 +23,7 @@ module.exports = {
     // 공지
     READ_NOTICE_LIST_SUCCESS: "공지 목록 조회 성공",
     READ_NOTICE_SUCCESS: "공지 조회 성공",
-    UPDATE_NOTICE_SUCCESS: "공지 업데이트 성공",
+    UPDATE_NOTICE_SUCCESS: "공지 수정 성공",
     CREATE_NOTICE_SUCCESS: "공지 생성 성공",
     DELETE_NOTICE_SUCCESS: "공지 삭제 성공",
 
