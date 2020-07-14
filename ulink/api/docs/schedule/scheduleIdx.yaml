@@ -60,7 +60,7 @@ get:
                     "startTime": "11:00",
                     "endTime": "13:00",
                     "day": "tue",
-                    "place": "창조관709"
+                    "content": "창조관709"
                 }
     '400':
       description: 'invalid input, object invalid'

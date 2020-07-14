@@ -55,7 +55,7 @@ get:
                           "startTime": "09:00",
                           "endTime": "11:00",
                           "day": 0,
-                          "place": "공학관402",
+                          "content": "공학관402",
                           "color": 5,
                           "subject": true
                         }
@@ -77,7 +77,7 @@ get:
                           "startTime": "09:00",
                           "endTime": "11:00",
                           "day": 1,
-                          "place": "공학관313",
+                          "content": "공학관313",
                           "color": 5,
                           "subject": true
                         },
@@ -87,7 +87,7 @@ get:
                           "startTime": "11:00",
                           "endTime": "13:00",
                           "day": 1,
-                          "place": "창조관709",
+                          "content": "창조관709",
                           "color": 6,
                           "subject": true
                         }
@@ -109,7 +109,7 @@ get:
                           "startTime": "09:00",
                           "endTime": "10:30",
                           "day": 2,
-                          "place": "경영관202",
+                          "content": "경영관202",
                           "color": 1,
                           "subject": true
                         }
@@ -131,7 +131,7 @@ get:
                           "startTime": "11:00",
                           "endTime": "13:00",
                           "day": 3,
-                          "place": "창조관502",
+                          "content": "창조관502",
                           "color": 6,
                           "subject": true
                         }
@@ -173,7 +173,7 @@ get:
                           "startTime": "09:00",
                           "endTime": "10:30",
                           "day": 4,
-                          "place": "경영관B102",
+                          "content": "경영관B102",
                           "color": 1,
                           "subject": true
                         }

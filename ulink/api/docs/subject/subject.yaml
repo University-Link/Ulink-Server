@@ -41,7 +41,7 @@ get:
                                 "professor": "김아무개",
                                 "credit": 3,
                                 "course": "전공필수",
-                                "place": [
+                                "content": [
                                     "sopt관101"
                                 ],
                                 "day": [
@@ -63,7 +63,7 @@ get:
                                 "professor": "홍아무개",
                                 "credit": 2,
                                 "course": "교양필수",
-                                "place": [
+                                "content": [
                                     "경영관202",
                                     "경영관B102"
                                 ],
@@ -76,28 +76,6 @@ get:
                                     "09:00-10:30"
                                 ]
                             },
-                            {
-                                "subjectIdx": 9,
-                                "subjectCode": "1001011",
-                                "name": "경영학개론",
-                                "professor": "이아무개",
-                                "credit": 2,
-                                "course": "교양필수",
-                                "place": [],
-                                "day": [],
-                                "dateTime": []
-                            },
-                            {
-                                "subjectIdx": 10,
-                                "subjectCode": "1001012",
-                                "name": "경영학개론",
-                                "professor": "김아무개",
-                                "credit": 2,
-                                "course": "전공필수",
-                                "place": [],
-                                "day": [],
-                                "dateTime": []
-                            }
                         ]
                     },
                     ...

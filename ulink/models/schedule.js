@@ -105,7 +105,7 @@ const schedule = {
      * @return 수업 일정 인덱스, 이름, 시작시간, 종료시간, 요일, 장소, 색상
      */
     getScheduleSchool: async (scheduleIdx) => {
-        const query = `SELECT s.scheduleSchoolIdx AS idx, s.name, tp.startTime, tp.endTime, tp.day, tp.place, s.color
+        const query = `SELECT s.scheduleSchoolIdx AS idx, s.name, tp.startTime, tp.endTime, tp.day, tp.content, s.color
             FROM (
                 SELECT s1.scheduleSchoolIdx, s2.subjectIdx, s2.name, s1.color FROM
                     (
@@ -164,7 +164,7 @@ const schedule = {
         FROM (${query1}) q1 INNER JOIN subject
         ON q1.subjectIdx = subject.subjectIdx`;
         const query3 = `SELECT q2.*, 
-        subject_timeplace.startTime, subject_timeplace.endTime, subject_timeplace.day, subject_timeplace.place
+        subject_timeplace.startTime, subject_timeplace.endTime, subject_timeplace.day, subject_timeplace.content
         FROM (${query2}) q2 INNER JOIN subject_timeplace
         ON q2.subjectIdx = subject_timeplace.subjectIdx`;
         try {
