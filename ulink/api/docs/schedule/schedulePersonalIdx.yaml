@@ -72,7 +72,7 @@ put:
       required: true
       schema:
         type: string
-      description: 시간표 idx
+      description: 개인일정 idx
   requestBody:
     content:
       application/json:

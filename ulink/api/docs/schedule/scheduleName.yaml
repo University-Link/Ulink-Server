@@ -1,9 +1,9 @@
-post:
+put:
   tags:
     - Schedule
-  summary: 시간표 - 학교수업일정 만들기
-  operationId: createSchoolTimeTable
-  description: 시간표 - 학교수업일정 만들기
+  summary: 시간표 - 시간표 이름 수정(변경)
+  operationId: updateTimeTableName
+  description: 시간표 - 시간표 이름 수정(변경)
   parameters:
     - in: header
       name: token
@@ -11,29 +11,28 @@ post:
       schema:
         type: string
       description: JWT 토큰
+    - in: path
+      name: idx
+      required: true
+      schema:
+        type: number
+      description: 시간표 idx
+
   requestBody:
     content:
       application/json:
         schema:
           required:
-            - subjectIdx
-            - color
-            - scheduleIdx
+            - name
           properties:
-            subjectIdx:
+            name:
               type: string
-              example: "5"
-            color:
-              type: string
-              example: "9"
-            scheduleIdx:
-              type: string
-              example: "1"
+              example: "이번에는 1등하자!"
           type: object
-    description: Create School Timetable data
+    description: Update Main Timetable Name data
   responses:
     '200':
-      description: 시간표 - 학교일정만들기
+      description: 시간표 - 시간표 이름 수정
       content:
         application/json:
           schema:
@@ -47,11 +46,12 @@ post:
                 example: true
               message:
                 type: string
-                example: 일정 생성 성공
+                example: 일정 수정 성공
               data:
                 type: object
                 example: {
-                  "idx": 16
+                  "idx": "1",
+                  "name": "이번에는 1등하자!"
                 }
     '400':
       description: 'invalid input, object invalid'

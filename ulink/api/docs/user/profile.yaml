@@ -58,7 +58,7 @@ get:
     - User
   summary: 모든 프로필 조회
   operationId: userProfile
-  description: 모든 유저 프로필 조회 (debugging)
+  description: 모든 유저 프로필 조회 (For debugging)
   responses:
     '200':
       description: Get all profile

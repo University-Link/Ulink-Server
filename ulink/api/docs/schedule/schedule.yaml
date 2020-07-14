@@ -30,36 +30,216 @@ get:
                 example: 시간표 조회 성공
               data:
                 type: object
-                example: {
-                  "timeTable": {
-                      "scheduleIdx": 1,
+                example: 
+                  {
+                    "timeTable": {
+                      "scheduleIdx": 2,
                       "semester": "2020-1",
-                      "name": "첫 시간표"
-                  },
-                  "subjects": [
-                      {
-                          "idx": 3,
-                          "name": "봉사",
+                      "name": "보배스 시간표"
+                    },
+                    "subjects": {
+                      "0": [
+                        {
+                          "idx": 1,
+                          "name": "스터디",
                           "startTime": "17:00",
-                          "endTime": "18:30",
-                          "day": "wen",
-                          "content": "서울 양로원",
-                          "color": 12,
-                          "subject": false
-                      },
-                      {
-                          "idx": 4,
-                          "name": "알바",
-                          "startTime": "19:30",
                           "endTime": "20:00",
-                          "day": "thu",
-                          "content": "커피빈",
-                          "color": 13,
+                          "day": 0,
+                          "content": "개인일정",
+                          "color": 1,
                           "subject": false
-                      },
-                      ...
-                  ]
-              }
+                        },
+                        {
+                          "idx": 5,
+                          "name": "전자기학",
+                          "startTime": "09:00",
+                          "endTime": "11:00",
+                          "day": 0,
+                          "place": "공학관402",
+                          "color": 5,
+                          "subject": true
+                        }
+                      ],
+                      "1": [
+                        {
+                          "idx": 2,
+                          "name": "알바",
+                          "startTime": "14:00",
+                          "endTime": "20:00",
+                          "day": 1,
+                          "content": "투썸",
+                          "color": 1,
+                          "subject": false
+                        },
+                        {
+                          "idx": 5,
+                          "name": "전자기학",
+                          "startTime": "09:00",
+                          "endTime": "11:00",
+                          "day": 1,
+                          "place": "공학관313",
+                          "color": 5,
+                          "subject": true
+                        },
+                        {
+                          "idx": 6,
+                          "name": "컴퓨터 네트워크",
+                          "startTime": "11:00",
+                          "endTime": "13:00",
+                          "day": 1,
+                          "place": "창조관709",
+                          "color": 6,
+                          "subject": true
+                        }
+                      ],
+                      "2": [
+                        {
+                          "idx": 3,
+                          "name": "근로",
+                          "startTime": "16:00",
+                          "endTime": "20:00",
+                          "day": 2,
+                          "content": "성신여대",
+                          "color": 3,
+                          "subject": false
+                        },
+                        {
+                          "idx": 26,
+                          "name": "경영학개론",
+                          "startTime": "09:00",
+                          "endTime": "10:30",
+                          "day": 2,
+                          "place": "경영관202",
+                          "color": 1,
+                          "subject": true
+                        }
+                      ],
+                      "3": [
+                        {
+                          "idx": 26,
+                          "name": "알바",
+                          "startTime": "20:00",
+                          "endTime": "22:00",
+                          "day": 3,
+                          "content": "카페알바",
+                          "color": 3,
+                          "subject": false
+                        },
+                        {
+                          "idx": 6,
+                          "name": "컴퓨터 네트워크",
+                          "startTime": "11:00",
+                          "endTime": "13:00",
+                          "day": 3,
+                          "place": "창조관502",
+                          "color": 6,
+                          "subject": true
+                        }
+                      ],
+                      "4": [
+                        {
+                          "idx": 4,
+                          "name": "동아리",
+                          "startTime": "15:00",
+                          "endTime": "21:00",
+                          "day": 4,
+                          "content": "일찍가서세미나준비",
+                          "color": 4,
+                          "subject": false
+                        },
+                        {
+                          "idx": 24,
+                          "name": "몰라임마",
+                          "startTime": "12:00",
+                          "endTime": "13:00",
+                          "day": 4,
+                          "content": "편의점",
+                          "color": 3,
+                          "subject": false
+                        },
+                        {
+                          "idx": 25,
+                          "name": "몰라임마",
+                          "startTime": "12:00",
+                          "endTime": "13:00",
+                          "day": 4,
+                          "content": "편의점",
+                          "color": 3,
+                          "subject": false
+                        },
+                        {
+                          "idx": 26,
+                          "name": "경영학개론",
+                          "startTime": "09:00",
+                          "endTime": "10:30",
+                          "day": 4,
+                          "place": "경영관B102",
+                          "color": 1,
+                          "subject": true
+                        }
+                      ]
+                    }
+                  }
+
+    '400':
+      description: 'invalid input, object invalid'
+      content:
+        application/json:
+          schema:
+            type: object
+            $ref: '../schema/fail.yaml'
+
+post:
+  tags:
+    - Schedule
+  summary: 시간표 - 시간표 만들기
+  operationId: createTimeTable
+  description: 시간표 - 시간표 만들기
+  parameters:
+    - in: header
+      name: token
+      required: true
+      schema:
+        type: string
+      description: JWT 토큰
+  requestBody:
+    content:
+      application/json:
+        schema:
+          required:
+            - semester
+            - name
+          properties:
+            semester:
+              type: string
+              example: "2020-1"
+            name:
+              type: string
+              example: "새로운 시간표"
+          type: object
+    description: Create Timetable data
+  responses:
+    '200':
+      description: 시간표 - 시간표 만들기
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              status:
+                type: integer
+                example: 200
+              success:
+                type: boolean
+                example: true
+              message:
+                type: string
+                example: 일정 생성 성공
+              data:
+                type: object
+                example: {
+                  "idx": 16
+                }
     '400':
       description: 'invalid input, object invalid'
       content:

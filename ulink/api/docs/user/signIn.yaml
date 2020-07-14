@@ -14,10 +14,10 @@ post:
           properties:
             id:
               type: string
-              example: bappe0925
+              example: qhqo
             password:
               type: string
-              example: passwordword
+              example: Hello12345
           type: object
     description: User data to sign in
   responses:
@@ -37,9 +37,10 @@ post:
                 type: string
                 example: 로그인 성공
               data:
-                required:
-                  - accessToken
                 properties:
+                  uid:
+                    type: string
+                    example: 7tafdqkrZmhjsfjdljjfopqTlEC3
                   accessToken:
                     type: string
                     example: eyJhbGkpXVCJ9.eyJ1c2VySWR4Ijoob64yA7Z.WZ6rWQIiwiaWF0IjoxNTkzNjcyMTI5LC

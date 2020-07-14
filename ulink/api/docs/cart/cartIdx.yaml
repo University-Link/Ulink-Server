@@ -21,14 +21,13 @@ post:
     content:
       application/json:
         schema:
-          :
-              required:
-                - semester
-              properties:
-                semester:
-                  type: string
-                  example: "2020-1"
-              type: object
+          required:
+            - semester
+          properties:
+            semester:
+              type: string
+              example: "2020-1"
+          type: object
     description: Create Cart data
   responses:
     '200':

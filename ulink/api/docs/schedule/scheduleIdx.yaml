@@ -16,7 +16,7 @@ get:
       required: true
       schema:
         type: string
-      description: 시간표 idx
+      description: 일정 idx (메인시간표에서의 idx)
     - in: query
       name: isSubject
       required: true
@@ -70,12 +70,13 @@ get:
             type: object
             $ref: '../schema/fail.yaml'
 
+
 put:
   tags:
     - Schedule
-  summary: 시간표 - 메인 시간표 이름 수정(변경)
-  operationId: updateMainTimeTableName
-  description: 시간표 - 메인 시간표 이름 수정(변경)
+  summary: 일정 색상 수정하기
+  operationId: updateTimeTableColor
+  description: 일정 색상 수정
   parameters:
     - in: header
       name: token
@@ -83,27 +84,33 @@ put:
       schema:
         type: string
       description: JWT 토큰
+    - in: query
+      name: isSubject
+      required: true
+      schema:
+        type: boolean
+      description: true
     - in: path
       name: idx
       required: true
       schema:
-        type: string
-      description: 시간표 idx
+        type: number
+      description:  idx
   requestBody:
     content:
       application/json:
         schema:
           required:
-            - name
+            - color
           properties:
             name:
-              type: string
-              example: "이번에는 1등하자!"
+              type: number
+              example: 2
           type: object
     description: Update Main Timetable Name data
   responses:
     '200':
-      description: 시간표 - 메인 시간표 이름 수정(변경)
+      description: 시간표 - 일정 색상 변경
       content:
         application/json:
           schema:
@@ -122,7 +129,6 @@ put:
                 type: object
                 example: {
                   "idx": "1",
-                  "name": "이번에는 1등하자!"
                 }
     '400':
       description: 'invalid input, object invalid'
@@ -131,6 +137,7 @@ put:
           schema:
             type: object
             $ref: '../schema/fail.yaml'
+
 
 delete: 
   tags:
@@ -150,7 +157,7 @@ delete:
       required: true
       schema:
         type: string
-      description: 시간표 idx
+      description: 일정 idx
     - in: query
       name: isSubject
       required: true

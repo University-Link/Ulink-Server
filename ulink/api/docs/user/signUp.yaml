@@ -17,19 +17,19 @@ post:
           properties:
             id:
               type: string
-              example: bappe0925
+              example: userIDIDID
+            password:
+              type: string
+              example: userPassword
             name:
               type: string
               example: 김보배
-            password:
-              type: string
-              example: passwordword
             email:
               type: string
               example: bappe0925@email.com
             school:
               type: string
-              example: 가천대학교
+              example: 한양대학교
           type: object
     description: User data to sign up
   responses:
