@@ -113,3 +113,61 @@ get:
           schema:
             type: object
             $ref: '../schema/fail.yaml'
+
+post:
+  tags:
+    - Cart
+  summary: 장바구니 과목 추가하기
+  operationId: 
+  description: 장바구니 과목 추가하기
+  parameters:
+    - in: header
+      name: token
+      required: true
+      schema:
+        type: string
+      description: JWT 토큰
+  requestBody:
+    content:
+      application/json:
+        schema:
+          required:
+            - semester
+            - subjectIdx
+          properties:
+            semester:
+              type: string
+              example: "2020-1"
+            subjectIdx:
+              int: number
+              example: 5
+          type: object
+    description: Create Cart data
+  responses:
+    '200':
+      description: 장바구니 과목 추가하기
+      content:
+        application/json:
+          schema:
+            properties:
+              status:
+                type: integer
+                example: 200
+              success:
+                type: boolean
+                example: true
+              message:
+                type: string
+                example: 장바구니 추가 성공
+              data:
+                type: object
+                example: {
+                    "subjectIdx": "8"
+                }
+    '400':
+      description: 'invalid input, object invalid'
+      content:
+        application/json:
+          schema:
+            type: object
+            $ref: '../schema/fail.yaml'
