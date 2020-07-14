@@ -121,7 +121,7 @@ const notice = {
         const result = {
             "assignment": c1,
             "exam": c2,
-            "class": c3
+            "lecture": c3
         };
 
         return res.status(statusCode.OK)
