@@ -5,10 +5,12 @@ const authUtil = require('../middlewares/auth');
 const scheduleController = require('../controllers/schedule');
 
 router.get('/', authUtil.checkToken, scheduleController.getMainSchedule);
+router.post('/', authUtil.checkToken, scheduleController.createSchedule);
+router.put('/name/:idx', authUtil.checkToken, scheduleController.updateNameSchedule);
+router.put('/main/:idx', authUtil.checkToken, scheduleController.updateMainSchedule);
+router.delete('/main/:idx', authUtil.checkToken, scheduleController.deleteMainSchedule);
 
 router.get('/list', authUtil.checkToken, scheduleController.getSemesterList);
-
-router.get('/subject', authUtil.checkToken, scheduleController.getSubject);
 
 router.post('/school', authUtil.checkToken, scheduleController.createScheduleSchool);
 router.get('/school/:idx', authUtil.checkToken, scheduleController.getSpecificScheduleSchool);
@@ -21,5 +23,6 @@ router.delete('/personal/:idx', authUtil.checkToken, scheduleController.deleteSc
 
 router.get('/:idx', authUtil.checkToken, scheduleController.getSpecificSchedule);
 router.delete('/:idx', authUtil.checkToken, scheduleController.deleteSpecificSchedule);
+router.put('/:idx', authUtil.checkToken, scheduleController.updateSpecificSchedule);
 
 module.exports = router;

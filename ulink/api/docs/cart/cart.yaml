@@ -1,0 +1,173 @@
+get:
+  tags:
+    - Cart
+  summary: 장바구니(후보) 목록 조회
+  operationId: getCartList
+  description: 장바구니(후보) 목록 조회
+  parameters:
+    - in: header
+      name: token
+      required: true
+      schema:
+        type: string
+      description: JWT 토큰
+    - in: query
+      name: semester
+      required: true
+      schema:
+        type: string
+      description: 해당학기(2020-1)
+  responses:
+    '200':
+      description: 장바구니(후보) 목록 조회
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              status:
+                type: integer
+                example: 200
+              success:
+                type: boolean
+                example: true
+              message:
+                type: string
+                example: 장바구니 조회 성공
+              data:
+                type: object
+                example: [
+                    {
+                        "cartIdx": 1,
+                        "userIdx": 1,
+                        "subjectIdx": 1,
+                        "semester": "2020-1",
+                        "subjectCode": "1001001",
+                        "name": "전자기학",
+                        "nameAtomic": "ㅈㅓㄴㅈㅏㄱㅣㅎㅏㄱ",
+                        "professor": "최아무개",
+                        "school": "서울대학교",
+                        "college": "공과대학",
+                        "major": "전자공학과",
+                        "grade": 2,
+                        "credit": 3,
+                        "people": 30,
+                        "course": "전공필수"
+                    },
+                    {
+                        "cartIdx": 3,
+                        "userIdx": 1,
+                        "subjectIdx": 3,
+                        "semester": "2020-1",
+                        "subjectCode": "1001003",
+                        "name": "컴퓨터 네트워크",
+                        "nameAtomic": "ㅋㅓㅁㅍㅠㅌㅓㄴㅔㅌㅡㅇㅜㅓㅋㅡ",
+                        "professor": "이아무개",
+                        "school": "서울대학교",
+                        "college": "공과대학",
+                        "major": "소프트웨어학과",
+                        "grade": 2,
+                        "credit": 3,
+                        "people": 20,
+                        "course": "전공선택"
+                    },
+                    {
+                        "cartIdx": 5,
+                        "userIdx": 1,
+                        "subjectIdx": 5,
+                        "semester": "2020-1",
+                        "subjectCode": "1001005",
+                        "name": "경제학개론",
+                        "nameAtomic": "ㄱㅕㅇㅈㅔㅎㅏㄱㄱㅐㄹㅗㄴ",
+                        "professor": "김아무개",
+                        "school": "서울대학교",
+                        "college": "공과대학",
+                        "major": "경제학과",
+                        "grade": 1,
+                        "credit": 2,
+                        "people": 20,
+                        "course": "교양선택"
+                    },
+                    {
+                        "cartIdx": 7,
+                        "userIdx": 1,
+                        "subjectIdx": 7,
+                        "semester": "2020-1",
+                        "subjectCode": "2149084",
+                        "name": "저전력 공학",
+                        "nameAtomic": "ㅈㅓㅈㅓㄴㄹㅕㄱㄱㅗㅇㅎㅏㄱ",
+                        "professor": "박아무개",
+                        "school": "서울대학교",
+                        "college": "통신대학",
+                        "major": "통신정보학과",
+                        "grade": 4,
+                        "credit": 2,
+                        "people": 30,
+                        "course": "전공선택"
+                    }
+                ]
+    '400':
+      description: 'invalid input, object invalid'
+      content:
+        application/json:
+          schema:
+            type: object
+            $ref: '../schema/fail.yaml'
+
+post:
+  tags:
+    - Cart
+  summary: 장바구니 과목 추가하기
+  operationId: 
+  description: 장바구니 과목 추가하기
+  parameters:
+    - in: header
+      name: token
+      required: true
+      schema:
+        type: string
+      description: JWT 토큰
+  requestBody:
+    content:
+      application/json:
+        schema:
+          required:
+            - semester
+            - subjectIdx
+          properties:
+            semester:
+              type: string
+              example: "2020-1"
+            subjectIdx:
+              int: number
+              example: 5
+          type: object
+    description: Create Cart data
+  responses:
+    '200':
+      description: 장바구니 과목 추가하기
+      content:
+        application/json:
+          schema:
+            properties:
+              status:
+                type: integer
+                example: 200
+              success:
+                type: boolean
+                example: true
+              message:
+                type: string
+                example: 장바구니 추가 성공
+              data:
+                type: object
+                example: {
+                    "subjectIdx": "8"
+                }
+    '400':
+      description: 'invalid input, object invalid'
+      content:
+        application/json:
+          schema:
+            type: object
+            $ref: '../schema/fail.yaml'

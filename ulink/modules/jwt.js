@@ -10,7 +10,8 @@ module.exports = {
         const payload = {
             userIdx: user.userIdx,
             name: user.name,
-            school: user.school
+            school: user.school,
+            major: user.major
         };
         const result = {
             token: jwt.sign(payload, secretKey, options),

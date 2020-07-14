@@ -6,6 +6,8 @@ module.exports = {
     // 스케쥴
     READ_SCHEDULE_SUCCESS: "시간표 조회 성공",
     READ_SCHEDULE_FAIL: "시간표 조회 실패",
+    READ_COURSE_SUCCESS: "이수구분 목록 조회 성공",
+    READ_COURSE_FAIL: "이수구분 목록 조회 실패",
     READ_MAIN_SCHEDULE_FAIL: "메인 시간표가 없습니다",
     READ_SUBJECT_SUCCESS: "과목 조회 성공",
     READ_SUBJECT_FAIL: "과목 조회 실패",
@@ -21,9 +23,10 @@ module.exports = {
     // 공지
     READ_NOTICE_LIST_SUCCESS: "공지 목록 조회 성공",
     READ_NOTICE_SUCCESS: "공지 조회 성공",
-    UPDATE_NOTICE_SUCCESS: "공지 업데이트 성공",
+    UPDATE_NOTICE_SUCCESS: "공지 수정 성공",
     CREATE_NOTICE_SUCCESS: "공지 생성 성공",
-    
+    DELETE_NOTICE_SUCCESS: "공지 삭제 성공",
+
     // 프로필
     READ_PROFILE_SUCCESS: "프로필 조회 성공",
     PROFILE_SUCCESS: "프로필 이미지 업데이트 성공",
@@ -58,6 +61,14 @@ module.exports = {
     SOCIAL_POST_FAIL: "소셜 추가 실패",
     SOCIAL_DELETE_SUCCESS: "소셜 삭제 성공",
     SOCIAL_DELETE_FAIL: "소셜 삭제 실패",
+
+    //장바구니
+    CART_SUCCESS: "장바구니 조회 성공",
+    CART_FAIL: "장바구니 조회 실패",
+    CART_POST_SUCCESS: "장바구니 추가 성공",
+    CART_POST_FAIL: "장바구니 추가 실패",
+    CART_DELETE_SUCCESS: "장바구니 삭제 성공",
+    CART_DELETE_FAIL: "장바구니 삭제 실패",
 
     DB_ERROR: "DB 오류"
 };

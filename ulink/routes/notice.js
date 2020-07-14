@@ -11,5 +11,6 @@ router.post('/subject/:idx', authUtil.checkToken, noticeController.createNotice)
 
 router.get('/:idx', authUtil.checkToken, noticeController.getSpecificNotice);
 router.put('/:idx', authUtil.checkToken, noticeController.updateSpecificNotice);
+router.delete('/:idx', authUtil.checkToken, noticeController.deleteSpecificNotice);
 
 module.exports = router;

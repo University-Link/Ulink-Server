@@ -1,0 +1,120 @@
+post:
+  tags:
+    - User
+  summary: 프로필 사진 업데이트
+  operationId: updateProfile
+  description: 특정 유저 프로필 업데이트
+  consumes:
+    - multipart/form-data
+  parameters:
+    - in: formData
+      name: profileImage
+      required: true
+      schema:
+        type: file
+      description: 프로필 이미지 사진
+    - in: header
+      name: token
+      required: true
+      schema:
+        type: string
+      description: JWT 토큰
+  responses:
+    '200':
+      description: 프로필 사진 업데이트 완료
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              status:
+                type: integer
+                example: 200
+              success:
+                type: boolean
+                example: true
+              message:
+                type: string
+                example: 프로필 이미지 업데이트 성공
+              data:
+                type: object
+                example: {
+                    "id": "qhqo",
+                    "name": "김보배",
+                    "email": "tree9295@gachon.ac.kr",
+                    "school": "가천대학교",
+                    "profileImage": "https://bbs3.s3.ap-northeast-2.amazonaws.com/1593689580981.png"
+                }
+    '400':
+      description: 'invalid input, object invalid'
+      content:
+        application/json:
+          schema:
+            type: object
+            $ref: '../schema/fail.yaml'
+
+get:
+  tags:
+    - User
+  summary: 모든 프로필 조회
+  operationId: userProfile
+  description: 모든 유저 프로필 조회 (For debugging)
+  responses:
+    '200':
+      description: Get all profile
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              status:
+                type: integer
+                example: 200
+              success:
+                type: boolean
+                example: true
+              message:
+                type: string
+                example: 프로필 조회 성공
+              data:
+                type: object
+                example: {
+                  "userList": [
+                      {
+                          "userIdx": 1,
+                          "id": "qhqo",
+                          "name": "김보배",
+                          "email": "tree9295@gachon.ac.kr",
+                          "nickname": "instant_bronze_harrier",
+                          "school": "가천대학교",
+                          "check": 0,
+                          "profileImage": "https://~.amazonaws.com/294021890.jpg",
+                          "like": 10,
+                          "point": 124,
+                          "level": "신입생",
+                          "major": null
+                      },
+                      {
+                          "userIdx": 2,
+                          "id": "tjddms",
+                          "name": "황지혜",
+                          "email": "ghkdghkgd@email.ac.kr",
+                          "nickname": "beautiful_rqjelk_quelea",
+                          "school": "성신여자대학교",
+                          "check": 0,
+                          "profileImage": "https://~.amazonaws.com/294021890.jpg",
+                          "like": 52,
+                          "point": 521,
+                          "level": "신입생",
+                          "major": null
+                      },
+                      ...
+                  ]
+              }
+    '400':
+      description: 'invalid input, object invalid'
+      content:
+        application/json:
+          schema:
+            type: object
+            $ref: '../schema/fail.yaml'

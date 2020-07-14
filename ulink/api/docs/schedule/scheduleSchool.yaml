@@ -1,0 +1,62 @@
+post:
+  tags:
+    - Schedule
+  summary: 시간표 - 학교수업일정 만들기
+  operationId: createSchoolTimeTable
+  description: 시간표 - 학교수업일정 만들기
+  parameters:
+    - in: header
+      name: token
+      required: true
+      schema:
+        type: string
+      description: JWT 토큰
+  requestBody:
+    content:
+      application/json:
+        schema:
+          required:
+            - subjectIdx
+            - color
+            - scheduleIdx
+          properties:
+            subjectIdx:
+              type: string
+              example: "5"
+            color:
+              type: string
+              example: "9"
+            scheduleIdx:
+              type: string
+              example: "1"
+          type: object
+    description: Create School Timetable data
+  responses:
+    '200':
+      description: 시간표 - 학교일정만들기
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              status:
+                type: integer
+                example: 200
+              success:
+                type: boolean
+                example: true
+              message:
+                type: string
+                example: 일정 생성 성공
+              data:
+                type: object
+                example: {
+                  "idx": 16
+                }
+    '400':
+      description: 'invalid input, object invalid'
+      content:
+        application/json:
+          schema:
+            type: object
+            $ref: '../schema/fail.yaml'

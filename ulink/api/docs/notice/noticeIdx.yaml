@@ -1,0 +1,135 @@
+get:
+  tags:
+    - Notice
+  summary: 공지 상세조회
+  operationId: getSpecificNotice
+  description: 공지 상세조회
+  parameters:
+    - in: header
+      name: token
+      required: true
+      schema:
+        type: string
+      description: JWT 토큰
+    - in: path
+      name: idx
+      required: true
+      schema:
+        type: string
+      description: 공지 idx
+  responses:
+    '200':
+      description: 공지 상세조회
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              status:
+                type: integer
+                example: 200
+              success:
+                type: boolean
+                example: true
+              message:
+                type: string
+                example: 공지 조회 성공
+              data:
+                type: object
+                example: {
+                    "noticeIdx": 1,
+                    "category": "과제",
+                    "date": "2020-07-09T15:00:00.000Z",
+                    "startTime": "-1",
+                    "endTime": "12:00",
+                    "title": "논문 작성",
+                    "content": "전지기학이 뭔지 모름 ;;ㅎㅎ"
+                }
+    '400':
+      description: 'invalid input, object invalid'
+      content:
+        application/json:
+          schema:
+            type: object
+            $ref: '../schema/fail.yaml'
+
+put:
+  tags:
+    - Notice
+  summary: 공지 수정(업데이트)
+  operationId: updateSpecificNotice
+  description: 공지 수정(업데이트)
+  parameters:
+    - in: header
+      name: token
+      required: true
+      schema:
+        type: string
+      description: JWT 토큰
+    - in: path
+      name: idx
+      required: true
+      schema:
+        type: string
+      description: 공지 idx
+  requestBody:
+    content:
+      application/json:
+        schema:
+          required:
+            - category
+            - date
+            - startTime
+            - endTime
+            - title
+            - content
+          properties:
+            category:
+              type: string
+              example: "과제"
+            date:
+              type: string
+              example: "2020-07-10"
+            startTime:
+              type: string
+              example: "-1"
+            endTime:
+              type: string
+              example: "12:00"
+            title:
+              type: string
+              example: "논문 작성"
+            content:
+              type: string
+              example: "전자기학이 뭔지 모름;;ㅎㅎ"
+          type: object
+    description: Update Specific Notice data
+  responses:
+    '200':
+      description: 공지 수정(업데이트)
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              status:
+                type: integer
+                example: 200
+              success:
+                type: boolean
+                example: true
+              message:
+                type: string
+                example: 공지 수정 성공
+              data:
+                type: object
+                example: {
+                    "idx": "7"
+                }
+    '400':
+      description: 'invalid input, object invalid'
+      content:
+        application/json:
+          schema:
+            type: object
+            $ref: '../schema/fail.yaml'

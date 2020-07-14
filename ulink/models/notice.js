@@ -57,7 +57,7 @@ const notice = {
     * @return 공지 인덱스, 카테고리, 제목, 시작시간, 종료시간
     */
     getNotice: async (subjectIdx) => {
-        const query = `SELECT noticeIdx, category, title, startTime, endTime
+        const query = `SELECT noticeIdx, category, title, startTime, endTime, date
         FROM notice WHERE subjectIdx = ${subjectIdx}`;
         try {
             const result = await pool.queryParam(query);
@@ -116,8 +116,27 @@ const notice = {
             console.log('updateSpecificNotice ERROR: ', err);
             throw err;
         }
-    }
-
+    },
+    /** 
+    * 공지 삭제하기
+    * @type DELETE
+    * @param 공지 인덱스
+    * @return 정보 삭제 정보
+    */
+    deleteSpecificNotice: async (noticeIdx) => {
+        const query = `DELETE FROM notice WHERE noticeIdx = ${noticeIdx}`;
+        try {
+            const result = await pool.queryParamArr(query);
+            return result;
+        } catch (err) {
+            if (err.errno == 1062) {
+                console.log('deleteSpecificNotice ERROR : ', err.errno, err.code);
+                return -1;
+            }
+            console.log('deleteSpecificNotice ERROR: ', err);
+            throw err;
+        }
+    },
 }
 
 module.exports = notice;

@@ -1,0 +1,59 @@
+get:
+  tags:
+    - Chatting
+  summary: 채팅방 리스트 조회
+  operationId: chattingList
+  description: 채팅방 리스트 조회
+  parameters:
+    - in: header
+      name: token
+      required: true
+      schema:
+        type: string
+      description: JWT 토큰
+  responses:
+    '200':
+      description: 채팅방 리스트 조회
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              status:
+                type: integer
+                example: 200
+              success:
+                type: boolean
+                example: true
+              message:
+                type: string
+                example: 채팅 목록 조회 성공
+              data:
+                type: object
+                example: {
+                    "semester": "2020-1",
+                    "chat": [
+                        {
+                            "scheduleSchoolIdx": 1,
+                            "name": "전자기학",
+                            "color": 1,
+                            "total": 30,
+                            "current": 2
+                        },
+                        {
+                            "scheduleSchoolIdx": 2,
+                            "name": "자료구조",
+                            "color": 2,
+                            "total": 40,
+                            "current": 2
+                        },
+                        ...
+                    ]
+                }
+    '400':
+      description: 'invalid input, object invalid'
+      content:
+        application/json:
+          schema:
+            type: object
+            $ref: '../schema/fail.yaml'
