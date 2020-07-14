@@ -31,25 +31,25 @@ const notice = {
         const notices = await noticeModel.getNoticeList(mainScheduleList[0].scheduleIdx, start, end);
 
         const result = [];
-        let notice_list = [];
-        let date_before = notices[0].date;
+        let noticeList = [];
+        let dateBefore = notices[0].date;
 
         for (let notice of notices) {
             const date = notice.date;
-            if (date_before !== date) {
+            if (dateBefore !== date) {
                 result.push({
-                    'date': date_before,
-                    'notice': notice_list
+                    'date': dateBefore,
+                    'notice': noticeList
                 });
-                notice_list = []
+                noticeList = []
             }
             delete notice.date;
-            notice_list.push(notice);
-            date_before = date;
+            noticeList.push(notice);
+            dateBefore = date;
         }
         result.push({
-            'date': date_before,
-            'notice': notice_list
+            'date': dateBefore,
+            'notice': noticeList
         });
 
         return res.status(statusCode.OK)
