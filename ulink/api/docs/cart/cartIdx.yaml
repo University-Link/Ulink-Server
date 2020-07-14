@@ -1,0 +1,122 @@
+post:
+  tags:
+    - Cart
+  summary: 장바구니 과목 추가하기
+  operationId: 
+  description: 장바구니 과목 추가하기
+  parameters:
+    - in: header
+      name: token
+      required: true
+      schema:
+        type: string
+      description: JWT 토큰
+    - in: path
+      name: idx
+      required: true
+      schema:
+        type: string
+      description: 과목 idx
+  requestBody:
+    content:
+      application/json:
+        schema:
+          :
+              required:
+                - semester
+              properties:
+                semester:
+                  type: string
+                  example: "2020-1"
+              type: object
+    description: Create Cart data
+  responses:
+    '200':
+      description: 장바구니 과목 추가하기
+      content:
+        application/json:
+          schema:
+            properties:
+              status:
+                type: integer
+                example: 200
+              success:
+                type: boolean
+                example: true
+              message:
+                type: string
+                example: 장바구니 추가 성공
+              data:
+                type: object
+                example: {
+                    "subjectIdx": "8"
+                }
+    '400':
+      description: 'invalid input, object invalid'
+      content:
+        application/json:
+          schema:
+            type: object
+            $ref: '../schema/fail.yaml'
+
+delete: 
+  tags:
+    - Cart
+  summary: 장바구니 과목 삭제하기
+  operationId: deleteCart
+  description: 장바구니 과목 삭제하기
+  parameters:
+    - in: header
+      name: token
+      required: true
+      schema:
+        type: string
+      description: JWT 토큰
+    - in: path
+      name: idx
+      required: true
+      schema:
+        type: string
+      description: 과목 idx
+  requestBody:
+    content:
+      application/json:
+        schema:
+          deleteCart:
+              required:
+                - semester
+              properties:
+                semester:
+                  type: string
+                  example: "2020-1"
+              type: object        
+    description: Delete Cart data
+  responses:
+    '200':
+      description: 장바구니 과목 삭제하기
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              status:
+                type: integer
+                example: 200
+              success:
+                type: boolean
+                example: true
+              message:
+                type: string
+                example: 장바구니 삭제 성공
+              data:
+                type: object
+                example: {
+                    "subjectIdx": "8"
+                }
+    '400':
+      description: 'invalid input, object invalid'
+      content:
+        application/json:
+          schema:
+            type: object
+            $ref: '../schema/fail.yaml'

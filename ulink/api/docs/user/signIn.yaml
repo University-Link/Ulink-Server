@@ -1,0 +1,52 @@
+post:
+  tags:
+    - User
+  summary: 유저 로그인
+  operationId: userSignIn
+  description: 유저 로그인
+  requestBody:
+    content:
+      application/json:
+        schema:
+          required:
+            - id
+            - password
+          properties:
+            id:
+              type: string
+              example: bappe0925
+            password:
+              type: string
+              example: passwordword
+          type: object
+    description: User data to sign in
+  responses:
+    '200':
+      description: User login
+      content:
+        application/json:
+          schema:
+            properties:
+              status:
+                type: integer
+                example: 200
+              success:
+                type: boolean
+                example: true
+              message:
+                type: string
+                example: 로그인 성공
+              data:
+                required:
+                  - accessToken
+                properties:
+                  accessToken:
+                    type: string
+                    example: eyJhbGkpXVCJ9.eyJ1c2VySWR4Ijoob64yA7Z.WZ6rWQIiwiaWF0IjoxNTkzNjcyMTI5LC
+    '400':
+      description: 'invalid input, object invalid'
+      content:
+        application/json:
+          schema:
+            type: object
+            $ref: '../schema/fail.yaml'

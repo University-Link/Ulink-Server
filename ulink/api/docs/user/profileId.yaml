@@ -1,0 +1,51 @@
+get:
+  tags:
+    - User
+  summary: 특정 ID 유저 프로필 조회
+  operationId: userSpecificProfile
+  description: 특정 유저 프로필 조회
+  parameters:
+    - in: path
+      name: id
+      required: true
+      schema:
+        type: string
+      description: 유저 ID
+  responses:
+    '200':
+      description: 아아디를 통해 특정 프로필 조회
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              status:
+                type: integer
+                example: 200
+              success:
+                type: boolean
+                example: true
+              message:
+                type: string
+                example: 프로필 조회 성공
+              data:
+                type: object
+                example: {
+                    "userId": "qhqo",
+                    "name": "김보배",
+                    "email": "tree9295@gachon.ac.kr",
+                    "nickname": "instant_bronze_harrier",
+                    "school": "가천대학교",
+                    "check": 0,
+                    "profileImage": "https://~.amazonaws.com/294021890.jpg",
+                    "like": 0,
+                    "point": 0,
+                    "level": "신입생"
+                }
+    '400':
+      description: 'invalid input, object invalid'
+      content:
+        application/json:
+          schema:
+            type: object
+            $ref: '../schema/fail.yaml'

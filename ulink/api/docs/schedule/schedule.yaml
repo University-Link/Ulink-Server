@@ -1,0 +1,69 @@
+get:
+  tags:
+    - Schedule
+  summary: 시간표 - 메인 시간표 조회
+  operationId: getMainTimeTable
+  description: 시간표 - 메인 시간표 조회
+  parameters:
+    - in: header
+      name: token
+      required: true
+      schema:
+        type: string
+      description: JWT 토큰
+  responses:
+    '200':
+      description: 시간표 - 메인 시간표 조회
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              status:
+                type: integer
+                example: 200
+              success:
+                type: boolean
+                example: true
+              message:
+                type: string
+                example: 시간표 조회 성공
+              data:
+                type: object
+                example: {
+                  "timeTable": {
+                      "scheduleIdx": 1,
+                      "semester": "2020-1",
+                      "name": "첫 시간표"
+                  },
+                  "subjects": [
+                      {
+                          "idx": 3,
+                          "name": "봉사",
+                          "startTime": "17:00",
+                          "endTime": "18:30",
+                          "day": "wen",
+                          "content": "서울 양로원",
+                          "color": 12,
+                          "subject": false
+                      },
+                      {
+                          "idx": 4,
+                          "name": "알바",
+                          "startTime": "19:30",
+                          "endTime": "20:00",
+                          "day": "thu",
+                          "content": "커피빈",
+                          "color": 13,
+                          "subject": false
+                      },
+                      ...
+                  ]
+              }
+    '400':
+      description: 'invalid input, object invalid'
+      content:
+        application/json:
+          schema:
+            type: object
+            $ref: '../schema/fail.yaml'
