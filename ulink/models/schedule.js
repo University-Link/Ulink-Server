@@ -393,7 +393,7 @@ const schedule = {
         }
     },
     /** 
-     * 메인 시간표 이름 수정하기
+     * 시간표 이름 수정하기
      * @type UPDATE
      * @param 시간표 인덱스, 이름
      * @return 수정 여부 (Boolean)

@@ -426,10 +426,10 @@ const schedule = {
             }));
     },
     /** 
-     * 메인 시간표 이름 수정하기
-     * @summary 메인 시간표 이름 수정하기
+     * 시간표 이름 수정하기
+     * @summary 시간표 이름 수정
      * @param 토큰, 시간표 인덱스, 업데이트 시간표 이름
-     * @return 수정한 시간표 인덱스 , 수정한 시간표 이름
+     * @return 수정한 시간표 인덱스, 수정한 시간표 이름
      */
     updateNameSchedule: async (req, res) => {
         const userIdx = req.decoded.userIdx;
