@@ -37,59 +37,38 @@ get:
               data:
                 type: object
                 example: {
-                    "과제": [
+                    "assignment": [
                         {
                             "noticeIdx": 1,
                             "title": "논문 작성",
                             "startTime": "-1",
                             "endTime": "12:00",
-                            "date": "2020-07-09T15:00:00.000Z"
+                            "date": "2020-07-09"
                         },
                         {
                             "noticeIdx": 2,
                             "title": "레포트 제출",
                             "startTime": "-1",
                             "endTime": "15:00",
-                            "date": "2020-07-13T15:00:00.000Z"
+                            "date": "2020-07-13"
                         }
                     ],
-                    "시험": [
+                    "exam": [
                         {
                             "noticeIdx": 8,
                             "title": "중간 퀴즈",
                             "startTime": "09:00",
                             "endTime": "10:30",
-                            "date": "2020-07-16T15:00:00.000Z"
+                            "date": "2020-07-16"
                         }
                     ],
-                    "수업": [
+                    "class": [
                         {
                             "noticeIdx": 5,
                             "title": "수업 휴강",
                             "startTime": "-1",
                             "endTime": "-1",
-                            "date": "2020-08-01T15:00:00.000Z"
-                        },
-                        {
-                            "noticeIdx": 9,
-                            "title": "폐강",
-                            "startTime": "-1",
-                            "endTime": "-1",
-                            "date": "2020-12-16T15:00:00.000Z"
-                        },
-                        {
-                            "noticeIdx": 10,
-                            "title": "폐강",
-                            "startTime": "-1",
-                            "endTime": "-1",
-                            "date": "2020-12-16T15:00:00.000Z"
-                        },
-                        {
-                            "noticeIdx": 11,
-                            "title": "폐강",
-                            "startTime": "-1",
-                            "endTime": "-1",
-                            "date": "2020-12-16T15:00:00.000Z"
+                            "date": "2020-08-01"
                         }
                     ]
                 }

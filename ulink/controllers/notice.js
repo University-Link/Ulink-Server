@@ -119,9 +119,9 @@ const notice = {
             delete notice.category;
         }
         const result = {
-            '과제': c1,
-            "시험": c2,
-            "수업": c3
+            "assignment": c1,
+            "exam": c2,
+            "class": c3
         };
 
         return res.status(statusCode.OK)
