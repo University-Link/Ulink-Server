@@ -42,7 +42,7 @@ const cart = {
         const query = `INSERT INTO ${table}(${fields}) VALUES (${questions})`;
         try {
             const result = await pool.queryParamArr(query, values);
-            return result;
+            return result ;
         } catch (err) {
             if (err.errno == 1062) {
                 console.log('createCart ERROR : ', err.errno, err.code);
@@ -59,7 +59,9 @@ const cart = {
     * @return 장바구니 존재여부 (Boolean)
     */
     checkCart: async (userIdx, subjectIdx, semester) => {
-        const query = `SELECT * FROM ${table} WHERE subjectIdx = ${subjectIdx} AND userIdx = ${userIdx} AND semester="${semester}"`;
+        const query = `SELECT * FROM ${table} WHERE subjectIdx = ${subjectIdx} 
+        AND userIdx = ${userIdx} AND semester="${semester}"`;
+        
         try {
             const result = await pool.queryParam(query);
             if (result.length === 0) {
@@ -83,10 +85,12 @@ const cart = {
     * @return 삭제한 장바구니 과목 인덱스
     */
     deleteCart: async (userIdx, subjectIdx, semester) => {
-        const query = `DELETE FROM ${table} WHERE subjectIdx = ${subjectIdx} AND userIdx = ${userIdx} AND semester="${semester}"`;
+        const query = `DELETE FROM ${table} WHERE subjectIdx = ${subjectIdx} 
+        AND userIdx = ${userIdx} AND semester="${semester}"`;
         try {
             const result = await pool.queryParamArr(query);
-            return result;
+            if (result.affectedRows > 0) return 1;
+            else return 0;
         } catch (err) {
             if (err.errno == 1062) {
                 console.log('deleteCart ERROR : ', err.errno, err.code);

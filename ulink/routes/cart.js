@@ -5,7 +5,7 @@ const authUtil = require('../middlewares/auth');
 const cartController = require('../controllers/cart');
 
 router.get('/', authUtil.checkToken, cartController.getCartList);
-router.post('/:idx', authUtil.checkToken, cartController.createCart);
+router.post('/', authUtil.checkToken, cartController.createCart);
 router.delete('/:idx', authUtil.checkToken, cartController.deleteCart);
 
 
