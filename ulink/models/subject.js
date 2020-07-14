@@ -23,13 +23,13 @@ const connectTimePlace = (subjects) => {
                 'startTime': [],
                 'endTime': [],
                 'day': [],
-                'place': []
+                'content': []
             };
         }
         timePlace.startTime.push(subject.startTime);
         timePlace.endTime.push(subject.endTime);
         timePlace.day.push(subject.day);
-        timePlace.place.push(subject.place);
+        timePlace.content.push(subject.content);
     }
 
     return res;
@@ -68,7 +68,7 @@ const subject = {
     getSubject: async (school) => {
         const query1 = `SELECT subjectIdx, subjectCode, name, professor, credit, course
         FROM subject WHERE school = "${school}"`;
-        const query2 = `SELECT q1.*, q2.startTime, q2.endTime, q2.day, q2.place
+        const query2 = `SELECT q1.*, q2.startTime, q2.endTime, q2.day, q2.content
         FROM (${query1}) q1 INNER JOIN subject_timeplace q2
         ON q1.subjectIdx = q2.subjectIdx ORDER BY q1.name, q2.startTime`;
         try {
@@ -111,7 +111,7 @@ const subject = {
 
         }
         
-        let query2 = `SELECT q1.*, q2.startTime, q2.endTime, q2.day, q2.place
+        let query2 = `SELECT q1.*, q2.startTime, q2.endTime, q2.day, q2.content
         FROM (${query1}) q1 INNER JOIN subject_timeplace q2
         ON q1.subjectIdx = q2.subjectIdx ORDER BY q1.name, q2.startTime`;
         try {
@@ -165,7 +165,7 @@ const subject = {
     getCourseSubject: async (school, course) => {
         const query1 = `SELECT subjectIdx, subjectCode, name, professor, credit, course
         FROM subject WHERE school = "${school}" and course = "${course}"`;
-        const query2 = `SELECT q1.*, q2.startTime, q2.endTime, q2.day, q2.place
+        const query2 = `SELECT q1.*, q2.startTime, q2.endTime, q2.day, q2.content
         FROM (${query1}) q1 INNER JOIN subject_timeplace q2
         ON q1.subjectIdx = q2.subjectIdx ORDER BY q1.name, q2.startTime`;
         try {
@@ -189,7 +189,7 @@ const subject = {
     getGradeSubject: async (school, grade) => {
         const query1 = `SELECT subjectIdx, subjectCode, name, professor, credit, course
         FROM subject WHERE school = "${school}" and grade = "${grade}"`;
-        const query2 = `SELECT q1.*, q2.startTime, q2.endTime, q2.day, q2.place
+        const query2 = `SELECT q1.*, q2.startTime, q2.endTime, q2.day, q2.content
         FROM (${query1}) q1 INNER JOIN subject_timeplace q2
         ON q1.subjectIdx = q2.subjectIdx ORDER BY q1.name, q2.startTime`;
         try {
@@ -213,7 +213,7 @@ const subject = {
     getSearchSubject: async (school, name) => {
         const query1 = `SELECT subjectIdx, name, professor, credit, course FROM subject 
         WHERE school = "${school}" AND name LIKE "%${name}%"`;
-        const query2 = `SELECT q1.*, q2.startTime, q2.endTime, q2.day, q2.place
+        const query2 = `SELECT q1.*, q2.startTime, q2.endTime, q2.day, q2.content
         FROM (${query1}) q1 INNER JOIN subject_timeplace q2
         ON q1.subjectIdx = q2.subjectIdx ORDER BY q1.name, q2.startTime`;
         try {

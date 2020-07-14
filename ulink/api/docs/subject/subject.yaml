@@ -1,0 +1,89 @@
+get:
+  tags:
+    - Subject
+  summary: 수업(과목) 목록 조회
+  operationId: getSubject
+  description: 수업(과목) 목록 조회
+  parameters:
+    - in: header
+      name: token
+      required: true
+      schema:
+        type: string
+      description: JWT 토큰
+  responses:
+    '200':
+      description: 수업(과목) 목록 조회
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              status:
+                type: integer
+                example: 200
+              success:
+                type: boolean
+                example: true
+              message:
+                type: string
+                example: 과목 조회 성공
+              data:
+                type: object
+                example: [
+                    {
+                        "name": "SOPT",
+                        "list": [
+                            {
+                                "subjectIdx": 6,
+                                "subjectCode": "1001006",
+                                "name": "SOPT",
+                                "professor": "김아무개",
+                                "credit": 3,
+                                "course": "전공필수",
+                                "content": [
+                                    "sopt관101"
+                                ],
+                                "day": [
+                                    "wen"
+                                ],
+                                "dateTime": [
+                                    "12:00-18:00"
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        "name": "경영학개론",
+                        "list": [
+                            {
+                                "subjectIdx": 4,
+                                "subjectCode": "1001004",
+                                "name": "경영학개론",
+                                "professor": "홍아무개",
+                                "credit": 2,
+                                "course": "교양필수",
+                                "content": [
+                                    "경영관202",
+                                    "경영관B102"
+                                ],
+                                "day": [
+                                    "wen",
+                                    "fri"
+                                ],
+                                "dateTime": [
+                                    "09:00-10:30",
+                                    "09:00-10:30"
+                                ]
+                            },
+                        ]
+                    },
+                    ...
+                ]
+    '400':
+      description: 'invalid input, object invalid'
+      content:
+        application/json:
+          schema:
+            type: object
+            $ref: '../schema/fail.yaml'

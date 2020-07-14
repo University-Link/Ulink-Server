@@ -1,0 +1,46 @@
+get:
+  tags:
+    - Subject
+  summary: 수업(과목)검색 자동완성 - 키워드
+  operationId: getRecommendSubject
+  description: 수업(과목)검색 자동완성 - 키워드
+  parameters:
+    - in: header
+      name: token
+      required: true
+      schema:
+        type: string
+      description: JWT 토큰
+    - in: query
+      name: name
+      required: true
+      schema:
+        type: string
+      description: 검색어(ㅋ, ㅈ, ㄱ, 등)
+  responses:
+    '200':
+      description: 수업(과목)검색 자동완성 - 키워드
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              status:
+                type: integer
+                example: 200
+              success:
+                type: boolean
+                example: true
+              message:
+                type: string
+                example: 과목 조회 성공
+              data:
+                type: object
+                example: ...
+    '400':
+      description: 'invalid input, object invalid'
+      content:
+        application/json:
+          schema:
+            type: object
+            $ref: '../schema/fail.yaml'

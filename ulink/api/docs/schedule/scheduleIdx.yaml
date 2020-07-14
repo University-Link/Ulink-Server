@@ -1,0 +1,195 @@
+get:
+  tags:
+    - Schedule
+  summary: 시간표 - 일정 상세정보(통합) 조회
+  operationId: getSpecificSchedule
+  description: 시간표 - 일정 상세정보(통합) 조회
+  parameters:
+    - in: header
+      name: token
+      required: true
+      schema:
+        type: string
+      description: JWT 토큰
+    - in: path
+      name: idx
+      required: true
+      schema:
+        type: string
+      description: 일정 idx (메인시간표에서의 idx)
+    - in: query
+      name: isSubject
+      required: true
+      schema:
+        type: boolean
+      description: 학교일정(true)/개인일정(false)
+  responses:
+    '200':
+      description: 시간표 - 일정 상세정보 조회
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              status:
+                type: integer
+                example: 200
+              success:
+                type: boolean
+                example: true
+              message:
+                type: string
+                example: 시간표 조회 성공
+              data:
+                type: object
+                example: {
+                    "color": 6,
+                    "subjectIdx": 3,
+                    "subjectCode": "1001003",
+                    "name": "컴퓨터 네트워크",
+                    "nameAtomic": "ㅋㅓㅁㅍㅠㅌㅓㄴㅔㅌㅡㅇㅜㅓㅋㅡ",
+                    "professor": "이아무개",
+                    "school": "서울대학교",
+                    "college": "공과대학",
+                    "major": "소프트웨어학과",
+                    "semester": "2020-1",
+                    "grade": 2,
+                    "credit": 3,
+                    "people": 20,
+                    "course": "전공선택",
+                    "startTime": "11:00",
+                    "endTime": "13:00",
+                    "day": "tue",
+                    "content": "창조관709"
+                }
+    '400':
+      description: 'invalid input, object invalid'
+      content:
+        application/json:
+          schema:
+            type: object
+            $ref: '../schema/fail.yaml'
+
+
+put:
+  tags:
+    - Schedule
+  summary: 일정 색상 수정하기
+  operationId: updateTimeTableColor
+  description: 일정 색상 수정
+  parameters:
+    - in: header
+      name: token
+      required: true
+      schema:
+        type: string
+      description: JWT 토큰
+    - in: query
+      name: isSubject
+      required: true
+      schema:
+        type: boolean
+      description: true
+    - in: path
+      name: idx
+      required: true
+      schema:
+        type: number
+      description:  idx
+  requestBody:
+    content:
+      application/json:
+        schema:
+          required:
+            - color
+          properties:
+            name:
+              type: number
+              example: 2
+          type: object
+    description: Update Main Timetable Name data
+  responses:
+    '200':
+      description: 시간표 - 일정 색상 변경
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              status:
+                type: integer
+                example: 200
+              success:
+                type: boolean
+                example: true
+              message:
+                type: string
+                example: 일정 수정 성공
+              data:
+                type: object
+                example: {
+                  "idx": "1",
+                }
+    '400':
+      description: 'invalid input, object invalid'
+      content:
+        application/json:
+          schema:
+            type: object
+            $ref: '../schema/fail.yaml'
+
+
+delete: 
+  tags:
+    - Schedule
+  summary: 시간표 - 일정 삭제 (통합)
+  operationId: deleteSpecificSchedule
+  description: 시간표 - 일정 삭제 (통합)
+  parameters:
+    - in: header
+      name: token
+      required: true
+      schema:
+        type: string
+      description: JWT 토큰
+    - in: path
+      name: idx
+      required: true
+      schema:
+        type: string
+      description: 일정 idx
+    - in: query
+      name: isSubject
+      required: true
+      schema:
+        type: boolean
+      description: 학교일정(true)/개인일정(false)
+  responses:
+    '200':
+      description: 시간표 - 일정 삭제 (통합)
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              status:
+                type: integer
+                example: 200
+              success:
+                type: boolean
+                example: true
+              message:
+                type: string
+                example: 일정 삭제 성공
+              data:
+                type: object
+                example: {
+                    "idx": "15"
+                }
+    '400':
+      description: 'invalid input, object invalid'
+      content:
+        application/json:
+          schema:
+            type: object
+            $ref: '../schema/fail.yaml'

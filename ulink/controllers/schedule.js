@@ -426,10 +426,10 @@ const schedule = {
             }));
     },
     /** 
-     * 메인 시간표 이름 수정하기
-     * @summary 메인 시간표 이름 수정하기
+     * 시간표 이름 수정하기
+     * @summary 시간표 이름 수정
      * @param 토큰, 시간표 인덱스, 업데이트 시간표 이름
-     * @return 수정한 시간표 인덱스 , 수정한 시간표 이름
+     * @return 수정한 시간표 인덱스, 수정한 시간표 이름
      */
     updateNameSchedule: async (req, res) => {
         const userIdx = req.decoded.userIdx;
@@ -485,8 +485,8 @@ const schedule = {
             }));
     },
     /** 
-     * 메인 시간표 삭제하기
-     * @summary 메인 시간표 삭제하기
+     * 시간표 삭제하기
+     * @summary 시간표 삭제하기
      * @param 토큰, 시간표 인덱스
      * @return 삭제한 시간표 인덱스
      */
@@ -522,8 +522,8 @@ const schedule = {
             }));
     },
     /** 
-     * 시간표 색상 수정하기 (통합)
-     * @summary 시간표 색상 수정하기
+     * 일정 색상 수정하기 (통합)
+     * @summary 일정 색상 수정하기
      * @param 일정 인덱스, 학교일정(T)/개인일정(F) (Boolean), 색상 인덱스
      * @return 변경한 일정 인덱스
      */

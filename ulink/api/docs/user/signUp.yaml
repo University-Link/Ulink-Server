@@ -1,0 +1,68 @@
+post:
+  tags:
+    - User
+  summary: 유저 회원가입
+  operationId: userSignUp
+  description: 유저 회원가입
+  requestBody:
+    content:
+      application/json:
+        schema:
+          required:
+            - id
+            - name
+            - password
+            - email
+            - school
+          properties:
+            id:
+              type: string
+              example: userIDIDID
+            password:
+              type: string
+              example: userPassword
+            name:
+              type: string
+              example: 김보배
+            email:
+              type: string
+              example: bappe0925@email.com
+            school:
+              type: string
+              example: 한양대학교
+          type: object
+    description: User data to sign up
+  responses:
+    '201':
+      description: User Sign up
+      content:
+        application/json:
+          schema:
+            properties:
+              status:
+                type: integer
+                example: 200
+              success:
+                type: boolean
+                example: true
+              message:
+                type: string
+                example: 회원 가입 성공
+              data:
+                required:
+                  - userId
+                  - userIdx
+                properties:
+                  userId:
+                    type: string
+                    example: bappe0925
+                  userIdx:
+                    type: int
+                    example: 12
+    '400':
+      description: 'invalid input, object invalid'
+      content:
+        application/json:
+          schema:
+            type: object
+            $ref: '../schema/fail.yaml'
