@@ -128,3 +128,47 @@ put:
           schema:
             type: object
             $ref: '../schema/fail.yaml'
+
+delete:
+  tags:
+    - Notice
+  summary: 공지 삭제
+  operationId: deleteSpecificNotice
+  description: 공지 삭제
+  parameters:
+    - in: header
+      name: token
+      required: true
+      schema:
+        type: string
+      description: JWT 토큰
+    - in: path
+      name: idx
+      required: true
+      schema:
+        type: string
+      description: 공지 idx
+  responses:
+    '204':
+      description: 공지 삭제
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              status:
+                type: integer
+                example: 204
+              success:
+                type: boolean
+                example: true
+              message:
+                type: string
+                example: 공지 삭제 성공
+    '400':
+      description: 'invalid input, object invalid'
+      content:
+        application/json:
+          schema:
+            type: object
+            $ref: '../schema/fail.yaml'
