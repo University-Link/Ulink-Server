@@ -61,7 +61,7 @@ const schedule = {
 
         return res.status(statusCode.OK)
             .send(util.success(statusCode.OK, resMessage.READ_SCHEDULE_SUCCESS, {
-                timeTable: scheduleInfo,
+                timeTable: scheduleInfo[0],
                 minTime: getMinTime,
                 maxTime: getMaxTime,
                 subjects: result
