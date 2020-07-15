@@ -5,12 +5,12 @@ const schedule = {
     /** 
      * 유저 시간표 가져오기
      * @type SELECT
-     * @param 유저 인덱스
+     * @param 스케줄 인덱스
      * @return 시간표 정보(인덱스, 학기, 이름)
      */
-    getSchedule: async (userIdx) => {
+    getSchedule: async (scheduleIdx) => {
         const query = `SELECT scheduleIdx, semester, name FROM ${table} 
-        WHERE userIdx = ${userIdx}`;
+        WHERE scheduleIdx = ${scheduleIdx}`;
         try {
             const result = await pool.queryParam(query);
             return result;
@@ -319,26 +319,6 @@ const schedule = {
         }
     },
     /** 
-     * 모든 수업 데이터 조회
-     * @type SELECT
-     * @param 학교명
-     * @return 학교에 해당하는 모든 수업 목록
-     */
-    getSubject: async (school) => {
-        const query = `SELECT * FROM subject WHERE school = "${school}"`;
-        try {
-            const result = await pool.queryParam(query);
-            return result;
-        } catch (err) {
-            if (err.errno == 1062) {
-                console.log('getSubject ERROR : ', err.errno, err.code);
-                return -1;
-            }
-            console.log('getSubject ERROR: ', err);
-            throw err;
-        }
-    },
-    /** 
      * 모든 학기 수업 시간표 목록 가져오기
      * @type SELECT
      * @param 유저 인덱스
@@ -616,9 +596,7 @@ const schedule = {
         FROM (${query2}) q2 INNER JOIN subject_timeplace tp ON q2.subjectIdx = tp.subjectIdx`;
         try {
             const result1 = await pool.queryParam(query1);
-            console.log("result1: ", result1[0].minTime);
             const result2 = await pool.queryParam(query3);
-            console.log("result2: ", result2[0].minTime);
             if (result1[0].minTime > result2[0].minTime) {
                 return result2[0].minTime;
             } else return result1[0].minTime;
@@ -644,9 +622,7 @@ const schedule = {
         FROM (${query2}) q2 INNER JOIN subject_timeplace tp ON q2.subjectIdx = tp.subjectIdx`;
         try {
             const result1 = await pool.queryParam(query1);
-            console.log("result1: ", result1[0].maxTime);
             const result2 = await pool.queryParam(query3);
-            console.log("result2: ", result2[0].maxTime);
             if (result1[0].maxTime > result2[0].maxTime) {
                 return result1[0].maxTime;
             } else return result2[0].maxTime;

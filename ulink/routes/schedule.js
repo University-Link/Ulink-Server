@@ -4,11 +4,11 @@ var router = express.Router();
 const authUtil = require('../middlewares/auth');
 const scheduleController = require('../controllers/schedule');
 
-router.get('/', authUtil.checkToken, scheduleController.getMainSchedule);
 router.post('/', authUtil.checkToken, scheduleController.createSchedule);
-router.put('/name/:idx', authUtil.checkToken, scheduleController.updateNameSchedule);
+router.get('/main', authUtil.checkToken, scheduleController.getMainSchedule);
 router.put('/main/:idx', authUtil.checkToken, scheduleController.updateMainSchedule);
 router.delete('/main/:idx', authUtil.checkToken, scheduleController.deleteMainSchedule);
+router.put('/name/:idx', authUtil.checkToken, scheduleController.updateNameSchedule);
 
 router.get('/list', authUtil.checkToken, scheduleController.getSemesterList);
 
@@ -21,8 +21,10 @@ router.get('/personal/:idx', authUtil.checkToken, scheduleController.getSpecific
 router.put('/personal/:idx', authUtil.checkToken, scheduleController.updateSchedulePersonal);
 router.delete('/personal/:idx', authUtil.checkToken, scheduleController.deleteSchedulePersonal);
 
-router.get('/:idx', authUtil.checkToken, scheduleController.getSpecificSchedule);
-router.delete('/:idx', authUtil.checkToken, scheduleController.deleteSpecificSchedule);
-router.put('/:idx', authUtil.checkToken, scheduleController.updateSpecificSchedule);
+router.get('/specific/:idx', authUtil.checkToken, scheduleController.getSpecificSchedule);
+router.delete('/specific/:idx', authUtil.checkToken, scheduleController.deleteSpecificSchedule);
+router.put('/specific/:idx', authUtil.checkToken, scheduleController.updateSpecificSchedule);
+
+router.get('/:idx', authUtil.checkToken, scheduleController.getSchedule);
 
 module.exports = router;

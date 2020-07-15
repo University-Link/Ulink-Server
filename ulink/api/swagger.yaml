@@ -43,12 +43,16 @@ paths:
     $ref: './docs/schedule/schedule.yaml'
   /schedule/{idx}:
     $ref: './docs/schedule/scheduleIdx.yaml'
-  /schedule/name/{idx}:
-    $ref: './docs/schedule/scheduleName.yaml'
-  /schedule/main/{idx}:
+  /schedule/main:
     $ref: './docs/schedule/scheduleMain.yaml'
+  /schedule/main/{idx}:
+    $ref: './docs/schedule/scheduleMainIdx.yaml'
   /schedule/list:
     $ref: './docs/schedule/scheduleList.yaml'
+  /schedule/name/{idx}:
+    $ref: './docs/schedule/scheduleName.yaml'
+  /schedule/specific/{idx}:
+    $ref: './docs/schedule/scheduleSpecificIdx.yaml'
   /schedule/personal:
     $ref: './docs/schedule/schedulePersonal.yaml'
   /schedule/personal/{idx}:
