@@ -11,6 +11,46 @@ get:
       schema:
         type: string
       description: JWT 토큰
+    - in: query
+      name: course
+      required: false
+      schema:
+        type: array
+        items:
+          type: string
+      description: 이수구분 -> 이수구분 목록 조회 참고
+    - in: query
+      name: grade
+      required: false
+      schema:
+        type: array
+        items:
+          type: integer
+      description: 학년
+    - in: query
+      name: credit
+      required: false
+      schema:
+        type: array
+        items:
+          type: integer
+      description: 학점
+    - in: query
+      name: onDay
+      required: false
+      schema:
+        type: array
+        items:
+          type: integer
+      description: 필수요일
+    - in: query
+      name: offDay
+      required: false
+      schema:
+        type: array
+        items:
+          type: integer
+      description: 공강요일
   responses:
     '200':
       description: 수업(과목) 목록 조회
@@ -80,6 +120,7 @@ get:
                     },
                     ...
                 ]
+    
     '400':
       description: 'invalid input, object invalid'
       content:
