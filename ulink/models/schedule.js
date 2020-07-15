@@ -119,6 +119,10 @@ const schedule = {
 
         try {
             const result = await pool.queryParam(query);
+            result.forEach((r)=> {
+                r.startTime = [r.startTime];
+                r.endTime = [r.endTime];
+            });
             return result;
         } catch (err) {
             if (err.errno == 1062) {
@@ -140,6 +144,10 @@ const schedule = {
             FROM schedule_personal WHERE scheduleIdx = ${scheduleIdx}`;
         try {
             const result = await pool.queryParam(query);
+            result.forEach((r)=> {
+                r.startTime = [r.startTime];
+                r.endTime = [r.endTime];
+            });
             return result;
         } catch (err) {
             if (err.errno == 1062) {
@@ -191,6 +199,10 @@ const schedule = {
         FROM schedule_personal WHERE schedulePersonalIdx = ${schedulePersonalIdx}`;
         try {
             const result = await pool.queryParam(query);
+            result.forEach((r)=> {
+                r.startTime = [r.startTime];
+                r.endTime = [r.endTime];
+            });
             return result;
         } catch (err) {
             if (err.errno == 1062) {
