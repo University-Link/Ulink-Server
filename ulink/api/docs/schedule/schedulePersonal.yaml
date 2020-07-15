@@ -35,7 +35,7 @@ post:
               example: "19:00"
             day:
               type: string
-              example: fri
+              example: 4
             content: 
               type: string
               example: 독서실

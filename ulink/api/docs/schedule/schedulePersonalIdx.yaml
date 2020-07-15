@@ -41,7 +41,7 @@ get:
                     "name": "봉사",
                     "startTime": "17:00",
                     "endTime": "18:30",
-                    "day": "wen",
+                    "day": 3,
                     "content": "서울 양로원",
                     "color": 12,
                     "scheduleIdx": 1
@@ -98,7 +98,7 @@ put:
               example: "22:00"
             day:
               type: string
-              example: "sat"
+              example: 2
           type: object
     description: Update Schedule Personal data
   responses:

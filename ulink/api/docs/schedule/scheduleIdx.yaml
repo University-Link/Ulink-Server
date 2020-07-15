@@ -59,7 +59,7 @@ get:
                     "course": "전공선택",
                     "startTime": "11:00",
                     "endTime": "13:00",
-                    "day": "tue",
+                    "day": 1,
                     "content": "창조관709"
                 }
     '400':
