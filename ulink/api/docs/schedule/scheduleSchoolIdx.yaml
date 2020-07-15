@@ -11,6 +11,7 @@ get:
       schema:
         type: string
       description: JWT 토큰
+      example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWR4IjoxLCJuYW1lIjoi6rmA67O067CwIiwic2Nob29sIjoi7ZWc7JaR64yA7ZWZ6rWQIiwibWFqb3IiOiLshoztlITtirjsm6jslrQiLCJpYXQiOjE1OTQ4MzM4NjksImV4cCI6MTU5ODQzMDI2OSwiaXNzIjoiYm9iYWUifQ.ePsi4V6P3oim1EM-ZKjhBAy9qrFrlcCKSYJu5QV_XqY
     - in: path
       name: idx
       required: true
@@ -72,6 +73,7 @@ delete:
       schema:
         type: string
       description: JWT 토큰
+      example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWR4IjoxLCJuYW1lIjoi6rmA67O067CwIiwic2Nob29sIjoi7ZWc7JaR64yA7ZWZ6rWQIiwibWFqb3IiOiLshoztlITtirjsm6jslrQiLCJpYXQiOjE1OTQ4MzM4NjksImV4cCI6MTU5ODQzMDI2OSwiaXNzIjoiYm9iYWUifQ.ePsi4V6P3oim1EM-ZKjhBAy9qrFrlcCKSYJu5QV_XqY
     - in: path
       name: idx
       required: true
