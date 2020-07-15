@@ -132,7 +132,7 @@ post:
           type: object
     description: Create Notice data
   responses:
-    '200':
+    '201':
       description: 공지 등록하기
       content:
         application/json:
@@ -141,7 +141,7 @@ post:
             properties:
               status:
                 type: integer
-                example: 200
+                example: 201
               success:
                 type: boolean
                 example: true

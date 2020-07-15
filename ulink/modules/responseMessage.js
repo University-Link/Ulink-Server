@@ -65,10 +65,10 @@ module.exports = {
     //장바구니
     CART_SUCCESS: "장바구니 조회 성공",
     CART_FAIL: "장바구니 조회 실패",
-    CART_POST_SUCCESS: "장바구니 추가 성공",
-    CART_POST_FAIL: "장바구니 추가 실패",
-    CART_DELETE_SUCCESS: "장바구니 삭제 성공",
-    CART_DELETE_FAIL: "장바구니 삭제 실패",
+    CREATE_CART_SUCCESS: "장바구니 생성 성공",
+    CREATE_CART_FAIL: "장바구니 생성 실패",
+    DELETE_CART_SUCCESS: "장바구니 삭제 성공",
+    DELETE_CART_FAIL: "장바구니 삭제 실패",
 
     DB_ERROR: "DB 오류"
 };

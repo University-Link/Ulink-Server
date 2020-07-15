@@ -20,8 +20,8 @@ const cart = {
         }
         const getCartList = await cartModel.getCartList(userIdx, semester);
         if (getCartList < 0) {
-            return res.status(statusCode.BAD_REQUEST)
-                .send(util.fail(statusCode.BAD_REQUEST, resMessage.DB_ERROR));
+            return res.status(statusCode.INTERNAL_SERVER_ERROR)
+                .send(util.fail(statusCode.INTERNAL_SERVER_ERROR, resMessage.DB_ERROR));
         }
         return res.status(statusCode.OK)
             .send(util.success(statusCode.OK, resMessage.CART_SUCCESS,
@@ -46,17 +46,15 @@ const cart = {
         }
         if (await cartModel.checkCart(userIdx, subjectIdx, semester)) {
             return res.status(statusCode.BAD_REQUEST)
-                .send(util.fail(statusCode.BAD_REQUEST, resMessage.CART_POST_FAIL));
+                .send(util.fail(statusCode.BAD_REQUEST, resMessage.CREATE_CART_FAIL));
         } else {
             const cart = await cartModel.createCart(userIdx, subjectIdx, semester);
             if (cart < 0) {
-                return res.status(statusCode.BAD_REQUEST)
-                    .send(util.fail(statusCode.BAD_REQUEST, resMessage.DB_ERROR));
+                return res.status(statusCode.INTERNAL_SERVER_ERROR)
+                    .send(util.fail(statusCode.INTERNAL_SERVER_ERROR, resMessage.DB_ERROR));
             }
-            return res.status(statusCode.OK)
-                .send(util.success(statusCode.OK, resMessage.CART_POST_SUCCESS, {
-                    subjectIdx: subjectIdx
-                }));
+            return res.status(statusCode.CREATED)
+                .send(util.success(statusCode.CREATED, resMessage.CREATE_CART_SUCCESS));
         }
     },
     /** 
@@ -77,17 +75,15 @@ const cart = {
         }
         if (!await cartModel.checkCart(userIdx, subjectIdx, semester)) {
             return res.status(statusCode.BAD_REQUEST)
-                .send(util.fail(statusCode.BAD_REQUEST, resMessage.CART_DELETE_FAIL));
+                .send(util.fail(statusCode.BAD_REQUEST, resMessage.DELETE_CART_FAIL));
         }
         const cart = await cartModel.deleteCart(userIdx, subjectIdx, semester);
         if (cart < 0) {
-            return res.status(statusCode.BAD_REQUEST)
-                .send(util.fail(statusCode.BAD_REQUEST, resMessage.CART_DELETE_FAIL));
+            return res.status(statusCode.INTERNAL_SERVER_ERROR)
+                .send(util.fail(statusCode.INTERNAL_SERVER_ERROR, resMessage.DELETE_CART_FAIL));
         }
-        return res.status(statusCode.OK)
-            .send(util.success(statusCode.OK, resMessage.CART_DELETE_SUCCESS, {
-                subjectIdx: subjectIdx
-            }));
+        return res.status(statusCode.NO_CONTENT)
+            .send(util.success(statusCode.NO_CONTENT, resMessage.DELETE_CART_SUCCESS));
     },
 }
 
