@@ -219,7 +219,7 @@ const schedule = {
             color,
             scheduleIdx
         } = req.body;
-        if (!name || !startTime || !endTime || !day || !content || !color || !scheduleIdx) {
+        if (!name || !startTime || !endTime || !day || !color || !scheduleIdx) {
             return res.status(statusCode.BAD_REQUEST)
                 .send(util.fail(statusCode.BAD_REQUEST, resMessage.NULL_VALUE));
         }

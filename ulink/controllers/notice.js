@@ -75,7 +75,7 @@ const notice = {
             content
         } = req.body;
 
-        if (!subjectIdx || isNaN(subjectIdx) || !category || !date || !startTime || !endTime || !title || !content) {
+        if (!subjectIdx || isNaN(subjectIdx) || !category || !date || !startTime || !endTime || !title) {
             return res.status(statusCode.BAD_REQUEST)
                 .send(util.fail(statusCode.BAD_REQUEST, resMessage.NULL_VALUE));
         }
