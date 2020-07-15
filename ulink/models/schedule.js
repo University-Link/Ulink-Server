@@ -105,7 +105,7 @@ const schedule = {
      * @return 수업 일정 인덱스, 이름, 시작시간, 종료시간, 요일, 장소, 색상
      */
     getScheduleSchool: async (scheduleIdx) => {
-        const query = `SELECT s.scheduleSchoolIdx AS idx, s.name, tp.startTime, tp.endTime, tp.day, tp.content, s.color
+        const query = `SELECT s.scheduleSchoolIdx AS idx, s.name, tp.startTime, tp.endTime, tp.day, tp.content, s.color, s.subjectIdx
             FROM (
                 SELECT s1.scheduleSchoolIdx, s2.subjectIdx, s2.name, s1.color FROM
                     (
@@ -600,6 +600,62 @@ const schedule = {
                 return -1;
             }
             console.log('updateSpecificSchedulePersonal ERROR: ', err);
+            throw err;
+        }
+    },
+    /** 
+     * 시간표 시작 시간
+     * @type SELECT
+     * @param 시간표 idx
+     * @return 시간표에서 시작 시간
+     */
+    getMinTime: async (scheduleIdx) => {
+        const query1 = `SELECT MIN(startTime) AS minTime FROM schedule_personal WHERE scheduleIdx =  ${scheduleIdx}`;
+        const query2 = `SELECT subjectIdx FROM schedule_school WHERE scheduleIdx = ${scheduleIdx}`;
+        const query3 = `SELECT MIN(tp.startTime) AS minTime 
+        FROM (${query2}) q2 INNER JOIN subject_timeplace tp ON q2.subjectIdx = tp.subjectIdx`;
+        try {
+            const result1 = await pool.queryParam(query1);
+            console.log("result1: ", result1[0].minTime);
+            const result2 = await pool.queryParam(query3);
+            console.log("result2: ", result2[0].minTime);
+            if (result1[0].minTime > result2[0].minTime) {
+                return result2[0].minTime;
+            } else return result1[0].minTime;
+        } catch (err) {
+            if (err.errno == 1062) {
+                console.log('getMinTime ERROR : ', err.errno, err.code);
+                return -1;
+            }
+            console.log('getMinTime ERROR: ', err);
+            throw err;
+        }
+    },
+    /** 
+     * 시간표 끝나는 시간
+     * @type SELECT
+     * @param 시간표 idx
+     * @return 시간표에서 끝나는 시간
+     */
+    getMaxTime: async (scheduleIdx) => {
+        const query1 = `SELECT MAX(endTime) AS maxTime FROM schedule_personal WHERE scheduleIdx =  ${scheduleIdx}`;
+        const query2 = `SELECT subjectIdx FROM schedule_school WHERE scheduleIdx = ${scheduleIdx}`;
+        const query3 = `SELECT MAX(tp.endTime) AS maxTime 
+        FROM (${query2}) q2 INNER JOIN subject_timeplace tp ON q2.subjectIdx = tp.subjectIdx`;
+        try {
+            const result1 = await pool.queryParam(query1);
+            console.log("result1: ", result1[0].maxTime);
+            const result2 = await pool.queryParam(query3);
+            console.log("result2: ", result2[0].maxTime);
+            if (result1[0].maxTime > result2[0].maxTime) {
+                return result1[0].maxTime;
+            } else return result2[0].maxTime;
+        } catch (err) {
+            if (err.errno == 1062) {
+                console.log('getMaxTime ERROR : ', err.errno, err.code);
+                return -1;
+            }
+            console.log('getMaxTime ERROR: ', err);
             throw err;
         }
     },

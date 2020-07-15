@@ -58,7 +58,7 @@ const notice = {
     */
     getNotice: async (subjectIdx) => {
         const query = `SELECT noticeIdx, category, title, startTime, endTime, date
-        FROM notice WHERE subjectIdx = ${subjectIdx}`;
+        FROM notice WHERE subjectIdx = ${subjectIdx} ORDER BY date`;
         try {
             const result = await pool.queryParam(query);
             return result;
