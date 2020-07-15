@@ -30,7 +30,9 @@ module.exports = {
             timePlace.day.push(subject.day);
             timePlace.content.push(subject.content);
         }
-        res.push(Object.assign(temp, timePlace));
+        if (temp.subjectIdx != 'n') {
+            res.push(Object.assign(temp, timePlace));
+        }
         return res;
     },
     connectColorTimePlace : async (subjects) => {
