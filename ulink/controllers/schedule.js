@@ -22,6 +22,8 @@ const schedule = {
         const semester = await moment.getSemester();
 
         const mainScheduleList = await scheduleModel.getSemesterMainSchedule(user.userIdx, semester);
+        const getMinTime = await scheduleModel.getMinTime(mainScheduleList[0].scheduleIdx);
+        const getMaxTime = await scheduleModel.getMaxTime(mainScheduleList[0].scheduleIdx);
         if (mainScheduleList < 0) {
             return res.status(statusCode.BAD_REQUEST)
                 .send(util.fail(statusCode.BAD_REQUEST, resMessage.DB_ERROR));
@@ -71,6 +73,8 @@ const schedule = {
         return res.status(statusCode.OK)
             .send(util.success(statusCode.OK, resMessage.READ_SCHEDULE_SUCCESS, {
                 timeTable: mainScheduleList[0],
+                getMinTime: getMinTime,
+                getMaxTime: getMaxTime,
                 subjects: result
             }));
     },
