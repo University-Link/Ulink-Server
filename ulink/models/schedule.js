@@ -122,6 +122,8 @@ const schedule = {
             result.forEach((r)=> {
                 r.startTime = [r.startTime];
                 r.endTime = [r.endTime];
+                r.day = [r.day];
+                r.content = [r.content];
             });
             return result;
         } catch (err) {
@@ -147,6 +149,8 @@ const schedule = {
             result.forEach((r)=> {
                 r.startTime = [r.startTime];
                 r.endTime = [r.endTime];
+                r.day = [r.day];
+                r.content = [r.content];
             });
             return result;
         } catch (err) {
@@ -202,6 +206,8 @@ const schedule = {
             result.forEach((r)=> {
                 r.startTime = [r.startTime];
                 r.endTime = [r.endTime];
+                r.day = [r.day];
+                r.content = [r.content];
             });
             return result;
         } catch (err) {
