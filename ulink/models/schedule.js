@@ -1,4 +1,5 @@
 const pool = require('../modules/pool');
+const connect = require('../modules/connect');
 const table = 'schedule';
 
 const schedule = {
@@ -168,8 +169,8 @@ const schedule = {
         FROM (${query2}) q2 INNER JOIN subject_timeplace
         ON q2.subjectIdx = subject_timeplace.subjectIdx`;
         try {
-            const result = await pool.queryParam(query3);
-            return result;
+            const subjects = await pool.queryParam(query3);
+            return await connect.connectColorTimePlace(subjects);
         } catch (err) {
             if (err.errno == 1062) {
                 console.log('getSpecificScheduleSchool ERROR : ', err.errno, err.code);
