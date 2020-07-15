@@ -12,6 +12,62 @@ const mapping = (schedule, isSubject) => {
 
 const schedule = {
     /** 
+     * 시간표 정보 가져오기
+     * @summary 시간표 정보 및 일정 가져오기
+     * @param 토큰, 학기, 시간표 인덱스
+     * @return 특정 학기의 시간표 정보 및 일정 
+     */
+    getSchedule: async (req, res) => {
+        const scheduleIdx = req.params.idx;
+
+        const scheduleInfo = await scheduleModel.getSchedule(scheduleIdx);
+        if (scheduleInfo < 0) {
+            return res.status(statusCode.BAD_REQUEST)
+                .send(util.fail(statusCode.BAD_REQUEST, resMessage.DB_ERROR));
+        }
+        if (scheduleInfo.length === 0) {
+            return res.status(statusCode.BAD_REQUEST)
+                .send(util.fail(statusCode.BAD_REQUEST, resMessage.READ_SCHEDULE_FAIL));
+        }
+
+        // result template
+        const result = {0:[], 1:[], 2:[], 3:[], 4:[]};
+
+        let getMinTime = await scheduleModel.getMinTime(scheduleIdx);
+        let getMaxTime = await scheduleModel.getMaxTime(scheduleIdx);
+        if(getMinTime === null){
+            getMinTime = "09:00";
+            getMaxTime = "18:00";
+        }
+        
+
+        const schedulePersonalList = await scheduleModel.getSchedulePersonal(scheduleIdx);
+        const scheduleSchoolList = await scheduleModel.getScheduleSchool(scheduleIdx);
+        if (schedulePersonalList < 0 || scheduleSchoolList < 0) {
+            return res.status(statusCode.BAD_REQUEST)
+                .send(util.fail(statusCode.BAD_REQUEST, resMessage.DB_ERROR));
+        }
+
+        // Add a variable that verifies that it is a subject
+        mapping(schedulePersonalList, false);
+        mapping(scheduleSchoolList, true);
+
+        const schedule = await schedulePersonalList.concat(scheduleSchoolList);
+
+        // Pack per day
+        schedule.forEach((s) => {
+            result[s.day].push(s);
+        });
+
+        return res.status(statusCode.OK)
+            .send(util.success(statusCode.OK, resMessage.READ_SCHEDULE_SUCCESS, {
+                timeTable: scheduleInfo,
+                minTime: getMinTime,
+                maxTime: getMaxTime,
+                subjects: result
+            }));
+    },
+    /** 
      * 메인 시간표 정보 가져오기
      * @summary 현재 학기 메인 시간표 정보 및 일정 가져오기
      * @param 토큰
@@ -22,13 +78,10 @@ const schedule = {
         const semester = await moment.getSemester();
 
         const mainScheduleList = await scheduleModel.getSemesterMainSchedule(user.userIdx, semester);
-        const getMinTime = await scheduleModel.getMinTime(mainScheduleList[0].scheduleIdx);
-        const getMaxTime = await scheduleModel.getMaxTime(mainScheduleList[0].scheduleIdx);
         if (mainScheduleList < 0) {
             return res.status(statusCode.BAD_REQUEST)
                 .send(util.fail(statusCode.BAD_REQUEST, resMessage.DB_ERROR));
         }
-
         // result template
         const result = {0:[], 1:[], 2:[], 3:[], 4:[]};
 
@@ -47,10 +100,18 @@ const schedule = {
                         "semester": semester,
                         "name": semester + '학기 첫 시간표'
                     },
+                    minTime: "09:00",
+                    maxTime: "18:00",
                     subjects: result
                 }));
         }
 
+        let getMinTime = await scheduleModel.getMinTime(mainScheduleList[0].scheduleIdx);
+        let getMaxTime = await scheduleModel.getMaxTime(mainScheduleList[0].scheduleIdx);
+        if(getMinTime === null){
+            getMinTime = "09:00";
+            getMaxTime = "18:00";
+        }
         // 현재학기 시간표가 존재 할 경우, 메인 시간표 일정을 조회
         const schedulePersonalList = await scheduleModel.getSchedulePersonal(mainScheduleList[0].scheduleIdx);
         const scheduleSchoolList = await scheduleModel.getScheduleSchool(mainScheduleList[0].scheduleIdx);
@@ -352,26 +413,6 @@ const schedule = {
         return res.status(statusCode.OK)
             .send(util.success(statusCode.OK, resMessage.DELETE_SCHEDULE_SUCCESS, {
                 idx: schedulePersonalIdx
-            }));
-    },
-    /** 
-     * 수업목록 가져오기
-     * @summary 사용자 학교의 수업 목록 가져오기
-     * @param 토큰
-     * @return 수업 목록
-     */
-    getSubject: async (req, res) => {
-        const user = req.decoded;
-        const subjectList = await scheduleModel.getSubject(user.school);
-
-        if (subjectList.length === 0) {
-            return res.status(statusCode.BAD_REQUEST)
-                .send(util.fail(statusCode.BAD_REQUEST, resMessage.READ_SUBJECT_FAIL));
-        }
-
-        return res.status(statusCode.OK)
-            .send(util.success(statusCode.OK, resMessage.READ_SUBJECT_SUCCESS, {
-                subjectList
             }));
     },
     /** 
