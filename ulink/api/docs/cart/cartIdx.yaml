@@ -30,7 +30,7 @@ delete:
           type: object        
     description: Delete Cart data
   responses:
-    '200':
+    '204':
       description: 장바구니 과목 삭제하기
       content:
         application/json:
@@ -39,18 +39,13 @@ delete:
             properties:
               status:
                 type: integer
-                example: 200
+                example: 204
               success:
                 type: boolean
                 example: true
               message:
                 type: string
                 example: 장바구니 삭제 성공
-              data:
-                type: object
-                example: {
-                  "subjectIdx": "8"
-                }
     '400':
       description: 'invalid input, object invalid'
       content:

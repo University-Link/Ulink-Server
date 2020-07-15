@@ -25,8 +25,8 @@ const notice = {
         const mainScheduleList = await scheduleModel.getSemesterMainSchedule(user.userIdx, semester);
 
         if (mainScheduleList < 0) {
-            return res.status(statusCode.BAD_REQUEST)
-                .send(util.fail(statusCode.BAD_REQUEST, resMessage.DB_ERROR));
+            return res.status(statusCode.INTERNAL_SERVER_ERROR)
+                .send(util.fail(statusCode.INTERNAL_SERVER_ERROR, resMessage.DB_ERROR));
         }
         const notices = await noticeModel.getNoticeList(mainScheduleList[0].scheduleIdx, start, end);
         if (notices.length === 0) {
@@ -82,12 +82,12 @@ const notice = {
 
         const idx = await noticeModel.createNotice(subjectIdx, category, date, startTime, endTime, title, content);
         if (idx === -1) {
-            return res.status(statusCode.BAD_REQUEST)
-                .send(util.fail(statusCode.BAD_REQUEST, resMessage.DB_ERROR));
+            return res.status(statusCode.INTERNAL_SERVER_ERROR)
+                .send(util.fail(statusCode.INTERNAL_SERVER_ERROR, resMessage.DB_ERROR));
         }
 
-        res.status(statusCode.OK)
-            .send(util.success(statusCode.OK, resMessage.CREATE_NOTICE_SUCCESS));
+        res.status(statusCode.CREATED)
+            .send(util.success(statusCode.CREATED, resMessage.CREATE_NOTICE_SUCCESS));
     },
     /** 
      * 특정 과목의 공지 가져오기
@@ -104,8 +104,8 @@ const notice = {
 
         const noticeList = await noticeModel.getNotice(subjectIdx);
         if (noticeList < 0) {
-            return res.status(statusCode.BAD_REQUEST)
-                .send(util.fail(statusCode.BAD_REQUEST, resMessage.DB_ERROR));
+            return res.status(statusCode.INTERNAL_SERVER_ERROR)
+                .send(util.fail(statusCode.INTERNAL_SERVER_ERROR, resMessage.DB_ERROR));
         }
 
         let c1 = [],
@@ -145,8 +145,8 @@ const notice = {
 
         const result = await noticeModel.getSpecificNotice(noticeIdx);
         if (result < 0) {
-            return res.status(statusCode.BAD_REQUEST)
-                .send(util.fail(statusCode.BAD_REQUEST, resMessage.DB_ERROR));
+            return res.status(statusCode.INTERNAL_SERVER_ERROR)
+                .send(util.fail(statusCode.INTERNAL_SERVER_ERROR, resMessage.DB_ERROR));
         }
 
         return res.status(statusCode.OK)
@@ -184,12 +184,12 @@ const notice = {
         };
         const notice = await noticeModel.updateSpecificNotice(updateNotice);
         if (notice < 0) {
-            return res.status(statusCode.BAD_REQUEST)
-                .send(util.fail(statusCode.BAD_REQUEST, resMessage.DB_ERROR));
+            return res.status(statusCode.INTERNAL_SERVER_ERROR)
+                .send(util.fail(statusCode.INTERNAL_SERVER_ERROR, resMessage.DB_ERROR));
         }
 
-        return res.status(statusCode.OK)
-            .send(util.success(statusCode.OK, resMessage.UPDATE_NOTICE_SUCCESS));
+        return res.status(statusCode.NO_CONTENT)
+            .send(util.success(statusCode.NO_CONTENT, resMessage.UPDATE_NOTICE_SUCCESS));
     },
     /** 
      * 공지 삭제
@@ -206,13 +206,13 @@ const notice = {
         }
 
         const deleteSpecificNotice = await noticeModel.deleteSpecificNotice(noticeIdx);
-        if (notice < 0) {
-            return res.status(statusCode.BAD_REQUEST)
-                .send(util.fail(statusCode.BAD_REQUEST, resMessage.DB_ERROR));
+        if (deleteSpecificNotice < 0) {
+            return res.status(statusCode.INTERNAL_SERVER_ERROR)
+                .send(util.fail(statusCode.INTERNAL_SERVER_ERROR, resMessage.DB_ERROR));
         }
 
-        return res.status(statusCode.OK)
-            .send(util.success(statusCode.OK, resMessage.DELETE_NOTICE_SUCCESS));
+        return res.status(statusCode.NO_CONTENT)
+            .send(util.success(statusCode.NO_CONTENT, resMessage.DELETE_NOTICE_SUCCESS));
     },
 }
 

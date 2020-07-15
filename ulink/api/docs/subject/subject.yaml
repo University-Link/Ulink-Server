@@ -120,7 +120,6 @@ get:
                     },
                     ...
                 ]
-    
     '400':
       description: 'invalid input, object invalid'
       content:

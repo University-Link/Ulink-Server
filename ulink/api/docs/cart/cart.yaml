@@ -144,7 +144,7 @@ post:
           type: object
     description: Create Cart data
   responses:
-    '200':
+    '201':
       description: 장바구니 과목 추가하기
       content:
         application/json:
@@ -152,18 +152,13 @@ post:
             properties:
               status:
                 type: integer
-                example: 200
+                example: 201
               success:
                 type: boolean
                 example: true
               message:
                 type: string
                 example: 장바구니 추가 성공
-              data:
-                type: object
-                example: {
-                    "subjectIdx": "8"
-                }
     '400':
       description: 'invalid input, object invalid'
       content:

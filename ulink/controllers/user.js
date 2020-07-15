@@ -47,12 +47,12 @@ const user = {
 
         const idx = await userModel.signUp(id, encryptPassword, salt, name, email, nickname, school, gender);
         if (idx === -1) {
-            return res.status(statusCode.DB_ERROR)
-                .send(util.fail(statusCode.DB_ERROR, resMessage.DB_ERROR));
+            return res.status(statusCode.INTERNAL_SERVER_ERROR)
+                .send(util.fail(statusCode.INTERNAL_SERVER_ERROR, resMessage.DB_ERROR));
         }
 
-        res.status(statusCode.OK)
-            .send(util.success(statusCode.OK, resMessage.CREATED_USER, {
+        res.status(statusCode.CREATED)
+            .send(util.success(statusCode.CREATED, resMessage.CREATED_USER, {
                 userId: id,
                 userIdx: idx
             }));
