@@ -29,7 +29,10 @@ const notice = {
                 .send(util.fail(statusCode.BAD_REQUEST, resMessage.DB_ERROR));
         }
         const notices = await noticeModel.getNoticeList(mainScheduleList[0].scheduleIdx, start, end);
-
+        if (notices.length === 0) {
+            return res.status(statusCode.OK)
+                .send(util.success(statusCode.OK, resMessage.READ_NOTICE_LIST_SUCCESS, notices));
+        }
         const result = [];
         let noticeList = [];
         let dateBefore = notices[0].date;
@@ -189,11 +192,11 @@ const notice = {
             .send(util.success(statusCode.OK, resMessage.UPDATE_NOTICE_SUCCESS));
     },
     /** 
-    * 공지 삭제
-    * @summary 공지 삭제
-    * @param 공지 인덱스
-    * @return 삭제 성공 여부
-    */
+     * 공지 삭제
+     * @summary 공지 삭제
+     * @param 공지 인덱스
+     * @return 삭제 성공 여부
+     */
     deleteSpecificNotice: async (req, res) => {
         const noticeIdx = req.params.idx;
 
