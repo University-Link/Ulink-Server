@@ -41,6 +41,41 @@ const subject = {
             .send(util.success(statusCode.OK, resMessage.READ_SUBJECT_SUCCESS, subjectList));
     },
     /** 
+     * 수업목록 전공 가져오기
+     * @summary 사용자 학교 및 전공의 수업 목록 가져오기
+     * @param 토큰, query (None~5): course, grade, credit, onDay, offDay
+     *  - course (이수구분): 전공필수, 전공선택, 교양필수, 교양선택, ...
+     *  - grade (학년): 0, 1, 2, 3, 4, 5
+     *  - credit (학점): 1, 2, 3, 4, ...
+     *  - onDay (수업 선호요일): 0~4
+     *  - offDay (수업 제외요일, 공강): 0~4
+     * @return 수업 목록
+     */
+    getMajorSubject: async (req, res) => {
+        const user = req.decoded;
+
+        const condition1 = {
+            course: req.query.course,
+            grade: req.query.grade,
+            credit: req.query.credit,
+            major: user.major
+        };
+        const condition2 = {
+            onDay: req.query.onDay,
+            offDay: req.query.offDay
+        }        
+        // 조건으로 모델 필터링하기
+        const subjectList = await subjectModel.getConditionSubject(user.school, condition1, condition2);
+
+        if (subjectList < 0) {
+            return res.status(statusCode.BAD_REQUEST)
+                .send(util.fail(statusCode.BAD_REQUEST, resMessage.READ_SUBJECT_FAIL));
+        }
+
+        return res.status(statusCode.OK)
+            .send(util.success(statusCode.OK, resMessage.READ_SUBJECT_SUCCESS, subjectList));
+    },
+    /** 
      * 이수구분 목록 가져오기
      * @summary 이수구분 목록 가져오기
      * @param 토큰
