@@ -71,55 +71,69 @@ get:
               data:
                 type: object
                 example: [
-                    {
-                        "name": "SOPT",
-                        "list": [
-                            {
-                                "subjectIdx": 6,
-                                "subjectCode": "1001006",
-                                "name": "SOPT",
-                                "professor": "김아무개",
-                                "credit": 3,
-                                "course": "전공필수",
-                                "content": [
-                                    "sopt관101"
-                                ],
-                                "day": [
-                                    2
-                                ],
-                                "dateTime": [
-                                    "12:00-18:00"
-                                ]
-                            }
-                        ]
-                    },
-                    {
-                        "name": "경영학개론",
-                        "list": [
-                            {
-                                "subjectIdx": 4,
-                                "subjectCode": "1001004",
-                                "name": "경영학개론",
-                                "professor": "홍아무개",
-                                "credit": 2,
-                                "course": "교양필수",
-                                "content": [
-                                    "경영관202",
-                                    "경영관B102"
-                                ],
-                                "day": [
-                                    2,
-                                    4
-                                ],
-                                "dateTime": [
-                                    "09:00-10:30",
-                                    "09:00-10:30"
-                                ]
-                            },
-                        ]
-                    },
-                    ...
+                  {
+                    "subjectIdx": 685,
+                    "subjectCode": "HIS3027",
+                    "name": "19세기중국과동아시아",
+                    "professor": "강진아",
+                    "credit": 3,
+                    "course": "전공핵심",
+                    "startTime": [
+                      "10:30"
+                    ],
+                    "endTime": [
+                      "12:00"
+                    ],
+                    "day": [
+                      1
+                    ],
+                    "content": [
+                      "서울 인문관 305강의실"
+                    ]
+                  },
+                  {
+                    "subjectIdx": 684,
+                    "subjectCode": "HIS3027",
+                    "name": "19세기중국과동아시아",
+                    "professor": "강진아",
+                    "credit": 3,
+                    "course": "전공심화",
+                    "startTime": [
+                      "10:30"
+                    ],
+                    "endTime": [
+                      "12:00"
+                    ],
+                    "day": [
+                      3
+                    ],
+                    "content": [
+                      "서울 인문관 305강의실"
+                    ]
+                  },
+                  {
+                    "subjectIdx": 685,
+                    "subjectCode": "HIS3027",
+                    "name": "19세기중국과동아시아",
+                    "professor": "강진아",
+                    "credit": 3,
+                    "course": "전공핵심",
+                    "startTime": [
+                      "10:30"
+                    ],
+                    "endTime": [
+                      "12:00"
+                    ],
+                    "day": [
+                      3
+                    ],
+                    "content": [
+                      "서울 인문관 305강의실"
+                    ]
+                  },
+                  ...
                 ]
+                
     '400':
       description: 'invalid input, object invalid'
       content:
