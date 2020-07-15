@@ -74,7 +74,9 @@ const notice = {
             title,
             content
         } = req.body;
-
+        console.log('create notice');
+        console.log('subjectIdx, category, date, startTime, endTime, title, content');
+        console.log(subjectIdx, category, date, startTime, endTime, title, content);
         if (!subjectIdx || isNaN(subjectIdx) || !category || !date || !startTime || !endTime || !title || !content) {
             return res.status(statusCode.BAD_REQUEST)
                 .send(util.fail(statusCode.BAD_REQUEST, resMessage.NULL_VALUE));

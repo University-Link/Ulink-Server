@@ -186,6 +186,10 @@ const schedule = {
             color,
             scheduleIdx
         } = req.body;
+        console.log('schedule school');
+        console.log('subjectIdx, color, scheduleIdx');
+        console.log(subjectIdx, color, scheduleIdx);
+        
         if (!subjectIdx || !color || !scheduleIdx) {
             return res.status(statusCode.BAD_REQUEST)
                 .send(util.fail(statusCode.BAD_REQUEST, resMessage.NULL_VALUE));
@@ -219,6 +223,9 @@ const schedule = {
             color,
             scheduleIdx
         } = req.body;
+        console.log('schedule personal');
+        console.log('name, startTime, endTime, day, content, color, scheduleIdx');
+        console.log(name, startTime, endTime, day, content, color, scheduleIdx);
         if (!name || !startTime || !endTime || !day || !content || !color || !scheduleIdx) {
             return res.status(statusCode.BAD_REQUEST)
                 .send(util.fail(statusCode.BAD_REQUEST, resMessage.NULL_VALUE));
