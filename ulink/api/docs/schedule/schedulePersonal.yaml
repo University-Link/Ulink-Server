@@ -16,35 +16,30 @@ post:
       application/json:
         schema:
           required:
-            - name
-            - startTime
-            - endTime
-            - day
-            - content
-            - color
-            - scheduleIdx
+            - scheduleList
           properties:
-            name:
-              type: string
-              example: 자습
-            startTime:
-              type: string
-              example: "18:00"
-            endTime:
-              type: string
-              example: "19:00"
-            day:
-              type: string
-              example: 4
-            content: 
-              type: string
-              example: 독서실
-            color:
-              type: string
-              example: "2"
-            scheduleIdx:
-              type: string
-              example: "1"
+            scheduleList:
+              type: Array
+              example: [
+                {
+                    "name": "몰라임마",
+                    "startTime": "12:00",
+                    "endTime": "13:00",
+                    "day": 2,
+                    "content": "편의점",
+                    "color": "3",
+                    "scheduleIdx": 3
+                },
+                {
+                    "name": "몰라임마",
+                    "startTime": "12:00",
+                    "endTime": "13:00",
+                    "day": 0,
+                    "content": "편의점",
+                    "color": "3",
+                    "scheduleIdx": 3
+                }
+              ]
           type: object
     description: Create Personal Timetable data
   responses:
