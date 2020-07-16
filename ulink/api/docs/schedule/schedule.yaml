@@ -28,7 +28,7 @@ post:
           type: object
     description: Create Timetable data
   responses:
-    '200':
+    '201':
       description: 시간표 - 시간표 만들기
       content:
         application/json:
@@ -37,13 +37,13 @@ post:
             properties:
               status:
                 type: integer
-                example: 200
+                example: 201
               success:
                 type: boolean
                 example: true
               message:
                 type: string
-                example: 일정 생성 성공
+                example: 시간표 생성 성공
               data:
                 type: object
                 example: {
