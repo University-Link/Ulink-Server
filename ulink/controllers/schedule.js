@@ -81,7 +81,7 @@ const schedule = {
      */
     getMainSchedule: async (req, res) => {
         const user = req.decoded;
-        const semesteqr = await moment.getSemester();
+        const semester = await moment.getSemester();
 
         const mainScheduleList = await scheduleModel.getSemesterMainSchedule(user.userIdx, semester);
         if (mainScheduleList < 0) {
