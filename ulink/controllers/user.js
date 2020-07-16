@@ -24,7 +24,8 @@ const user = {
         } = req.body;
 
         // empty value
-        if (!id || !password || !name || !email || !school || !gender) {
+        if (id === undefined || password === undefined || name === undefined ||
+            email === undefined || school === undefined || gender === undefined) {
             return res.status(statusCode.BAD_REQUEST)
                 .send(util.fail(statusCode.BAD_REQUEST, resMessage.NULL_VALUE));
         }
@@ -70,7 +71,7 @@ const user = {
         } = req.body;
 
         //  empty value
-        if (!id || !password) {
+        if (id === undefined || password === undefined) {
             return res.status(statusCode.BAD_REQUEST)
                 .send(util.fail(statusCode.BAD_REQUEST, resMessage.NULL_VALUE));
         }
@@ -107,7 +108,7 @@ const user = {
     */
     getProfileId: async (req, res) => {
         const id = req.params.id;
-        if (!id) {
+        if (id === undefined) {
             return res.status(statusCode.BAD_REQUEST)
                 .send(util.fail(statusCode.BAD_REQUEST, resMessage.NULL_VALUE));
         }
@@ -161,7 +162,7 @@ const user = {
 
         const profileImg = req.file.location;
         // data check - undefined
-        if (profileImg === undefined || !userIdx) {
+        if (profileImg === undefined || userIdx === undefined) {
             return res.status(statusCode.BAD_REQUEST)
                 .send(util.fail(statusCode.BAD_REQUEST, resMessage.PROFILE_NO_IMAGE));
         }

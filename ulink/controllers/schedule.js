@@ -164,7 +164,7 @@ const schedule = {
             name
         } = req.body;
         let main;
-        if (!user || !semester || !name) {
+        if (user === undefined || semester === undefined || name === undefined) {
             return res.status(statusCode.BAD_REQUEST)
                 .send(util.fail(statusCode.BAD_REQUEST, resMessage.NULL_VALUE));
         }
@@ -201,7 +201,7 @@ const schedule = {
             color,
             scheduleIdx
         } = req.body;
-        if (!subjectIdx || !color || !scheduleIdx) {
+        if (subjectIdx === undefined || color === undefined || scheduleIdx === undefined) {
             return res.status(statusCode.BAD_REQUEST)
                 .send(util.fail(statusCode.BAD_REQUEST, resMessage.NULL_VALUE));
         }
@@ -234,7 +234,8 @@ const schedule = {
             color,
             scheduleIdx
         } = req.body;
-        if (!name || !startTime || !endTime || !day || !color || !scheduleIdx) {
+        if (name === undefined || startTime === undefined || endTime === undefined ||
+            day === undefined || color === undefined || scheduleIdx === undefined) {
             return res.status(statusCode.BAD_REQUEST)
                 .send(util.fail(statusCode.BAD_REQUEST, resMessage.NULL_VALUE));
         }
@@ -260,7 +261,7 @@ const schedule = {
     getSpecificSchedule: async (req, res) => {
         const idx = req.params.idx;
         const isSubject = req.query.isSubject;
-        if (!idx || isNaN(idx) || !isSubject) {
+        if (idx === undefined || isNaN(idx) || isSubject === undefined) {
             return res.status(statusCode.BAD_REQUEST)
                 .send(util.fail(statusCode.BAD_REQUEST, resMessage.NULL_VALUE));
         }
@@ -299,7 +300,7 @@ const schedule = {
      */
     getSpecificScheduleSchool: async (req, res) => {
         const scheduleSchoolIdx = req.params.idx;
-        if (!scheduleSchoolIdx || isNaN(scheduleSchoolIdx)) {
+        if (scheduleSchoolIdx === undefined || isNaN(scheduleSchoolIdx)) {
             return res.status(statusCode.BAD_REQUEST)
                 .send(util.fail(statusCode.BAD_REQUEST, resMessage.NULL_VALUE));
         }
@@ -324,7 +325,7 @@ const schedule = {
      */
     getSpecificSchedulePersonal: async (req, res) => {
         const schedulePersonalIdx = req.params.idx;
-        if (!schedulePersonalIdx || isNaN(schedulePersonalIdx)) {
+        if (schedulePersonalIdx === undefined || isNaN(schedulePersonalIdx)) {
             return res.status(statusCode.BAD_REQUEST)
                 .send(util.fail(statusCode.BAD_REQUEST, resMessage.NULL_VALUE));
         }
@@ -350,7 +351,7 @@ const schedule = {
     deleteSpecificSchedule: async (req, res) => {
         const idx = req.params.idx;
         const isSubject = req.query.isSubject;
-        if (!idx || isNaN(idx) || !isSubject) {
+        if (idx === undefined || isNaN(idx) || isSubject === undefined) {
             return res.status(statusCode.BAD_REQUEST)
                 .send(util.fail(statusCode.BAD_REQUEST, resMessage.NULL_VALUE));
         }
@@ -385,7 +386,7 @@ const schedule = {
      */
     deleteScheduleSchool: async (req, res) => {
         const scheduleSchoolIdx = req.params.idx;
-        if (!scheduleSchoolIdx || isNaN(scheduleSchoolIdx)) {
+        if (scheduleSchoolIdx === undefined || isNaN(scheduleSchoolIdx)) {
             return res.status(statusCode.BAD_REQUEST)
                 .send(util.fail(statusCode.BAD_REQUEST, resMessage.NULL_VALUE));
         }
@@ -411,7 +412,7 @@ const schedule = {
      */
     deleteSchedulePersonal: async (req, res) => {
         const schedulePersonalIdx = req.params.idx;
-        if (!schedulePersonalIdx || isNaN(schedulePersonalIdx)) {
+        if (schedulePersonalIdx === undefined || isNaN(schedulePersonalIdx)) {
             return res.status(statusCode.BAD_REQUEST)
                 .send(util.fail(statusCode.BAD_REQUEST, resMessage.NULL_VALUE));
         }
@@ -462,7 +463,8 @@ const schedule = {
             day
         } = req.body;
 
-        if (!name || !content || !startTime || !endTime || !day) {
+        if (name === undefined || content === undefined || startTime === undefined ||
+            endTime === undefined || day === undefined) {
             return res.status(statusCode.BAD_REQUEST)
                 .send(util.fail(statusCode.BAD_REQUEST, resMessage.NULL_VALUE));
         }
@@ -490,7 +492,7 @@ const schedule = {
             name
         } = req.body;
 
-        if (!name) {
+        if (name === undefined) {
             return res.status(statusCode.BAD_REQUEST)
                 .send(util.fail(statusCode.BAD_REQUEST, resMessage.NULL_VALUE));
         }
@@ -515,7 +517,7 @@ const schedule = {
         const userIdx = req.decoded.userIdx;
         const scheduleIdx = req.params.idx;
 
-        if (!scheduleIdx) {
+        if (scheduleIdx === undefined) {
             return res.status(statusCode.BAD_REQUEST)
                 .send(util.fail(statusCode.BAD_REQUEST, resMessage.NULL_VALUE));
         }
@@ -553,7 +555,7 @@ const schedule = {
         const userIdx = req.decoded.userIdx;
         const scheduleIdx = req.params.idx;
         let scheduleSemester, updateMainSchedule, deleteMainSchedule;
-        if (!scheduleIdx) {
+        if (scheduleIdx === undefined) {
             return res.status(statusCode.BAD_REQUEST)
                 .send(util.fail(statusCode.BAD_REQUEST, resMessage.NULL_VALUE));
         }
@@ -605,7 +607,8 @@ const schedule = {
         const {
             color
         } = req.body;
-        if (!idx || isNaN(idx) || !isSubject || !color) {
+        if (idx === undefined || isNaN(idx) ||
+            isSubject === undefined || color === undefined) {
             return res.status(statusCode.BAD_REQUEST)
                 .send(util.fail(statusCode.BAD_REQUEST, resMessage.NULL_VALUE));
         }
@@ -619,7 +622,7 @@ const schedule = {
             return res.status(statusCode.BAD_REQUEST)
                 .send(util.fail(statusCode.BAD_REQUEST, resMessage.NULL_VALUE));
         }
-        
+
         if (result < 0) {
             return res.status(statusCode.INTERNAL_SERVER_ERROR)
                 .send(util.fail(statusCode.INTERNAL_SERVER_ERROR, resMessage.DB_ERROR));
