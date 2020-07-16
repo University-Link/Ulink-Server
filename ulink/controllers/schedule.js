@@ -241,6 +241,9 @@ const schedule = {
 
         let result;
         for (let schedule of scheduleList) {
+            if(typeof(schedule) === typeof('jihye')){
+                schedule = JSON.parse(schedule);
+            }
             result = await scheduleModel.createSchedulePersonal(schedule.name, schedule.startTime, schedule.endTime,
                 schedule.day, schedule.content, schedule.color, schedule.scheduleIdx);
             if (result < 0) {
