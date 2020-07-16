@@ -42,7 +42,7 @@ post:
             properties:
               status:
                 type: integer
-                example: 200
+                example: 201
               success:
                 type: boolean
                 example: true

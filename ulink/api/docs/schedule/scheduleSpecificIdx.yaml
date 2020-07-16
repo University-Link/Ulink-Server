@@ -112,7 +112,7 @@ put:
           type: object
     description: Update Main Timetable Name data
   responses:
-    '200':
+    '201':
       description: 시간표 - 일정 색상 변경
       content:
         application/json:
@@ -121,7 +121,7 @@ put:
             properties:
               status:
                 type: integer
-                example: 200
+                example: 201
               success:
                 type: boolean
                 example: true
@@ -169,7 +169,7 @@ delete:
         type: boolean
       description: 학교일정(true)/개인일정(false)
   responses:
-    '200':
+    '204':
       description: 시간표 - 일정 삭제 (통합)
       content:
         application/json:
@@ -178,7 +178,7 @@ delete:
             properties:
               status:
                 type: integer
-                example: 200
+                example: 204
               success:
                 type: boolean
                 example: true

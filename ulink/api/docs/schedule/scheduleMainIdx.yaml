@@ -20,7 +20,7 @@ put:
         type: string
       description: 시간표 idx
   responses:
-    '200':
+    '201':
       description: 시간표 - 메인 시간표 수정(변경)
       content:
         application/json:
@@ -29,7 +29,7 @@ put:
             properties:
               status:
                 type: integer
-                example: 200
+                example: 201
               success:
                 type: boolean
                 example: true

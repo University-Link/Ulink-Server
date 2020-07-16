@@ -21,7 +21,7 @@ post:
       description: JWT 토큰
       example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWR4IjoxLCJuYW1lIjoi6rmA67O067CwIiwic2Nob29sIjoi7ZWc7JaR64yA7ZWZ6rWQIiwibWFqb3IiOiLsnLXtlansoITsnpDqs7XtlZnrtoAiLCJpYXQiOjE1OTQ4MzkzOTEsImV4cCI6MTU5ODQzNTc5MSwiaXNzIjoiYm9iYWUifQ.jxont3bUINSAtQt_F90KeE376WX-cZJoB5rzM2K7Ccg
   responses:
-    '200':
+    '201':
       description: 프로필 사진 업데이트 완료
       content:
         application/json:
@@ -30,7 +30,7 @@ post:
             properties:
               status:
                 type: integer
-                example: 200
+                example: 201
               success:
                 type: boolean
                 example: true

@@ -226,32 +226,31 @@ const schedule = {
      */
     createSchedulePersonal: async (req, res) => {
         const {
-            name,
-            startTime,
-            endTime,
-            day,
-            content,
-            color,
-            scheduleIdx
+            scheduleList
         } = req.body;
-        if (name === undefined || startTime === undefined || endTime === undefined ||
-            day === undefined || color === undefined || scheduleIdx === undefined) {
+        
+        if (scheduleList === undefined) {
             return res.status(statusCode.BAD_REQUEST)
                 .send(util.fail(statusCode.BAD_REQUEST, resMessage.NULL_VALUE));
         }
-        const result = await scheduleModel.createSchedulePersonal(name, startTime, endTime,
-            day, content, color, scheduleIdx);
-        console.log(result);
 
-        if (result < 0) {
-            return res.status(statusCode.INTERNAL_SERVER_ERROR)
-                .send(util.fail(statusCode.INTERNAL_SERVER_ERROR, resMessage.DB_ERROR));
+        if (scheduleList.length === 0) {
+            return res.status(statusCode.BAD_REQUEST)
+                .send(util.fail(statusCode.BAD_REQUEST, resMessage.CREATE_SCHEDULE_FAIL));
+        }
+
+        let result;
+        for (let schedule of scheduleList) {
+            result = await scheduleModel.createSchedulePersonal(schedule.name, schedule.startTime, schedule.endTime,
+                schedule.day, schedule.content, schedule.color, schedule.scheduleIdx);
+            if (result < 0) {
+                return res.status(statusCode.INTERNAL_SERVER_ERROR)
+                    .send(util.fail(statusCode.INTERNAL_SERVER_ERROR, resMessage.DB_ERROR));
+            }
         }
 
         return res.status(statusCode.CREATED)
-            .send(util.success(statusCode.CREATED, resMessage.CREATE_SCHEDULE_SUCCESS, {
-                idx: result
-            }));
+            .send(util.success(statusCode.CREATED, resMessage.CREATE_SCHEDULE_SUCCESS));
     },
     /** 
      * 일정 상세정보 (통합)
@@ -477,8 +476,8 @@ const schedule = {
                 .send(util.fail(statusCode.BAD_REQUEST, resMessage.UPDATE_SCHEDULE_FAIL));
         }
 
-        return res.status(statusCode.NO_CONTENT)
-            .send(util.success(statusCode.NO_CONTENT, resMessage.UPDATE_SCHEDULE_SUCCESS));
+        return res.status(statusCode.CREATED)
+            .send(util.success(statusCode.CREATED, resMessage.UPDATE_SCHEDULE_SUCCESS));
     },
     /** 
      * 시간표 이름 수정하기
@@ -505,8 +504,8 @@ const schedule = {
                 .send(util.fail(statusCode.BAD_REQUEST, resMessage.UPDATE_TIMETABLE_FAIL));
         }
 
-        return res.status(statusCode.NO_CONTENT)
-            .send(util.success(statusCode.NO_CONTENT, resMessage.UPDATE_TIMETABLE_SUCCESS));
+        return res.status(statusCode.CREATED)
+            .send(util.success(statusCode.CREATED, resMessage.UPDATE_TIMETABLE_SUCCESS));
     },
     /** 
      * 메인 시간표 수정하기
@@ -543,8 +542,8 @@ const schedule = {
             }
         }
 
-        return res.status(statusCode.NO_CONTENT)
-            .send(util.success(statusCode.NO_CONTENT, resMessage.UPDATE_TIMETABLE_SUCCESS));
+        return res.status(statusCode.CREATED)
+            .send(util.success(statusCode.CREATED, resMessage.UPDATE_TIMETABLE_SUCCESS));
     },
     /** 
      * 시간표 삭제하기
@@ -632,8 +631,8 @@ const schedule = {
             return res.status(statusCode.BAD_REQUEST)
                 .send(util.fail(statusCode.BAD_REQUEST, resMessage.UPDATE_SCHEDULE_FAIL));
         }
-        return res.status(statusCode.NO_CONTENT)
-            .send(util.success(statusCode.NO_CONTENT, resMessage.UPDATE_SCHEDULE_SUCCESS, {
+        return res.status(statusCode.CREATED)
+            .send(util.success(statusCode.CREATED, resMessage.UPDATE_SCHEDULE_SUCCESS, {
                 idx: idx
             }));
     },

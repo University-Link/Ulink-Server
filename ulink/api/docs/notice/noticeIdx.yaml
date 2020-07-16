@@ -107,7 +107,7 @@ put:
           type: object
     description: Update Specific Notice data
   responses:
-    '204':
+    '201':
       description: 공지 수정(업데이트)
       content:
         application/json:
@@ -116,7 +116,7 @@ put:
             properties:
               status:
                 type: integer
-                example: 204
+                example: 201
               success:
                 type: boolean
                 example: true
