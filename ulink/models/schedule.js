@@ -119,7 +119,7 @@ const schedule = {
 
         try {
             const result = await pool.queryParam(query);
-            result.forEach((r)=> {
+            result.forEach((r) => {
                 r.startTime = [r.startTime];
                 r.endTime = [r.endTime];
                 r.day = [r.day];
@@ -146,7 +146,7 @@ const schedule = {
             FROM schedule_personal WHERE scheduleIdx = ${scheduleIdx}`;
         try {
             const result = await pool.queryParam(query);
-            result.forEach((r)=> {
+            result.forEach((r) => {
                 r.startTime = [r.startTime];
                 r.endTime = [r.endTime];
                 r.day = [r.day];
@@ -206,7 +206,7 @@ const schedule = {
         FROM schedule_personal WHERE schedulePersonalIdx = ${schedulePersonalIdx}`;
         try {
             const result = await pool.queryParam(query);
-            result.forEach((r)=> {
+            result.forEach((r) => {
                 r.startTime = [r.startTime];
                 r.endTime = [r.endTime];
                 r.day = [r.day];
@@ -654,6 +654,32 @@ const schedule = {
                 return -1;
             }
             console.log('getMaxTime ERROR: ', err);
+            throw err;
+        }
+    },
+    /** 
+     * 시간표 인덱스가 학교일정 또는 개인일정 존재여부 확인
+     * @type SELECT
+     * @param 시간표 idx
+     * @return 시간표에서 존재하는 여부를 확인하는 것
+     */
+    checkScheduleIdx: async (idx) => {
+        const query1 = `SELECT * FROM schedule_school WHERE scheduleSchoolIdx = ${idx}`;
+        const query2 = `SELECT * FROM schedule_personal WHERE schedulePersonalIdx = ${idx}`;
+        try {
+            const result1 = await pool.queryParam(query1);
+            const result2 = await pool.queryParam(query2);
+            if (result2.length === 1 || result1.length === 1) {
+                return true;
+            } else {
+                return false;
+            }
+        } catch (err) {
+            if (err.errno == 1062) {
+                console.log('checkScheduleIdx ERROR : ', err.errno, err.code);
+                return -1;
+            }
+            console.log('checkScheduleIdx ERROR: ', err);
             throw err;
         }
     },
