@@ -41,62 +41,67 @@ get:
                     "timeTable": {
                       "scheduleIdx": 2,
                       "semester": "2020-1",
-                      "name": "보배스 시간표"
+                      "name": "BBBBBBB Time Table"
                     },
                     "minTime": "09:00",
-                    "maxTime": "20:00",
+                    "maxTime": "22:00",
                     "subjects": {
-                      "0": [
-                        {
-                          "idx": 1,
-                          "name": "스터디",
-                          "startTime": "17:00",
-                          "endTime": "20:00",
-                          "day": 0,
-                          "content": "개인일정",
-                          "color": 1,
-                          "subject": false
-                        },
-                        {
-                          "idx": 5,
-                          "name": "전자기학",
-                          "startTime": "09:00",
-                          "endTime": "11:00",
-                          "day": 0,
-                          "content": "공학관402",
-                          "color": 5,
-                          "subject": true
-                        }
-                      ],
+                      "0": [],
                       "1": [
                         {
-                          "idx": 2,
-                          "name": "알바",
-                          "startTime": "14:00",
-                          "endTime": "20:00",
-                          "day": 1,
-                          "content": "투썸",
-                          "color": 1,
+                          "idx": 73,
+                          "name": "스터디",
+                          "startTime": [
+                            "9:30"
+                          ],
+                          "endTime": [
+                            "10:45"
+                          ],
+                          "day": [
+                            1
+                          ],
+                          "content": [
+                            "호"
+                          ],
+                          "color": 8,
                           "subject": false
-                        },
-                        {
-                          "idx": 5,
-                          "name": "전자기학",
-                          "startTime": "09:00",
-                          "endTime": "11:00",
-                          "day": 1,
-                          "content": "공학관313",
-                          "color": 5,
-                          "subject": true
                         },
                         {
                           "idx": 6,
                           "name": "컴퓨터 네트워크",
-                          "startTime": "11:00",
-                          "endTime": "13:00",
-                          "day": 1,
-                          "content": "창조관709",
+                          "startTime": [
+                            "11:00"
+                          ],
+                          "endTime": [
+                            "13:00"
+                          ],
+                          "day": [
+                            1
+                          ],
+                          "content": [
+                            "창조관709"
+                          ],
                           "color": 6,
+                          "subjectIdx": 3,
+                          "subject": true
+                        },
+                        {
+                          "idx": 29,
+                          "name": "에너지나노과학",
+                          "startTime": [
+                            "13:00"
+                          ],
+                          "endTime": [
+                            "14:30"
+                          ],
+                          "day": [
+                            1
+                          ],
+                          "content": [
+                            "서울 퓨전테크놀러지 911강의실"
+                          ],
+                          "color": 9,
+                          "subjectIdx": 99,
                           "subject": true
                         }
                       ],
@@ -104,67 +109,170 @@ get:
                         {
                           "idx": 3,
                           "name": "근로",
-                          "startTime": "16:00",
-                          "endTime": "20:00",
-                          "day": 2,
-                          "content": "성신여대",
+                          "startTime": [
+                            "16:00"
+                          ],
+                          "endTime": [
+                            "20:00"
+                          ],
+                          "day": [
+                            2
+                          ],
+                          "content": [
+                            "성신여대"
+                          ],
                           "color": 3,
+                          "subject": false
+                        },
+                        {
+                          "idx": 63,
+                          "name": "ㅍ",
+                          "startTime": [
+                            "12:30"
+                          ],
+                          "endTime": [
+                            "14:0"
+                          ],
+                          "day": [
+                            2
+                          ],
+                          "content": [
+                            "ㅗ"
+                          ],
+                          "color": 6,
+                          "subject": false
+                        },
+                        {
+                          "idx": 64,
+                          "name": "스터디",
+                          "startTime": [
+                            "14:15"
+                          ],
+                          "endTime": [
+                            "15:15"
+                          ],
+                          "day": [
+                            2
+                          ],
+                          "content": [
+                            "ㅇ"
+                          ],
+                          "color": 6,
                           "subject": false
                         },
                         {
                           "idx": 26,
                           "name": "경영학개론",
-                          "startTime": "09:00",
-                          "endTime": "10:30",
-                          "day": 2,
-                          "content": "경영관202",
+                          "startTime": [
+                            "09:00"
+                          ],
+                          "endTime": [
+                            "10:30"
+                          ],
+                          "day": [
+                            2
+                          ],
+                          "content": [
+                            "경영관202"
+                          ],
                           "color": 1,
+                          "subjectIdx": 4,
                           "subject": true
                         }
                       ],
                       "3": [
                         {
-                          "idx": 6,
-                          "name": "컴퓨터 네트워크",
-                          "startTime": "11:00",
-                          "endTime": "13:00",
-                          "day": 3,
-                          "content": "창조관502",
+                          "idx": 60,
+                          "name": "봉사",
+                          "startTime": [
+                            "9:30"
+                          ],
+                          "endTime": [
+                            "10:15"
+                          ],
+                          "day": [
+                            3
+                          ],
+                          "content": [
+                            "ㅗㅗ"
+                          ],
+                          "color": 5,
+                          "subject": false
+                        },
+                        {
+                          "idx": 69,
+                          "name": "학생회",
+                          "startTime": [
+                            "14:15"
+                          ],
+                          "endTime": [
+                            "15:45"
+                          ],
+                          "day": [
+                            3
+                          ],
+                          "content": [
+                            "으아"
+                          ],
                           "color": 6,
-                          "subject": true
+                          "subject": false
+                        },
+                        {
+                          "idx": 70,
+                          "name": "알바",
+                          "startTime": [
+                            "17:0"
+                          ],
+                          "endTime": [
+                            "17:45"
+                          ],
+                          "day": [
+                            3
+                          ],
+                          "content": [
+                            "크"
+                          ],
+                          "color": 6,
+                          "subject": false
                         }
                       ],
                       "4": [
                         {
+                          "idx": 4,
+                          "name": "동아리",
+                          "startTime": [
+                            "15:00"
+                          ],
+                          "endTime": [
+                            "21:00"
+                          ],
+                          "day": [
+                            4
+                          ],
+                          "content": [
+                            "일찍가서세미나준비"
+                          ],
+                          "color": 4,
+                          "subject": false
+                        },
+                        {
                           "idx": 24,
                           "name": "몰라임마",
-                          "startTime": "12:00",
-                          "endTime": "13:00",
-                          "day": 4,
-                          "content": "편의점",
+                          "startTime": [
+                            "12:00"
+                          ],
+                          "endTime": [
+                            "13:00"
+                          ],
+                          "day": [
+                            4
+                          ],
+                          "content": [
+                            "편의점"
+                          ],
                           "color": 3,
                           "subject": false
                         },
-                        {
-                          "idx": 25,
-                          "name": "몰라임마",
-                          "startTime": "12:00",
-                          "endTime": "13:00",
-                          "day": 4,
-                          "content": "편의점",
-                          "color": 3,
-                          "subject": false
-                        },
-                        {
-                          "idx": 26,
-                          "name": "경영학개론",
-                          "startTime": "09:00",
-                          "endTime": "10:30",
-                          "day": 4,
-                          "content": "경영관B102",
-                          "color": 1,
-                          "subject": true
-                        }
                       ]
                     }
                   }
