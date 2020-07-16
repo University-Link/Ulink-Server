@@ -1,9 +1,9 @@
 get:
   tags:
     - Schedule
-  summary: 모든 학기 시간표 목록 가져오기
-  operationId: allTimeTableList
-  description: 모든 학기 시간표 목록 가져오기
+  summary: 학기 시간표 목록 가져오기
+  operationId: timeTableList
+  description: 학기 시간표 목록 가져오기
   parameters:
     - in: header
       name: token
@@ -12,7 +12,11 @@ get:
         type: string
       description: JWT 토큰
       example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWR4IjoxLCJuYW1lIjoi6rmA67O067CwIiwic2Nob29sIjoi7ZWc7JaR64yA7ZWZ6rWQIiwibWFqb3IiOiLsnLXtlansoITsnpDqs7XtlZnrtoAiLCJpYXQiOjE1OTQ4MzkzOTEsImV4cCI6MTU5ODQzNTc5MSwiaXNzIjoiYm9iYWUifQ.jxont3bUINSAtQt_F90KeE376WX-cZJoB5rzM2K7Ccg
-
+    - in: query
+      name: semester
+      schema:
+        type: string
+      description: 학기정보 (2020-1, 2020-2, 2020-3, ...)
   responses:
     '200':
       description: 모든 학기 시간표 목록 가져오기
@@ -69,6 +73,7 @@ get:
                         ]
                     }
                 ]
+
     '400':
       description: 'invalid input, object invalid'
       content:

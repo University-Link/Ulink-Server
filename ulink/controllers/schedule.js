@@ -431,20 +431,32 @@ const schedule = {
             .send(util.success(statusCode.NO_CONTENT, resMessage.DELETE_SCHEDULE_SUCCESS));
     },
     /** 
-     * 모든 학기 시간표 목록 가져오기
-     * @summary 유저의 모든 학기 시간표 목록 가져오기
-     * @param 토큰
+     * 모든/특정 학기 시간표 목록 가져오기
+     * @summary 유저의 학기 시간표 목록 가져오기
+     * @param 토큰, 학기(not required)
      * @return 시간표 목록과 각 시간표의 정보(인덱스, 이름, 메인여부)
      */
-    getSemesterList: async (req, res) => {
+    getScheduleList: async (req, res) => {
         const user = req.decoded;
-        const semesterList = await scheduleModel.getSemesterList(user.userIdx);
-        if (semesterList === -1) {
-            return res.status(statusCode.INTERNAL_SERVER_ERROR)
-                .send(util.fail(statusCode.INTERNAL_SERVER_ERROR, resMessage.DB_ERROR));
+        const semester = req.query.semester;
+        if (semester === undefined){
+            const scheduleList = await scheduleModel.getScheduleList(user.userIdx);
+            if (scheduleList === -1) {
+                return res.status(statusCode.INTERNAL_SERVER_ERROR)
+                    .send(util.fail(statusCode.INTERNAL_SERVER_ERROR, resMessage.DB_ERROR));
+            }
+            return res.status(statusCode.OK)
+                .send(util.success(statusCode.OK, resMessage.READ_TIMETABLE_SUCCESS, scheduleList));
         }
-        return res.status(statusCode.OK)
-            .send(util.success(statusCode.OK, resMessage.READ_TIMETABLE_SUCCESS, semesterList));
+        else{
+            const semesterScheduleList = await scheduleModel.getSemesterScheduleList(user.userIdx, semester);
+            if (semesterScheduleList === -1) {
+                return res.status(statusCode.INTERNAL_SERVER_ERROR)
+                    .send(util.fail(statusCode.INTERNAL_SERVER_ERROR, resMessage.DB_ERROR));
+            }
+            return res.status(statusCode.OK)
+                .send(util.success(statusCode.OK, resMessage.READ_TIMETABLE_SUCCESS, semesterScheduleList));
+        }
     },
     /** 
      * 개인 일정 업데이트
