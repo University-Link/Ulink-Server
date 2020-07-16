@@ -238,13 +238,19 @@ const schedule = {
             color,
             scheduleIdx
         } = req.body;
+
+        console.log('Personal schedule !');
+        console.log('name, startTime, endTime, day, color, scheduleIdx, content');
+        console.log(name, startTime, endTime, day, color, scheduleIdx, content);
+
         if (!name || !startTime || !endTime || !day || !color || !scheduleIdx) {
             return res.status(statusCode.BAD_REQUEST)
                 .send(util.fail(statusCode.BAD_REQUEST, resMessage.NULL_VALUE));
         }
-
         const result = await scheduleModel.createSchedulePersonal(name, startTime, endTime,
             day, content, color, scheduleIdx);
+        console.log(result);
+
         if (result < 0) {
             return res.status(statusCode.INTERNAL_SERVER_ERROR)
                 .send(util.fail(statusCode.INTERNAL_SERVER_ERROR, resMessage.DB_ERROR));
