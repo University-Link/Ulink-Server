@@ -31,15 +31,21 @@ const schedule = {
         }
 
         // result template
-        const result = {0:[], 1:[], 2:[], 3:[], 4:[]};
+        const result = {
+            0: [],
+            1: [],
+            2: [],
+            3: [],
+            4: []
+        };
 
         let getMinTime = await scheduleModel.getMinTime(scheduleIdx);
         let getMaxTime = await scheduleModel.getMaxTime(scheduleIdx);
-        if(getMinTime === null){
+        if (getMinTime === null) {
             getMinTime = "09:00";
             getMaxTime = "18:00";
         }
-        
+
 
         const schedulePersonalList = await scheduleModel.getSchedulePersonal(scheduleIdx);
         const scheduleSchoolList = await scheduleModel.getScheduleSchool(scheduleIdx);
@@ -83,7 +89,13 @@ const schedule = {
                 .send(util.fail(statusCode.BAD_REQUEST, resMessage.DB_ERROR));
         }
         // result template
-        const result = {0:[], 1:[], 2:[], 3:[], 4:[]};
+        const result = {
+            0: [],
+            1: [],
+            2: [],
+            3: [],
+            4: []
+        };
 
         // 현재학기 시간표가 존재하지 않을 경우, 자동으로 새로운 메인 시간표를 생성
         if (mainScheduleList.length == 0) {
@@ -108,7 +120,7 @@ const schedule = {
 
         let getMinTime = await scheduleModel.getMinTime(mainScheduleList[0].scheduleIdx);
         let getMaxTime = await scheduleModel.getMaxTime(mainScheduleList[0].scheduleIdx);
-        if(getMinTime === null){
+        if (getMinTime === null) {
             getMinTime = "09:00";
             getMaxTime = "18:00";
         }
@@ -165,9 +177,8 @@ const schedule = {
         }
 
         const result = await scheduleModel.createSchedule(user.userIdx, semester, name, main);
-        // TO DO: response message 재정의 필요
-        return res.status(statusCode.OK)
-            .send(util.success(statusCode.OK, resMessage.CREATE_SCHEDULE_SUCCESS, {
+        return res.status(statusCode.CREATED)
+            .send(util.success(statusCode.CREATED, resMessage.CREATE_SCHEDULE_SUCCESS, {
                 idx: result
             }));
 
@@ -246,6 +257,11 @@ const schedule = {
         const idx = req.params.idx;
         const isSubject = req.query.isSubject;
         if (!idx || isNaN(idx) || !isSubject) {
+            return res.status(statusCode.BAD_REQUEST)
+                .send(util.fail(statusCode.BAD_REQUEST, resMessage.NULL_VALUE));
+        }
+
+        if (!await scheduleModel.checkScheduleIdx(idx)) {
             return res.status(statusCode.BAD_REQUEST)
                 .send(util.fail(statusCode.BAD_REQUEST, resMessage.NULL_VALUE));
         }
