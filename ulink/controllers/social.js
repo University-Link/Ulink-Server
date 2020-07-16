@@ -49,14 +49,14 @@ const social = {
     postFollowing: async (req, res) => {
         const userIdx = req.decoded.userIdx;
         const idx = req.params.idx;
-        if (!userIdx || !idx) {
+        if (userIdx === undefined || idx === undefined) {
             return res.status(statusCode.BAD_REQUEST)
                 .send(util.fail(statusCode.BAD_REQUEST, resMessage.NULL_VALUE));
         }
         if (await socialModel.checkFollowing(userIdx, idx)) {
             return res.status(statusCode.BAD_REQUEST).send(util.fail(statusCode.BAD_REQUEST, resMessage.SOCIAL_POST_FAIL));
         }
-        if (userIdx != idx) {
+        if (userIdx !== idx) {
             const followingIdx = await socialModel.postFollowing(userIdx, idx);
             return res.status(statusCode.OK).send(util.success(statusCode.OK, resMessage.SOCIAL_POST_SUCCESS, {
                 followingIdx: idx

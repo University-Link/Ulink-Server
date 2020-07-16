@@ -16,7 +16,7 @@ const notice = {
         const user = req.decoded;
         const start = req.query.start,
             end = req.query.end;
-        if (!start || !end) {
+        if (start === undefined || end === undefined) {
             return res.status(statusCode.BAD_REQUEST)
                 .send(util.fail(statusCode.BAD_REQUEST, resMessage.NULL_VALUE));
         }
@@ -75,7 +75,8 @@ const notice = {
             content
         } = req.body;
 
-        if (!subjectIdx || isNaN(subjectIdx) || !category || !date || !startTime || !endTime || !title) {
+        if (subjectIdx === undefined || isNaN(subjectIdx) || category === undefined || 
+            date === undefined || startTime === undefined || endTime === undefined || title === undefined) {
             return res.status(statusCode.BAD_REQUEST)
                 .send(util.fail(statusCode.BAD_REQUEST, resMessage.NULL_VALUE));
         }
@@ -97,7 +98,7 @@ const notice = {
      */
     getNotice: async (req, res) => {
         const subjectIdx = req.params.idx;
-        if (!subjectIdx || isNaN(subjectIdx)) {
+        if (subjectIdx === undefined || isNaN(subjectIdx)) {
             return res.status(statusCode.BAD_REQUEST)
                 .send(util.fail(statusCode.BAD_REQUEST, resMessage.NULL_VALUE));
         }
@@ -138,7 +139,7 @@ const notice = {
      */
     getSpecificNotice: async (req, res) => {
         const noticeIdx = req.params.idx;
-        if (!noticeIdx || isNaN(noticeIdx)) {
+        if (noticeIdx === undefined || isNaN(noticeIdx)) {
             return res.status(statusCode.BAD_REQUEST)
                 .send(util.fail(statusCode.BAD_REQUEST, resMessage.NULL_VALUE));
         }
@@ -169,7 +170,9 @@ const notice = {
             content
         } = req.body;
 
-        if (!noticeIdx || isNaN(noticeIdx) || !category || !date || !startTime || !endTime || !title || !content) {
+        if (noticeIdx === undefined || isNaN(noticeIdx) || category === undefined || 
+            date === undefined || startTime === undefined || endTime === undefined || 
+            title === undefined || content === undefined) {
             return res.status(statusCode.BAD_REQUEST)
                 .send(util.fail(statusCode.BAD_REQUEST, resMessage.NULL_VALUE));
         }
@@ -200,7 +203,7 @@ const notice = {
     deleteSpecificNotice: async (req, res) => {
         const noticeIdx = req.params.idx;
 
-        if (!noticeIdx) {
+        if (noticeIdx === undefined) {
             return res.status(statusCode.BAD_REQUEST)
                 .send(util.fail(statusCode.BAD_REQUEST, resMessage.NULL_VALUE));
         }

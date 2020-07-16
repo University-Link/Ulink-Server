@@ -104,7 +104,7 @@ const subject = {
     getCourseSubject: async (req, res) => {
         const user = req.decoded;
         const course = req.query.name;
-        if(!course){
+        if(course === undefined){
             return res.status(statusCode.BAD_REQUEST)
                 .send(util.fail(statusCode.BAD_REQUEST, resMessage.NULL_VALUE));
         }
@@ -127,8 +127,7 @@ const subject = {
     getGradeSubject: async (req, res) => {
         const user = req.decoded;
         const grade = req.query.grade;
-        console.log(isNaN(grade));
-        if(!grade){
+        if(grade === undefined){
             return res.status(statusCode.BAD_REQUEST)
                 .send(util.fail(statusCode.BAD_REQUEST, resMessage.NULL_VALUE));
         }
@@ -174,7 +173,7 @@ const subject = {
         const name = req.query.name;
         let subjectName = [];
 
-        if (!name || name === "") {
+        if (name === undefined || name === "") {
             return res.status(statusCode.OK)
                 .send(util.success(statusCode.OK, resMessage.READ_SUBJECT_SUCCESS, subjectName));
         }

@@ -59,7 +59,7 @@ const subject = {
      */
     getConditionSubject: async (school, condition1, condition2) => {
         let query1 = `SELECT subjectIdx, subjectCode, name, professor, credit, course, grade
-        FROM subject WHERE school = "${school}"`;
+        FROM subject WHERE school = "${school}" `;
         
         for (let c of Object.keys(condition1)) {
             if (condition1[c] === undefined) {
@@ -79,7 +79,7 @@ const subject = {
         
         let query2 = `SELECT q1.*, q2.startTime, q2.endTime, q2.day, q2.content
         FROM (${query1}) q1 INNER JOIN subject_timeplace q2
-        ON q1.subjectIdx = q2.subjectIdx ORDER BY q1.name, q2.startTime`;
+        ON q1.subjectIdx = q2.subjectIdx ORDER BY q1.subjectIdx, q2.day, q2.startTime`;
         try {
             const subjects = await pool.queryParam(query2);
             const subjectTimePlace = await connect.connectTimePlace(subjects);
