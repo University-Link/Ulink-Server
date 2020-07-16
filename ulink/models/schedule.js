@@ -346,14 +346,15 @@ const schedule = {
      * @param 유저 인덱스
      * @return 유저의 모든 학기에 대해 수업 시간표 목록 정보
      */
-    getSemesterList: async (userIdx) => {
-        const query1 = `SELECT DISTINCT semester FROM ${table} WHERE userIdx = ${userIdx}`;
+    getScheduleList: async (userIdx) => {
+        const query1 = `SELECT DISTINCT semester FROM ${table} 
+                        WHERE userIdx = ${userIdx} ORDER BY semester DESC`;
         try {
             const semesters = await pool.queryParamArr(query1);
             let result = [];
             for (let data of semesters) {
-                let query2 = `SELECT scheduleIdx, name, main As isMain FROM ${table} WHERE semester="${data.semester}"`;
-
+                let query2 = `SELECT scheduleIdx, name, main As isMain FROM ${table} 
+                            WHERE semester="${data.semester}" ORDER BY main DESC`;
                 const timeTableList = await pool.queryParamArr(query2);
                 let result2 = {
                     "semester": data.semester,
@@ -368,6 +369,27 @@ const schedule = {
                 return -1;
             }
             console.log('getSemesterList ERROR: ', err);
+            throw err;
+        }
+    },
+    /** 
+     * 특정 학기 수업 시간표 목록 가져오기
+     * @type SELECT
+     * @param 유저 인덱스, 학기정보
+     * @return 유저의 특정 학기에 대해 수업 시간표 목록 정보
+     */
+    getSemesterScheduleList: async (userIdx, semester) => {
+        const query = `SELECT scheduleIdx, name, main As isMain FROM ${table} 
+                        WHERE userIdx = ${userIdx} AND semester="${semester}" ORDER BY main DESC`;
+        try {
+            const result = await pool.queryParamArr(query);
+            return result;
+        } catch (err) {
+            if (err.errno == 1062) {
+                console.log('getSemesterScheduleList ERROR : ', err.errno, err.code);
+                return -1;
+            }
+            console.log('getSemesterScheduleList ERROR: ', err);
             throw err;
         }
     },

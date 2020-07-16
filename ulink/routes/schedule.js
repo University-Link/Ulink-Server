@@ -10,7 +10,7 @@ router.put('/main/:idx', authUtil.checkToken, scheduleController.updateMainSched
 router.delete('/main/:idx', authUtil.checkToken, scheduleController.deleteMainSchedule);
 router.put('/name/:idx', authUtil.checkToken, scheduleController.updateNameSchedule);
 
-router.get('/list', authUtil.checkToken, scheduleController.getSemesterList);
+router.get('/list', authUtil.checkToken, scheduleController.getScheduleList);
 
 router.post('/school', authUtil.checkToken, scheduleController.createScheduleSchool);
 router.get('/school/:idx', authUtil.checkToken, scheduleController.getSpecificScheduleSchool);
