@@ -38,19 +38,29 @@ get:
               data:
                 type: object
                 example: {
-                    "subjectIdx": 1,
-                    "subjectCode": "1001001",
-                    "name": "전자기학",
-                    "professor": "최아무개",
-                    "school": "서울대학교",
-                    "college": "공과대학",
-                    "major": "전자공학과",
-                    "semester": "2020-1",
-                    "grade": "2",
-                    "credit": 3,
-                    "people": 30,
-                    "course": "전공필수",
-                    "color": 5
+                  "color": 1,
+                  "subjectIdx": 52,
+                  "subjectCode": "PBL4007",
+                  "name": "전기공학전공캡스톤PBL(전력계통자원모델링연구)",
+                  "professor": "배성우",
+                  "credit": 3,
+                  "course": "전공심화",
+                  "startTime": [
+                    "16:00",
+                    "18:00"
+                  ],
+                  "endTime": [
+                    "18:00",
+                    "20:00"
+                  ],
+                  "day": [
+                    0,
+                    0
+                  ],
+                  "content": [
+                    "서울 공업센터 전기제어창의적연구실(601)",
+                    "서울 공업센터 전기제어창의적연구실(601)"
+                  ]
                 }
     '400':
       description: 'invalid input, object invalid'

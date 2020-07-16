@@ -50,7 +50,7 @@ post:
           type: object
     description: Create Personal Timetable data
   responses:
-    '200':
+    '201':
       description: 시간표 - 개인일정만들기
       content:
         application/json:

@@ -33,7 +33,7 @@ post:
           type: object
     description: Create School Timetable data
   responses:
-    '200':
+    '201':
       description: 시간표 - 학교일정만들기
       content:
         application/json:

@@ -182,6 +182,9 @@ const schedule = {
         ON q2.subjectIdx = subject_timeplace.subjectIdx`;
         try {
             const subjects = await pool.queryParam(query3);
+            if (subjects.length === 0) {
+                return subjects;
+            }
             return await connect.connectColorTimePlace(subjects);
         } catch (err) {
             if (err.errno == 1062) {
@@ -463,7 +466,7 @@ const schedule = {
         const query = `UPDATE schedule SET main=1 WHERE scheduleIdx=${scheduleIdx}`;
         try {
             const result = await pool.queryParamArr(query);
-            if (result.affectedRows >= 0) return 1;
+            if (result.affectedRows > 0) return 1;
             else return 0;
         } catch (err) {
             if (err.errno == 1062) {
@@ -484,8 +487,8 @@ const schedule = {
         const query = `UPDATE schedule SET main=0 WHERE main=1 AND semester="${semester}"`;
         try {
             const result = await pool.queryParam(query);
-            if (result.affectedRows === 1) return 1;
-            else return 0;
+            if (result.affectedRows > 0) return true;
+            else return false;
         } catch (err) {
             if (err.errno == 1062) {
                 console.log('updateMainOffSchedule ERROR : ', err.errno, err.code);
@@ -505,8 +508,8 @@ const schedule = {
         const query = `UPDATE schedule SET main=1 WHERE scheduleIdx=${scheduleIdx}`;
         try {
             const result = await pool.queryParamArr(query);
-            if (result.affectedRows === 1) return 1;
-            else return 0;
+            if (result.affectedRows > 0) return true;
+            else return false;
         } catch (err) {
             if (err.errno == 1062) {
                 console.log('updateMainOnSchedule ERROR : ', err.errno, err.code);

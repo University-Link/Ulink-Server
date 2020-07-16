@@ -35,18 +35,25 @@ get:
                 example: true
               message:
                 type: string
-                example: 시간표 조회 성공
+                example: 일정 조회 성공
               data:
                 type: object
                 example: {
-                    "schedulePersonalIdx": 3,
-                    "name": "봉사",
-                    "startTime": "17:00",
-                    "endTime": "18:30",
-                    "day": 3,
-                    "content": "서울 양로원",
-                    "color": 12,
-                    "scheduleIdx": 1
+                  "schedulePersonalIdx": 74,
+                  "name": "ㅇㅇ",
+                  "startTime": [
+                    "18:00"
+                  ],
+                  "endTime": [
+                    "19:00"
+                  ],
+                  "day": [
+                    4
+                  ],
+                  "content": [
+                    "독서실"
+                  ],
+                  "color": 2
                 }
     '400':
       description: 'invalid input, object invalid'

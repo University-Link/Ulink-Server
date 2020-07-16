@@ -4,13 +4,19 @@ module.exports = {
 
 
     // 스케쥴
-    READ_SCHEDULE_SUCCESS: "시간표 조회 성공",
-    READ_SCHEDULE_FAIL: "시간표 조회 실패",
+    CREATE_TIMETABLE_SUCCESS: "시간표 생성 성공",
+    READ_TIMETABLE_SUCCESS: "시간표 조회 성공",
+    UPDATE_TIMETABLE_SUCCESS: "시간표 수정 성공",
+    UPDATE_TIMETABLE_FAIL: "시간표 수정 실패",
+    DELETE_TIMETABLE_SUCCESS: "시간표 삭제 성공",
+    DELETE_TIMETABLE_FAIL: "시간표 삭제 실패",
     READ_COURSE_SUCCESS: "이수구분 목록 조회 성공",
     READ_COURSE_FAIL: "이수구분 목록 조회 실패",
     READ_MAIN_SCHEDULE_FAIL: "메인 시간표가 없습니다",
     READ_SUBJECT_SUCCESS: "과목 조회 성공",
     READ_SUBJECT_FAIL: "과목 조회 실패",
+    READ_SCHEDULE_SUCCESS: "일정 조회 성공",
+    READ_SCHEDULE_FAIL: "일정 조회 실패",
     CREATE_SCHEDULE_SUCCESS: "일정 생성 성공",
     DELETE_SCHEDULE_SUCCESS: "일정 삭제 성공",
     DELETE_SCHEDULE_FAIL: "일정 삭제 실패",
