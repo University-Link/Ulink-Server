@@ -14,7 +14,7 @@ const cart = {
     getCartList: async (req, res) => {
         const userIdx = req.decoded.userIdx;
         const semester = req.query.semester;
-        if (!semester || !userIdx) {
+        if (semester === undefined || userIdx === undefined) {
             return res.status(statusCode.BAD_REQUEST)
                 .send(util.fail(statusCode.BAD_REQUEST, resMessage.NULL_VALUE));
         }
@@ -40,7 +40,7 @@ const cart = {
             semester,
             subjectIdx
         } = req.body;
-        if (!userIdx || !subjectIdx || !semester) {
+        if (userIdx === undefined || subjectIdx === undefined || semester === undefined) {
             return res.status(statusCode.BAD_REQUEST)
                 .send(util.fail(statusCode.BAD_REQUEST, resMessage.NULL_VALUE));
         }
@@ -69,7 +69,7 @@ const cart = {
         const {
             semester
         } = req.body;
-        if (!userIdx || !subjectIdx || !semester) {
+        if (userIdx === undefined || subjectIdx === undefined || semester === undefined) {
             return res.status(statusCode.BAD_REQUEST)
                 .send(util.fail(statusCode.BAD_REQUEST, resMessage.NULL_VALUE));
         }
