@@ -109,7 +109,7 @@ put:
           type: object
     description: Update Schedule Personal data
   responses:
-    '200':
+    '201':
       description: 특정 시간표 - 개인일정 수정
       content:
         application/json:
@@ -118,7 +118,7 @@ put:
             properties:
               status:
                 type: integer
-                example: 200
+                example: 201
               success:
                 type: boolean
                 example: true
@@ -158,7 +158,7 @@ delete:
         type: string
       description: 개인일정 idx
   responses:
-    '200':
+    '204':
       description: 특정 시간표- 개인일정 삭제
       content:
         application/json:
@@ -167,7 +167,7 @@ delete:
             properties:
               status:
                 type: integer
-                example: 200
+                example: 204
               success:
                 type: boolean
                 example: true

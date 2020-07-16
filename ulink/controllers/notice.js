@@ -191,8 +191,8 @@ const notice = {
                 .send(util.fail(statusCode.INTERNAL_SERVER_ERROR, resMessage.DB_ERROR));
         }
 
-        return res.status(statusCode.NO_CONTENT)
-            .send(util.success(statusCode.NO_CONTENT, resMessage.UPDATE_NOTICE_SUCCESS));
+        return res.status(statusCode.CREATED)
+            .send(util.success(statusCode.CREATED, resMessage.UPDATE_NOTICE_SUCCESS));
     },
     /** 
      * 공지 삭제

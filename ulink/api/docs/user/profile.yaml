@@ -20,7 +20,7 @@ post:
         type: string
       description: JWT 토큰
   responses:
-    '200':
+    '201':
       description: 프로필 사진 업데이트 완료
       content:
         application/json:
@@ -29,7 +29,7 @@ post:
             properties:
               status:
                 type: integer
-                example: 200
+                example: 201
               success:
                 type: boolean
                 example: true

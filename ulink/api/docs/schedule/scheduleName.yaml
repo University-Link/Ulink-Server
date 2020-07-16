@@ -31,7 +31,7 @@ put:
           type: object
     description: Update Main Timetable Name data
   responses:
-    '200':
+    '201':
       description: 시간표 - 시간표 이름 수정
       content:
         application/json:
@@ -40,7 +40,7 @@ put:
             properties:
               status:
                 type: integer
-                example: 200
+                example: 201
               success:
                 type: boolean
                 example: true

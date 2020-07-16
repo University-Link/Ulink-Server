@@ -475,8 +475,8 @@ const schedule = {
                 .send(util.fail(statusCode.BAD_REQUEST, resMessage.UPDATE_SCHEDULE_FAIL));
         }
 
-        return res.status(statusCode.NO_CONTENT)
-            .send(util.success(statusCode.NO_CONTENT, resMessage.UPDATE_SCHEDULE_SUCCESS));
+        return res.status(statusCode.CREATED)
+            .send(util.success(statusCode.CREATED, resMessage.UPDATE_SCHEDULE_SUCCESS));
     },
     /** 
      * 시간표 이름 수정하기
@@ -503,8 +503,8 @@ const schedule = {
                 .send(util.fail(statusCode.BAD_REQUEST, resMessage.UPDATE_TIMETABLE_FAIL));
         }
 
-        return res.status(statusCode.NO_CONTENT)
-            .send(util.success(statusCode.NO_CONTENT, resMessage.UPDATE_TIMETABLE_SUCCESS));
+        return res.status(statusCode.CREATED)
+            .send(util.success(statusCode.CREATED, resMessage.UPDATE_TIMETABLE_SUCCESS));
     },
     /** 
      * 메인 시간표 수정하기
@@ -541,8 +541,8 @@ const schedule = {
             }
         }
 
-        return res.status(statusCode.NO_CONTENT)
-            .send(util.success(statusCode.NO_CONTENT, resMessage.UPDATE_TIMETABLE_SUCCESS));
+        return res.status(statusCode.CREATED)
+            .send(util.success(statusCode.CREATED, resMessage.UPDATE_TIMETABLE_SUCCESS));
     },
     /** 
      * 시간표 삭제하기
@@ -630,8 +630,8 @@ const schedule = {
             return res.status(statusCode.BAD_REQUEST)
                 .send(util.fail(statusCode.BAD_REQUEST, resMessage.UPDATE_SCHEDULE_FAIL));
         }
-        return res.status(statusCode.NO_CONTENT)
-            .send(util.success(statusCode.NO_CONTENT, resMessage.UPDATE_SCHEDULE_SUCCESS, {
+        return res.status(statusCode.CREATED)
+            .send(util.success(statusCode.CREATED, resMessage.UPDATE_SCHEDULE_SUCCESS, {
                 idx: idx
             }));
     },
