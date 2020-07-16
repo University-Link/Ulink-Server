@@ -226,30 +226,30 @@ const schedule = {
      */
     createSchedulePersonal: async (req, res) => {
         const {
-            name,
-            startTime,
-            endTime,
-            day,
-            content,
-            color,
-            scheduleIdx
+            scheduleList
         } = req.body;
-        if (!name || !startTime || !endTime || !day || !color || !scheduleIdx) {
+        
+        if (scheduleList === undefined) {
             return res.status(statusCode.BAD_REQUEST)
                 .send(util.fail(statusCode.BAD_REQUEST, resMessage.NULL_VALUE));
         }
+        if (scheduleList.length === 0) {
+            return res.status(statusCode.BAD_REQUEST)
+                .send(util.fail(statusCode.BAD_REQUEST, resMessage.CREATE_SCHEDULE_FAIL));
+        }
 
-        const result = await scheduleModel.createSchedulePersonal(name, startTime, endTime,
-            day, content, color, scheduleIdx);
-        if (result < 0) {
-            return res.status(statusCode.INTERNAL_SERVER_ERROR)
-                .send(util.fail(statusCode.INTERNAL_SERVER_ERROR, resMessage.DB_ERROR));
+        let result;
+        for (let schedule of scheduleList) {
+            result = await scheduleModel.createSchedulePersonal(schedule.name, schedule.startTime, schedule.endTime,
+                schedule.day, schedule.content, schedule.color, schedule.scheduleIdx);
+            if (result < 0) {
+                return res.status(statusCode.INTERNAL_SERVER_ERROR)
+                    .send(util.fail(statusCode.INTERNAL_SERVER_ERROR, resMessage.DB_ERROR));
+            }
         }
 
         return res.status(statusCode.CREATED)
-            .send(util.success(statusCode.CREATED, resMessage.CREATE_SCHEDULE_SUCCESS, {
-                idx: result
-            }));
+            .send(util.success(statusCode.CREATED, resMessage.CREATE_SCHEDULE_SUCCESS));
     },
     /** 
      * 일정 상세정보 (통합)
@@ -619,7 +619,7 @@ const schedule = {
             return res.status(statusCode.BAD_REQUEST)
                 .send(util.fail(statusCode.BAD_REQUEST, resMessage.NULL_VALUE));
         }
-        
+
         if (result < 0) {
             return res.status(statusCode.INTERNAL_SERVER_ERROR)
                 .send(util.fail(statusCode.INTERNAL_SERVER_ERROR, resMessage.DB_ERROR));

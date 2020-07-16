@@ -18,6 +18,7 @@ module.exports = {
     READ_SCHEDULE_SUCCESS: "일정 조회 성공",
     READ_SCHEDULE_FAIL: "일정 조회 실패",
     CREATE_SCHEDULE_SUCCESS: "일정 생성 성공",
+    CREATE_SCHEDULE_FAIL: "일정 생성 실패",
     DELETE_SCHEDULE_SUCCESS: "일정 삭제 성공",
     DELETE_SCHEDULE_FAIL: "일정 삭제 실패",
     UPDATE_SCHEDULE_SUCCESS: "일정 수정 성공",

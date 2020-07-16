@@ -63,7 +63,7 @@ const subject = {
         const condition2 = {
             onDay: req.query.onDay,
             offDay: req.query.offDay
-        }        
+        }
         // 조건으로 모델 필터링하기
         const subjectList = await subjectModel.getConditionSubject(user.school, condition1, condition2);
 
