@@ -43,24 +43,25 @@ get:
               data:
                 type: object
                 example: {
-                    "color": 6,
-                    "subjectIdx": 3,
-                    "subjectCode": "1001003",
-                    "name": "컴퓨터 네트워크",
-                    "nameAtomic": "ㅋㅓㅁㅍㅠㅌㅓㄴㅔㅌㅡㅇㅜㅓㅋㅡ",
-                    "professor": "이아무개",
-                    "school": "서울대학교",
-                    "college": "공과대학",
-                    "major": "소프트웨어학과",
-                    "semester": "2020-1",
-                    "grade": 2,
-                    "credit": 3,
-                    "people": 20,
-                    "course": "전공선택",
-                    "startTime": "11:00",
-                    "endTime": "13:00",
-                    "day": 1,
-                    "content": "창조관709"
+                  "color": 9,
+                  "subjectIdx": 5,
+                  "subjectCode": "1001005",
+                  "name": "경제학개론",
+                  "professor": "김아무개",
+                  "credit": 2,
+                  "course": "교양선택",
+                  "startTime": [
+                    "13:00"
+                  ],
+                  "endTime": [
+                    "17:00"
+                  ],
+                  "day": [
+                    2
+                  ],
+                  "content": [
+                    "세종관403"
+                  ]
                 }
     '400':
       description: 'invalid input, object invalid'

@@ -22,30 +22,36 @@ const schedule = {
 
         const scheduleInfo = await scheduleModel.getSchedule(scheduleIdx);
         if (scheduleInfo < 0) {
-            return res.status(statusCode.BAD_REQUEST)
-                .send(util.fail(statusCode.BAD_REQUEST, resMessage.DB_ERROR));
+            return res.status(statusCode.INTERNAL_SERVER_ERROR)
+                .send(util.fail(statusCode.INTERNAL_SERVER_ERROR, resMessage.DB_ERROR));
         }
         if (scheduleInfo.length === 0) {
             return res.status(statusCode.BAD_REQUEST)
-                .send(util.fail(statusCode.BAD_REQUEST, resMessage.READ_SCHEDULE_FAIL));
+                .send(util.fail(statusCode.BAD_REQUEST, resMessage.READ_TIMETABLE_FAIL));
         }
 
         // result template
-        const result = {0:[], 1:[], 2:[], 3:[], 4:[]};
+        const result = {
+            0: [],
+            1: [],
+            2: [],
+            3: [],
+            4: []
+        };
 
         let getMinTime = await scheduleModel.getMinTime(scheduleIdx);
         let getMaxTime = await scheduleModel.getMaxTime(scheduleIdx);
-        if(getMinTime === null){
+        if (getMinTime === null) {
             getMinTime = "09:00";
             getMaxTime = "18:00";
         }
-        
+
 
         const schedulePersonalList = await scheduleModel.getSchedulePersonal(scheduleIdx);
         const scheduleSchoolList = await scheduleModel.getScheduleSchool(scheduleIdx);
         if (schedulePersonalList < 0 || scheduleSchoolList < 0) {
-            return res.status(statusCode.BAD_REQUEST)
-                .send(util.fail(statusCode.BAD_REQUEST, resMessage.DB_ERROR));
+            return res.status(statusCode.INTERNAL_SERVER_ERROR)
+                .send(util.fail(statusCode.INTERNAL_SERVER_ERROR, resMessage.DB_ERROR));
         }
 
         // Add a variable that verifies that it is a subject
@@ -60,7 +66,7 @@ const schedule = {
         });
 
         return res.status(statusCode.OK)
-            .send(util.success(statusCode.OK, resMessage.READ_SCHEDULE_SUCCESS, {
+            .send(util.success(statusCode.OK, resMessage.READ_TIMETABLE_SUCCESS, {
                 timeTable: scheduleInfo[0],
                 minTime: getMinTime,
                 maxTime: getMaxTime,
@@ -79,22 +85,28 @@ const schedule = {
 
         const mainScheduleList = await scheduleModel.getSemesterMainSchedule(user.userIdx, semester);
         if (mainScheduleList < 0) {
-            return res.status(statusCode.BAD_REQUEST)
-                .send(util.fail(statusCode.BAD_REQUEST, resMessage.DB_ERROR));
+            return res.status(statusCode.INTERNAL_SERVER_ERROR)
+                .send(util.fail(statusCode.INTERNAL_SERVER_ERROR, resMessage.DB_ERROR));
         }
         // result template
-        const result = {0:[], 1:[], 2:[], 3:[], 4:[]};
+        const result = {
+            0: [],
+            1: [],
+            2: [],
+            3: [],
+            4: []
+        };
 
         // 현재학기 시간표가 존재하지 않을 경우, 자동으로 새로운 메인 시간표를 생성
-        if (mainScheduleList.length == 0) {
+        if (mainScheduleList.length === 0) {
             // userIdx, semester, name, main
             const scheduleIdx = await scheduleModel.createSchedule(user.userIdx, semester, semester + '학기 첫 시간표', 1);
             if (scheduleIdx < 0) {
-                return res.status(statusCode.BAD_REQUEST)
-                    .send(util.fail(statusCode.BAD_REQUEST, resMessage.DB_ERROR));
+                return res.status(statusCode.INTERNAL_SERVER_ERROR)
+                    .send(util.fail(statusCode.INTERNAL_SERVER_ERROR, resMessage.DB_ERROR));
             }
             return res.status(statusCode.OK)
-                .send(util.success(statusCode.OK, resMessage.READ_SCHEDULE_SUCCESS, {
+                .send(util.success(statusCode.OK, resMessage.READ_TIMETABLE_SUCCESS, {
                     timeTable: {
                         "scheduleIdx": scheduleIdx,
                         "semester": semester,
@@ -108,7 +120,7 @@ const schedule = {
 
         let getMinTime = await scheduleModel.getMinTime(mainScheduleList[0].scheduleIdx);
         let getMaxTime = await scheduleModel.getMaxTime(mainScheduleList[0].scheduleIdx);
-        if(getMinTime === null){
+        if (getMinTime === null) {
             getMinTime = "09:00";
             getMaxTime = "18:00";
         }
@@ -116,8 +128,8 @@ const schedule = {
         const schedulePersonalList = await scheduleModel.getSchedulePersonal(mainScheduleList[0].scheduleIdx);
         const scheduleSchoolList = await scheduleModel.getScheduleSchool(mainScheduleList[0].scheduleIdx);
         if (schedulePersonalList < 0 || scheduleSchoolList < 0) {
-            return res.status(statusCode.BAD_REQUEST)
-                .send(util.fail(statusCode.BAD_REQUEST, resMessage.DB_ERROR));
+            return res.status(statusCode.INTERNAL_SERVER_ERROR)
+                .send(util.fail(statusCode.INTERNAL_SERVER_ERROR, resMessage.DB_ERROR));
         }
 
         // Add a variable that verifies that it is a subject
@@ -132,7 +144,7 @@ const schedule = {
         });
 
         return res.status(statusCode.OK)
-            .send(util.success(statusCode.OK, resMessage.READ_SCHEDULE_SUCCESS, {
+            .send(util.success(statusCode.OK, resMessage.READ_TIMETABLE_SUCCESS, {
                 timeTable: mainScheduleList[0],
                 minTime: getMinTime,
                 maxTime: getMaxTime,
@@ -158,16 +170,19 @@ const schedule = {
         }
 
         const mainSchedule = await scheduleModel.getSemesterMainSchedule(user.userIdx, semester);
-        if (mainSchedule.length == 0) {
+        if (mainSchedule < 0) {
+            return res.status(statusCode.INTERNAL_SERVER_ERROR)
+                .send(util.fail(statusCode.INTERNAL_SERVER_ERROR, resMessage.DB_ERROR));
+        }
+        if (mainSchedule.length === 0) {
             main = 1;
         } else {
             main = 0;
         }
 
         const result = await scheduleModel.createSchedule(user.userIdx, semester, name, main);
-        // TO DO: response message 재정의 필요
-        return res.status(statusCode.OK)
-            .send(util.success(statusCode.OK, resMessage.CREATE_SCHEDULE_SUCCESS, {
+        return res.status(statusCode.CREATED)
+            .send(util.success(statusCode.CREATED, resMessage.CREATE_TIMETABLE_SUCCESS, {
                 idx: result
             }));
 
@@ -193,12 +208,12 @@ const schedule = {
 
         const result = await scheduleModel.createScheduleSchool(subjectIdx, color, scheduleIdx);
         if (result < 0) {
-            return res.status(statusCode.BAD_REQUEST)
-                .send(util.fail(statusCode.BAD_REQUEST, resMessage.DB_ERROR));
+            return res.status(statusCode.INTERNAL_SERVER_ERROR)
+                .send(util.fail(statusCode.INTERNAL_SERVER_ERROR, resMessage.DB_ERROR));
         }
 
-        return res.status(statusCode.OK)
-            .send(util.success(statusCode.OK, resMessage.CREATE_SCHEDULE_SUCCESS, {
+        return res.status(statusCode.CREATED)
+            .send(util.success(statusCode.CREATED, resMessage.CREATE_SCHEDULE_SUCCESS, {
                 idx: result
             }));
 
@@ -227,12 +242,12 @@ const schedule = {
         const result = await scheduleModel.createSchedulePersonal(name, startTime, endTime,
             day, content, color, scheduleIdx);
         if (result < 0) {
-            return res.status(statusCode.BAD_REQUEST)
-                .send(util.fail(statusCode.BAD_REQUEST, resMessage.DB_ERROR));
+            return res.status(statusCode.INTERNAL_SERVER_ERROR)
+                .send(util.fail(statusCode.INTERNAL_SERVER_ERROR, resMessage.DB_ERROR));
         }
 
-        return res.status(statusCode.OK)
-            .send(util.success(statusCode.OK, resMessage.CREATE_SCHEDULE_SUCCESS, {
+        return res.status(statusCode.CREATED)
+            .send(util.success(statusCode.CREATED, resMessage.CREATE_SCHEDULE_SUCCESS, {
                 idx: result
             }));
     },
@@ -261,8 +276,8 @@ const schedule = {
         }
 
         if (result < 0) {
-            return res.status(statusCode.BAD_REQUEST)
-                .send(util.fail(statusCode.BAD_REQUEST, resMessage.DB_ERROR));
+            return res.status(statusCode.INTERNAL_SERVER_ERROR)
+                .send(util.fail(statusCode.INTERNAL_SERVER_ERROR, resMessage.DB_ERROR));
         }
         if (result.length === 0) {
             return res.status(statusCode.BAD_REQUEST)
@@ -286,8 +301,8 @@ const schedule = {
 
         const result = await scheduleModel.getSpecificScheduleSchool(scheduleSchoolIdx);
         if (result < 0) {
-            return res.status(statusCode.BAD_REQUEST)
-                .send(util.fail(statusCode.BAD_REQUEST, resMessage.DB_ERROR));
+            return res.status(statusCode.INTERNAL_SERVER_ERROR)
+                .send(util.fail(statusCode.INTERNAL_SERVER_ERROR, resMessage.DB_ERROR));
         }
         if (result.length === 0) {
             return res.status(statusCode.BAD_REQUEST)
@@ -311,8 +326,8 @@ const schedule = {
 
         const result = await scheduleModel.getSpecificSchedulePersonal(schedulePersonalIdx);
         if (result < 0) {
-            return res.status(statusCode.BAD_REQUEST)
-                .send(util.fail(statusCode.BAD_REQUEST, resMessage.DB_ERROR));
+            return res.status(statusCode.INTERNAL_SERVER_ERROR)
+                .send(util.fail(statusCode.INTERNAL_SERVER_ERROR, resMessage.DB_ERROR));
         }
         if (result.length === 0) {
             return res.status(statusCode.BAD_REQUEST)
@@ -350,14 +365,12 @@ const schedule = {
                 .send(util.fail(statusCode.BAD_REQUEST, resMessage.DELETE_SCHEDULE_FAIL));
         }
         if (result < 0) {
-            return res.status(statusCode.BAD_REQUEST)
-                .send(util.fail(statusCode.BAD_REQUEST, resMessage.DB_ERROR));
+            return res.status(statusCode.INTERNAL_SERVER_ERROR)
+                .send(util.fail(statusCode.INTERNAL_SERVER_ERROR, resMessage.DB_ERROR));
         }
 
-        return res.status(statusCode.OK)
-            .send(util.success(statusCode.OK, resMessage.DELETE_SCHEDULE_SUCCESS, {
-                idx: idx
-            }));
+        return res.status(statusCode.NO_CONTENT)
+            .send(util.success(statusCode.NO_CONTENT, resMessage.DELETE_SCHEDULE_SUCCESS));
     },
     /** 
      * 학교 일정 삭제
@@ -378,14 +391,12 @@ const schedule = {
                 .send(util.fail(statusCode.BAD_REQUEST, resMessage.DELETE_SCHEDULE_FAIL));
         }
         if (result < 0) {
-            return res.status(statusCode.BAD_REQUEST)
-                .send(util.fail(statusCode.BAD_REQUEST, resMessage.DB_ERROR));
+            return res.status(statusCode.INTERNAL_SERVER_ERROR)
+                .send(util.fail(statusCode.INTERNAL_SERVER_ERROR, resMessage.DB_ERROR));
         }
 
-        return res.status(statusCode.OK)
-            .send(util.success(statusCode.OK, resMessage.DELETE_SCHEDULE_SUCCESS, {
-                idx: scheduleSchoolIdx
-            }));
+        return res.status(statusCode.NO_CONTENT)
+            .send(util.success(statusCode.NO_CONTENT, resMessage.DELETE_SCHEDULE_SUCCESS));
     },
     /** 
      * 개인 일정 삭제
@@ -406,14 +417,12 @@ const schedule = {
                 .send(util.fail(statusCode.BAD_REQUEST, resMessage.DELETE_SCHEDULE_FAIL));
         }
         if (result < 0) {
-            return res.status(statusCode.BAD_REQUEST)
-                .send(util.fail(statusCode.BAD_REQUEST, resMessage.DB_ERROR));
+            return res.status(statusCode.INTERNAL_SERVER_ERROR)
+                .send(util.fail(statusCode.INTERNAL_SERVER_ERROR, resMessage.DB_ERROR));
         }
 
-        return res.status(statusCode.OK)
-            .send(util.success(statusCode.OK, resMessage.DELETE_SCHEDULE_SUCCESS, {
-                idx: schedulePersonalIdx
-            }));
+        return res.status(statusCode.NO_CONTENT)
+            .send(util.success(statusCode.NO_CONTENT, resMessage.DELETE_SCHEDULE_SUCCESS));
     },
     /** 
      * 모든 학기 시간표 목록 가져오기
@@ -425,11 +434,11 @@ const schedule = {
         const user = req.decoded;
         const semesterList = await scheduleModel.getSemesterList(user.userIdx);
         if (semesterList === -1) {
-            return res.status(statusCode.BAD_REQUEST)
-                .send(util.fail(statusCode.BAD_REQUEST, resMessage.DB_ERROR));
+            return res.status(statusCode.INTERNAL_SERVER_ERROR)
+                .send(util.fail(statusCode.INTERNAL_SERVER_ERROR, resMessage.DB_ERROR));
         }
         return res.status(statusCode.OK)
-            .send(util.success(statusCode.OK, resMessage.READ_SCHEDULE_SUCCESS, semesterList));
+            .send(util.success(statusCode.OK, resMessage.READ_TIMETABLE_SUCCESS, semesterList));
     },
     /** 
      * 개인 일정 업데이트
@@ -460,15 +469,8 @@ const schedule = {
                 .send(util.fail(statusCode.BAD_REQUEST, resMessage.UPDATE_SCHEDULE_FAIL));
         }
 
-        return res.status(statusCode.OK)
-            .send(util.success(statusCode.OK, resMessage.UPDATE_SCHEDULE_SUCCESS, {
-                idx: schedulePersonalIdx,
-                name: name,
-                content: content,
-                startTime: startTime,
-                endTime: endTime,
-                day: day
-            }));
+        return res.status(statusCode.NO_CONTENT)
+            .send(util.success(statusCode.NO_CONTENT, resMessage.UPDATE_SCHEDULE_SUCCESS));
     },
     /** 
      * 시간표 이름 수정하기
@@ -492,14 +494,11 @@ const schedule = {
 
         if (scheduleMain) {
             return res.status(statusCode.BAD_REQUEST)
-                .send(util.fail(statusCode.BAD_REQUEST, resMessage.UPDATE_SCHEDULE_FAIL));
+                .send(util.fail(statusCode.BAD_REQUEST, resMessage.UPDATE_TIMETABLE_FAIL));
         }
 
-        return res.status(statusCode.OK)
-            .send(util.success(statusCode.OK, resMessage.UPDATE_SCHEDULE_SUCCESS, {
-                idx: scheduleIdx,
-                name: name
-            }));
+        return res.status(statusCode.NO_CONTENT)
+            .send(util.success(statusCode.NO_CONTENT, resMessage.UPDATE_TIMETABLE_SUCCESS));
     },
     /** 
      * 메인 시간표 수정하기
@@ -518,16 +517,26 @@ const schedule = {
 
         if (!await scheduleModel.checkSchedule(scheduleIdx)) {
             const getScheduleSemester = await scheduleModel.getScheduleSemester(userIdx, scheduleIdx);
+            if (getScheduleSemester < 0) {
+                return res.status(statusCode.INTERNAL_SERVER_ERROR)
+                    .send(util.fail(statusCode.INTERNAL_SERVER_ERROR, resMessage.DB_ERROR));
+            }
             const updateMainOffSchedule = await scheduleModel.updateMainOffSchedule(getScheduleSemester[0].semester);
-            if (updateMainOffSchedule === 1) {
+            if (updateMainOffSchedule) {
                 const updateMainOnSchedule = await scheduleModel.updateMainOnSchedule(scheduleIdx);
+                if (updateMainOnSchedule === -1) {
+                    return res.status(statusCode.INTERNAL_SERVER_ERROR)
+                        .send(util.fail(statusCode.INTERNAL_SERVER_ERROR, resMessage.DB_ERROR));
+                }
+                if (!updateMainOnSchedule) {
+                    return res.status(statusCode.BAD_REQUEST)
+                        .send(util.fail(statusCode.BAD_REQUEST, resMessage.UPDATE_TIMETABLE_FAIL));
+                }
             }
         }
 
-        return res.status(statusCode.OK)
-            .send(util.success(statusCode.OK, resMessage.UPDATE_SCHEDULE_SUCCESS, {
-                idx: scheduleIdx
-            }));
+        return res.status(statusCode.NO_CONTENT)
+            .send(util.success(statusCode.NO_CONTENT, resMessage.UPDATE_TIMETABLE_SUCCESS));
     },
     /** 
      * 시간표 삭제하기
@@ -538,33 +547,46 @@ const schedule = {
     deleteMainSchedule: async (req, res) => {
         const userIdx = req.decoded.userIdx;
         const scheduleIdx = req.params.idx;
-        let scheduleSemester;
-        let updateMainSchedule;
-        let deleteMainSchedule;
+        let scheduleSemester, updateMainSchedule, deleteMainSchedule;
         if (!scheduleIdx) {
             return res.status(statusCode.BAD_REQUEST)
                 .send(util.fail(statusCode.BAD_REQUEST, resMessage.NULL_VALUE));
         }
+
         if (await scheduleModel.checkSchedule(scheduleIdx)) {
             scheduleSemester = await scheduleModel.getScheduleSemester(userIdx, scheduleIdx);
             deleteMainSchedule = await scheduleModel.deleteMainSchedule(scheduleIdx);
+            if (scheduleSemester < 0 || deleteMainSchedule < 0) {
+                return res.status(statusCode.INTERNAL_SERVER_ERROR)
+                    .send(util.fail(statusCode.INTERNAL_SERVER_ERROR, resMessage.DB_ERROR));
+            }
+            if (scheduleSemester.length === 0 || deleteMainSchedule === 0) {
+                return res.status(statusCode.BAD_REQUEST)
+                    .send(util.fail(statusCode.BAD_REQUEST, resMessage.DELETE_TIMETABLE_FAIL));
+            }
             const getScheduleIdx = await scheduleModel.getScheduleIdx(scheduleSemester[0].semester);
+            if (getScheduleIdx.length === 0) {
+                return res.status(statusCode.BAD_REQUEST)
+                    .send(util.fail(statusCode.BAD_REQUEST, resMessage.DELETE_TIMETABLE_FAIL));
+            }
             updateMainSchedule = await scheduleModel.updateMainSchedule(getScheduleIdx[0].scheduleIdx);
+            if (getScheduleIdx < 0 || updateMainSchedule < 0) {
+                return res.status(statusCode.INTERNAL_SERVER_ERROR)
+                    .send(util.fail(statusCode.INTERNAL_SERVER_ERROR, resMessage.DB_ERROR));
+            }
         } else {
             deleteMainSchedule = await scheduleModel.deleteMainSchedule(scheduleIdx);
+            if (deleteMainSchedule < 0) {
+                return res.status(statusCode.INTERNAL_SERVER_ERROR)
+                    .send(util.fail(statusCode.INTERNAL_SERVER_ERROR, resMessage.DB_ERROR));
+            }
         }
         if (deleteMainSchedule === 0 || updateMainSchedule === 0) {
             return res.status(statusCode.BAD_REQUEST)
-                .send(util.fail(statusCode.BAD_REQUEST, resMessage.DELETE_SCHEDULE_FAIL));
+                .send(util.fail(statusCode.BAD_REQUEST, resMessage.DELETE_TIMETABLE_FAIL));
         }
-        if (deleteMainSchedule < 0) {
-            return res.status(statusCode.BAD_REQUEST)
-                .send(util.fail(statusCode.BAD_REQUEST, resMessage.DB_ERROR));
-        }
-        return res.status(statusCode.OK)
-            .send(util.success(statusCode.OK, resMessage.DELETE_SCHEDULE_SUCCESS, {
-                idx: scheduleIdx
-            }));
+        return res.status(statusCode.NO_CONTENT)
+            .send(util.success(statusCode.NO_CONTENT, resMessage.DELETE_TIMETABLE_SUCCESS));
     },
     /** 
      * 일정 색상 수정하기 (통합)
@@ -592,17 +614,17 @@ const schedule = {
             return res.status(statusCode.BAD_REQUEST)
                 .send(util.fail(statusCode.BAD_REQUEST, resMessage.NULL_VALUE));
         }
-
+        
         if (result < 0) {
-            return res.status(statusCode.BAD_REQUEST)
-                .send(util.fail(statusCode.BAD_REQUEST, resMessage.DB_ERROR));
+            return res.status(statusCode.INTERNAL_SERVER_ERROR)
+                .send(util.fail(statusCode.INTERNAL_SERVER_ERROR, resMessage.DB_ERROR));
         }
         if (result === 0) {
             return res.status(statusCode.BAD_REQUEST)
                 .send(util.fail(statusCode.BAD_REQUEST, resMessage.UPDATE_SCHEDULE_FAIL));
         }
-        return res.status(statusCode.OK)
-            .send(util.success(statusCode.OK, resMessage.UPDATE_SCHEDULE_SUCCESS, {
+        return res.status(statusCode.NO_CONTENT)
+            .send(util.success(statusCode.NO_CONTENT, resMessage.UPDATE_SCHEDULE_SUCCESS, {
                 idx: idx
             }));
     },
