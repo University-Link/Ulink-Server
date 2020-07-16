@@ -1,40 +1,6 @@
 const pool = require('../modules/pool');
+const connect = require('../modules/connect');
 const table = 'cart';
-
-const connectTimePlace = (subjects) => {
-    const res = [];
-    let timePlace;
-    let temp = {
-        'subjectIdx': 'n'
-    };
-    for (let subject of subjects) {
-        if (temp.subjectIdx != subject.subjectIdx) {
-            if (temp.subjectIdx != 'n') {
-                res.push(Object.assign(temp, timePlace));
-            }
-            temp = {
-                'subjectIdx': subject.subjectIdx,
-                'subjectCode': subject.subjectCode,
-                'name': subject.name,
-                'professor': subject.professor,
-                'credit': subject.credit,
-                'course': subject.course
-            };
-            timePlace = {
-                'startTime': [],
-                'endTime': [],
-                'day': [],
-                'content': []
-            };
-        }
-        timePlace.startTime.push(subject.startTime);
-        timePlace.endTime.push(subject.endTime);
-        timePlace.day.push(subject.day);
-        timePlace.content.push(subject.content);
-    }
-
-    return res;
-}
 
 const cart = {
     /** 
@@ -54,7 +20,7 @@ const cart = {
         FROM (${query2}) q2 INNER JOIN subject_timeplace tp ON tp.subjectIdx = q2.subjectIdx`
         try {
             const subjects = await pool.queryParam(query3);
-            return connectTimePlace(subjects);
+            return await connect.connectTimePlace(subjects);
         } catch (err) {
             if (err.errno == 1062) {
                 console.log('getCartList ERROR : ', err.errno, err.code);

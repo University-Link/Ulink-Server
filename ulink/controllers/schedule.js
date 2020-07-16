@@ -457,8 +457,64 @@ const schedule = {
                 return res.status(statusCode.INTERNAL_SERVER_ERROR)
                     .send(util.fail(statusCode.INTERNAL_SERVER_ERROR, resMessage.DB_ERROR));
             }
+
+            const scheduleList = [];
+            for(let schedule2 of semesterScheduleList){
+                scheduleIdx = schedule2.scheduleIdx;
+                let scheduleInfo = await scheduleModel.getSchedule(scheduleIdx);
+                if (scheduleInfo < 0) {
+                    return res.status(statusCode.INTERNAL_SERVER_ERROR)
+                        .send(util.fail(statusCode.INTERNAL_SERVER_ERROR, resMessage.DB_ERROR));
+                }
+                if (scheduleInfo.length === 0) {
+                    return res.status(statusCode.BAD_REQUEST)
+                        .send(util.fail(statusCode.BAD_REQUEST, resMessage.READ_TIMETABLE_FAIL));
+                }
+
+                // result template
+                let result = {
+                    0: [],
+                    1: [],
+                    2: [],
+                    3: [],
+                    4: []
+                };
+
+                let getMinTime = await scheduleModel.getMinTime(scheduleIdx);
+                let getMaxTime = await scheduleModel.getMaxTime(scheduleIdx);
+                if (getMinTime === null) {
+                    getMinTime = "09:00";
+                    getMaxTime = "18:00";
+                }
+
+
+                let schedulePersonalList = await scheduleModel.getSchedulePersonal(scheduleIdx);
+                let scheduleSchoolList = await scheduleModel.getScheduleSchool(scheduleIdx);
+                if (schedulePersonalList < 0 || scheduleSchoolList < 0) {
+                    return res.status(statusCode.INTERNAL_SERVER_ERROR)
+                        .send(util.fail(statusCode.INTERNAL_SERVER_ERROR, resMessage.DB_ERROR));
+                }
+
+                // Add a variable that verifies that it is a subject
+                mapping(schedulePersonalList, false);
+                mapping(scheduleSchoolList, true);
+
+                let schedule = await schedulePersonalList.concat(scheduleSchoolList);
+
+                // Pack per day
+                schedule.forEach((s) => {
+                    result[s.day].push(s);
+                });
+
+                scheduleList.push({
+                    timeTable: scheduleInfo[0],
+                    minTime: getMinTime,
+                    maxTime: getMaxTime,
+                    subjects: result
+                });
+            }
             return res.status(statusCode.OK)
-                .send(util.success(statusCode.OK, resMessage.READ_TIMETABLE_SUCCESS, semesterScheduleList));
+                .send(util.success(statusCode.OK, resMessage.READ_TIMETABLE_SUCCESS, scheduleList));
         }
     },
     /** 

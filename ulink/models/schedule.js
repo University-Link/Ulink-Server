@@ -354,7 +354,7 @@ const schedule = {
             let result = [];
             for (let data of semesters) {
                 let query2 = `SELECT scheduleIdx, name, main As isMain FROM ${table} 
-                            WHERE semester="${data.semester}" ORDER BY main DESC`;
+                            WHERE semester="${data.semester}" AND userIdx = ${userIdx} ORDER BY main DESC`;
                 const timeTableList = await pool.queryParamArr(query2);
                 let result2 = {
                     "semester": data.semester,
