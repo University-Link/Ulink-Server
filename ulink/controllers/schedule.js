@@ -239,10 +239,6 @@ const schedule = {
             scheduleIdx
         } = req.body;
 
-        console.log('Personal schedule !');
-        console.log('name, startTime, endTime, day, color, scheduleIdx, content');
-        console.log(name, startTime, endTime, day, color, scheduleIdx, content);
-
         if (!name || !startTime || !endTime || !day || !color || !scheduleIdx) {
             return res.status(statusCode.BAD_REQUEST)
                 .send(util.fail(statusCode.BAD_REQUEST, resMessage.NULL_VALUE));
