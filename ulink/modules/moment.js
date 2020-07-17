@@ -29,19 +29,20 @@ module.exports = {
                 time[ind] = time[ind].toString();
             }
         }
-
+    
         return time[0] + ":" + time[1];
     },
     getMaxStrTime: async (time1, time2) => {
-
+    
         if(time1 === null) return time2;
         if(time2 === null) return time1;
-
+    
         if (time1 > time2) return time1;
         else return time2;
     },
     getMinStrTime: async (time1, time2) => {
 
+    
         if(time1 === null) return time2;
         if(time2 === null) return time1;
 

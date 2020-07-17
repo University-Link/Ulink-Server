@@ -233,6 +233,7 @@ const schedule = {
             return res.status(statusCode.BAD_REQUEST)
                 .send(util.fail(statusCode.BAD_REQUEST, resMessage.NULL_VALUE));
         }
+
         if (scheduleList.length === 0) {
             return res.status(statusCode.BAD_REQUEST)
                 .send(util.fail(statusCode.BAD_REQUEST, resMessage.CREATE_SCHEDULE_FAIL));
@@ -245,6 +246,7 @@ const schedule = {
             }
             schedule.startTime = await moment.timeToStrTime(schedule.startTime);
             schedule.endTime = await moment.timeToStrTime(schedule.endTime);
+            console.log(schedule.startTime, schedule.endTime);
             result = await scheduleModel.createSchedulePersonal(schedule.name, schedule.startTime, schedule.endTime,
                 schedule.day, schedule.content, schedule.color, schedule.scheduleIdx);
             if (result < 0) {
