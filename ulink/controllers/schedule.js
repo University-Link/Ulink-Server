@@ -244,6 +244,9 @@ const schedule = {
             if(typeof(schedule) === typeof('jihye')){
                 schedule = JSON.parse(schedule);
             }
+            schedule.startTime = await moment.timeToStrTime(schedule.startTime);
+            schedule.endTime = await moment.timeToStrTime(schedule.endTime);
+            console.log(schedule.startTime, schedule.endTime);
             result = await scheduleModel.createSchedulePersonal(schedule.name, schedule.startTime, schedule.endTime,
                 schedule.day, schedule.content, schedule.color, schedule.scheduleIdx);
             if (result < 0) {
@@ -460,7 +463,7 @@ const schedule = {
 
             const scheduleList = [];
             for(let schedule2 of semesterScheduleList){
-                scheduleIdx = schedule2.scheduleIdx;
+                let scheduleIdx = schedule2.scheduleIdx;
                 let scheduleInfo = await scheduleModel.getSchedule(scheduleIdx);
                 if (scheduleInfo < 0) {
                     return res.status(statusCode.INTERNAL_SERVER_ERROR)

@@ -667,6 +667,7 @@ const schedule = {
         try {
             const result1 = await pool.queryParam(query1);
             const result2 = await pool.queryParam(query3);
+            console.log(result1, result2);
             if (result1[0].maxTime > result2[0].maxTime) {
                 return result1[0].maxTime;
             } else return result2[0].maxTime;

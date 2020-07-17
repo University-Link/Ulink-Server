@@ -19,4 +19,33 @@ module.exports = {
             return year+'-2';
         }
     },
+    timeToStrTime: async (time) => {
+        time = time.split(":")
+        for(let ind in time){
+            if(time[ind].length < 2){
+                time[ind] = '0' + time[ind].toString();
+            }
+            else{
+                time[ind] = time[ind].toString();
+            }
+        }
+    
+        return time[0] + ":" + time[1];
+    },
+    getMaxStrTime: async (time1, time2) => {
+    
+        if(time1 === null) return time2;
+        if(time2 === null) return time1;
+    
+        if (time1 > time2) return time1;
+        else return time2;
+    },
+    getMinStrTime: async (time1, time2) => {
+    
+        if(time1 === null) return time2;
+        if(time2 === null) return time1;
+    
+        if (time1 > time2) return time2;
+        else return time1;
+    }
 }
