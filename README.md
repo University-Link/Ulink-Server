@@ -1,25 +1,26 @@
-# ULINK
+# ULINK : 시간표 기반, 대학생 지식교류 플랫폼
 
-<img width="300" src="https://user-images.githubusercontent.com/50284754/86553933-26c29d00-bf87-11ea-8c88-174ef6d70073.png">
+
+
+<img width="300" src="https://user-images.githubusercontent.com/50284754/87790338-6177df80-c87b-11ea-87f7-5dc401ca6598.png">
 
 ![node_badge](https://img.shields.io/badge/node-v12.18.1-green) ![npm_bedge](https://img.shields.io/badge/npm-v6.14.5-blue)
 
 * **S.O.P.T 26th Sever 파트 앱잼 프로젝트**
 
-* **프로젝트 기간: 2020.06.29 ~ 2020.06.18**
+* **프로젝트 기간: 2020.06.29 ~ 2020.07.18**
 * [API 문서](http://52.78.27.117:3000/docs/)
 
-![image](https://user-images.githubusercontent.com/50284754/86920507-dbfe7c00-c164-11ea-84ef-c80b59616049.png)
+<img width="800" src="https://user-images.githubusercontent.com/50284754/86920507-dbfe7c00-c164-11ea-84ef-c80b59616049.png">
 
-## 📑 프로젝트 설명
+## 💁 프로젝트 설명
 
 * **Ulink** : 시간표 기반, 대학생 지식교류  플랫폼
+* 노션링크
 
-  ## Workflow
+## :bookmark_tabs: Work flow
 
-  ![유링크_판넬_A1_홍예나](https://user-images.githubusercontent.com/50284754/86556988-d13ebe00-bf8f-11ea-9747-e2a6ae57960c.png)
-
-  
+<img width="800" height ="800" src="https://user-images.githubusercontent.com/50284754/87793432-3a6fdc80-c880-11ea-8e99-f0411b3a31e2.png">
 
 ## 📑 핵심 기능
 
@@ -41,27 +42,95 @@
 
 
 
-## 📑 기능명세서
+## 🧾 기능명세서
 
-​	[기능명세서 링크](https://drive.google.com/file/d/18SxrR4FJkI5svQJtcbWA37azbJc3Ymhl/view?usp=sharing)
+	[기능명세서 링크](https://drive.google.com/file/d/1u7du9skX05OcvschoJgtZPMauRzk6MZG/view?usp=sharing)
 
-
-
-  ## Architecture
+## 📗 Architecture
 
   ![image](https://user-images.githubusercontent.com/50284754/86923872-95f7e700-c169-11ea-95d0-76cd7e1cd922.png)
 
+## 📕 DB ERD
 
-  ## DB ERD
+![image](https://user-images.githubusercontent.com/50284754/87791517-5c1b9480-c87d-11ea-8e15-95b2455a774b.png)
 
-  ![image](https://user-images.githubusercontent.com/50284754/86920840-444d5d80-c165-11ea-9276-cc3c19961cda.png)
 
-  ## 규칙 
+
+## 🥦 Directory Tree
+
+```json
+├───api/
+│   ├───docs/
+│   │   ├───cart/
+│   │   │   ├───cart.yaml
+│   │   │   └───cartIdx.yaml
+│   │   ├───chat/
+│   │   │   └───chat.yaml
+│   │   ├───notice/
+│   │   │   ├───notice.yaml
+│   │   │   ├───noticeIdx.yaml
+│   │   │   └───noticeSubject.yaml
+│   │   ├───schedule/
+│   │   │   ├───schedule.yaml
+│   │   │   ├───scheduleIdx.yaml
+│   │   │   ├───scheduleList.yaml
+│   │   │   ├───scheduleMain.yaml
+│   │   │   ├───scheduleMainIdx.yaml
+│   │   │   ├───scheduleName.yaml
+│   │   │   ├───schedulePersonal.yaml
+│   │   │   ├───schedulePersonalIdx.yaml
+│   │   │   ├───scheduleSchool.yaml
+│   │   │   ├───scheduleSchoolIdx.yaml
+│   │   │   └───scheduleSpecificIdx.yaml
+│   │   ├───schema/
+│   │   │   └───fail.yaml
+│   │   ├───subject/
+│   │   │   ├───subject.yaml
+│   │   │   ├───subjectCourse.yaml
+│   │   │   ├───subjectRecommend.yaml
+│   │   │   └───subjectSearch.yaml
+│   │   └───user/
+│   │       ├───profile.yaml
+│   │       ├───profileId.yaml
+│   │       ├───signIn.yaml
+│   │       └───signUp.yaml
+│   └───swagger.yaml
+├───controllers/
+│   ├───cart.js
+│   ├───chat.js
+│   ├───notice.js
+│   ├───schedule.js
+│   ├───social.js
+│   ├───subject.js
+│   └───user.js
+├───middlewares/
+│   └───auth.js
+├───models/
+│   ├───cart.js
+│   ├───notice.js
+│   ├───schedule.js
+│   ├───social.js
+│   ├───subject.js
+│   └───user.js
+└───routes/
+    ├───cart.js
+    ├───chat.js
+    ├───index.js
+    ├───notice.js
+    ├───schedule.js
+    ├───social.js
+    ├───subject.js
+    └───user.js
+```
+
+
+
+## 📘 규칙 
 
   * **Coding Convention**
   * **Git Convention**
 
-  # Code Convention
+  # 🗂 Code Convention
 
   > 👅 네이밍 규칙
 
@@ -76,16 +145,20 @@
 
   ## Git Convention
 
-  >  브랜치
+  >  branch
 
 
   * <kbd>master</kbd>
 
+    * <kbd>develop</kbd>
+
     * <kbd>feature</kbd>
+
+      * <kbd>debugging</kbd>
 
       <br>
 
-  > 커밋메시지
+  > commit message
 
   ```
   CREATE - 기능 구현(한글)
@@ -105,12 +178,17 @@
 
   사용 패키지(모듈)은 다음과 같습니다.
 
+<img width="300" src="https://user-images.githubusercontent.com/50284754/87794735-085f7a00-c882-11ea-90e3-1e7776c5362b.png">
+
+
+
   ```json
   "dependencies": {
     "aws-sdk": "^2.708.0",
     "cookie-parser": "~1.4.4",
     "debug": "~2.6.9",
     "express": "~4.16.1",
+    "hangul-js": "^0.2.6",
     "http-errors": "~1.6.3",
     "jade": "~1.11.0",
     "jsonwebtoken": "^8.5.1",
@@ -124,9 +202,7 @@
   }
   ```
 
-  
-
-  ## 시작하기
+  ## 📢 시작하기
 
   #### 설치하기
 
@@ -145,15 +221,13 @@
   npm start
   ```
 
-
-  ## 배포
+## 💡 배포
 
   * [AWS EC2](https://aws.amazon.com/ko/ec2/?sc_channel=PS&sc_campaign=acquisition_KR&sc_publisher=google&sc_medium=english_ec2_b&sc_content=ec2_e&sc_detail=awsec2&sc_category=ec2&sc_segment=177228231544&sc_matchtype=e&sc_country=KR&s_kwcid=AL!4422!3!177228231544!e!!g!!awsec2&ef_id=WkRozwAAAnO-lPWy:20180412120123:s) - 클라우드 환경 컴퓨팅 시스템
   * [AWS RDS](https://aws.amazon.com/ko/rds/) - 클라우드 환경 데이터베이스 관리 시스템
   * [AWS S3](https://aws.amazon.com/ko/s3/?sc_channel=PS&sc_campaign=acquisition_KR&sc_publisher=google&sc_medium=english_s3_b&sc_content=s3_e&sc_detail=awss3&sc_category=s3&sc_segment=177211245240&sc_matchtype=e&sc_country=KR&s_kwcid=AL!4422!3!177211245240!e!!g!!awss3&ef_id=WkRozwAAAnO-lPWy:20180412120059:s) - 클라우드 환경 데이터 저장소
 
-
-  ## 사용된 도구 
+## 📚 사용된 도구 
 
   * [Node.js](https://nodejs.org/ko/) - Chrome V8 자바스크립트 엔진으로 빌드된 자바스크립트 런타임
   * [Express.js](http://expressjs.com/ko/) - Node.js 웹 애플리케이션 프레임워크
@@ -164,15 +238,41 @@
 
   
 
-  ## 🔥개발자: Server🔥
+  ## 🔥 Test 🔥
+
+### Postman
+
+![image](https://user-images.githubusercontent.com/50284754/87798723-5165fd00-c887-11ea-800d-d0dd5bcc857b.png)
+
+### Swagger
+
+![image](https://user-images.githubusercontent.com/50284754/87799058-bc173880-c887-11ea-90eb-d8347c2f86f7.png)
+
+  ## 🔥 개발자: Server 🔥
 
 ![image](https://user-images.githubusercontent.com/50284754/86920356-a48fcf80-c164-11ea-9a7a-edd3bfcc6e2b.png)
 
-  * 👨‍💻[김보배](https://github.com/KimDoubleB) - 크롤링 + 채팅 + 시간표 + API
-  * 👩‍💻[황지혜](https://github.com/jihye0420) - 소셜 + 시간표 + API 
+#### 👨‍💻[김보배](https://github.com/KimDoubleB)
 
+- 시간표 조회, 생성 기능
+- 메인 시간표 설정, 수정 기능
+- 수업일정 등록, 수정, 삭제 기능
+- 공지 등록, 수정, 삭제 기능
+- 공지 조회 (달력, 리스트) 기능
+- 학교 수업 데이터 크롤링
+- DB 설계
 
-  ## Ulink의 연관 프로젝트
+#### 👩‍💻[황지혜](https://github.com/jihye0420)
+
+- 유저 로그인, 회원가입 기능
+- 시간표 수정, 삭제 기능
+- 소셜(팔로우, 팔로잉) 기능
+- 개인일정 등록, 수정, 삭제 기능
+- 개인프로필 조회, 업데이트 기능
+- 채팅 (Firebase) 기능
+- DB 설계
+
+  ## 🔎 Ulink의 연관 프로젝트
 
   * [Ulink-Android](https://github.com/University-Link/Ulink-Android)
   * [Ulink-iOS](https://github.com/University-Link/Ulink-iOS)
