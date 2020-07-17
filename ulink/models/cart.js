@@ -14,10 +14,14 @@ const cart = {
     getCartList: async (userIdx, semester) => {
         const query1 = `SELECT * FROM cart 
         WHERE userIdx = ${userIdx} AND semester="${semester}"`;
-        const query2 = `SELECT q1.subjectIdx, s.subjectCode, s.name, s.nameAtomic, s.professor, s.college, s.grade, s.people, s.major, s.credit, s.course 
+
+        const query2 = `SELECT q1.subjectIdx, s.subjectCode, s.name, s.nameAtomic, 
+        s.professor, s.college, s.grade, s.people, s.major, s.credit, s.course 
         FROM (${query1}) q1 INNER JOIN subject s ON q1.subjectIdx = s.subjectIdx`;
+
         const query3 = `SELECT q2.*, tp.startTime, tp.endTime, tp.content, tp.day
-        FROM (${query2}) q2 INNER JOIN subject_timeplace tp ON tp.subjectIdx = q2.subjectIdx`
+        FROM (${query2}) q2 INNER JOIN subject_timeplace tp 
+        ON tp.subjectIdx = q2.subjectIdx ORDER BY q2.subjectIdx, tp.day, tp.startTime`;
         try {
             const subjects = await pool.queryParam(query3);
             return await connect.connectTimePlace(subjects);
