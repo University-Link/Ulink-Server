@@ -41,10 +41,11 @@ module.exports = {
         else return time2;
     },
     getMinStrTime: async (time1, time2) => {
+
     
         if(time1 === null) return time2;
         if(time2 === null) return time1;
-    
+
         if (time1 > time2) return time2;
         else return time1;
     }
