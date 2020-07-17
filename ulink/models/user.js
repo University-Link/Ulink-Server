@@ -3,10 +3,16 @@ const encrypt = require('../modules/encryption');
 const table = 'user';
 
 const user = {
-    signUp: async (id, password, salt, name, email, nickname, school) => {
-        const fields = 'id, password, salt, name, email, nickname, school';
-        const questions = '?, ?, ?, ?, ?, ?, ?';
-        const values = [id, password, salt, name, email, nickname, school];
+    /** 
+    * 유저정보 추가
+    * @type INSERT
+    * @param 아이디, 비밀번호, Salt, 이름, 이메일, 별명, 학교명
+    * @return 추가된 Idx
+    */
+    signUp: async (id, password, salt, name, email, nickname, school, gender) => {
+        const fields = 'id, password, salt, name, email, nickname, school, gender';
+        const questions = '?, ?, ?, ?, ?, ?, ?, ?';
+        const values = [id, password, salt, name, email, nickname, school, gender];
         const query = `INSERT INTO ${table}(${fields}) VALUES(${questions})`;
         try {
             const result = await pool.queryParamArr(query, values);
@@ -21,6 +27,12 @@ const user = {
             throw err;
         }
     },
+    /** 
+    * 유저 존재확인
+    * @type SELECT
+    * @param 아이디
+    * @return 존재여부 (Boolean)
+    */
     checkUser: async (id) => {
         const query = `SELECT * FROM ${table} WHERE id = "${id}"`;
         try {
@@ -38,6 +50,12 @@ const user = {
             throw err;
         }
     },
+    /** 
+    * 유저정보
+    * @type SELECT
+    * @param 아이디
+    * @return 아이디에 해당하는 유저정보
+    */
     getUserById: async (id) => {
         const query = `SELECT * FROM ${table} WHERE id = "${id}"`;
         try {
@@ -51,8 +69,14 @@ const user = {
             throw err;
         }
     },
+    /** 
+    * 유저정보
+    * @type SELECT
+    * @param 인덱스
+    * @return 인덱스에 해당하는 유저정보
+    */
     getUserByIdx: async (userIdx) => {
-        const query = `SELECT * FROM ${table} WHERE user_idx = "${userIdx}"`;
+        const query = `SELECT * FROM ${table} WHERE userIdx = "${userIdx}"`;
         try {
             return await pool.queryParam(query);
         } catch (err) {
@@ -64,6 +88,12 @@ const user = {
             throw err;
         }
     },
+    /** 
+    * 유저 리스트
+    * @type SELECT
+    * @param None
+    * @return 모든 유저 정보
+    */
     getUserList: async () => {
         const query = `SELECT * FROM ${table}`;
         try {
@@ -78,11 +108,17 @@ const user = {
             throw err;
         }
     },
+    /** 
+    * 프로필 사진 업데이트
+    * @type UPDATE
+    * @param 유저 인덱스, 프로필 사진 주소
+    * @return 업데이트한 유저 정보
+    */
     updateProfile: async (userIdx, profile) => {
-        let query = `UPDATE ${table} SET profile_image="${profile}" WHERE user_idx="${userIdx}"`;
+        let query = `UPDATE ${table} SET profileImage="${profile}" WHERE userIdx="${userIdx}"`;
         try {
             await pool.queryParam(query);
-            query = `SELECT id, name, email, school, profile_image FROM ${table} WHERE user_idx="${userIdx}"`;
+            query = `SELECT id, name, email, school, profileImage FROM ${table} WHERE userIdx="${userIdx}"`;
             const result = await pool.queryParam(query);
             return result;
         } catch (err) {

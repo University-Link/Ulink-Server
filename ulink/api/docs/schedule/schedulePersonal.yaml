@@ -1,0 +1,73 @@
+post:
+  tags:
+    - Schedule
+  summary: 시간표 - 개인일정 만들기
+  operationId: createPersonalTimeTable
+  description: 시간표 - 개인일정 만들기
+  parameters:
+    - in: header
+      name: token
+      required: true
+      schema:
+        type: string
+      description: JWT 토큰
+  requestBody:
+    content:
+      application/json:
+        schema:
+          required:
+            - scheduleList
+          properties:
+            scheduleList:
+              type: Array
+              example: [
+                {
+                    "name": "몰라임마",
+                    "startTime": "12:00",
+                    "endTime": "13:00",
+                    "day": 2,
+                    "content": "편의점",
+                    "color": "3",
+                    "scheduleIdx": 3
+                },
+                {
+                    "name": "몰라임마",
+                    "startTime": "12:00",
+                    "endTime": "13:00",
+                    "day": 0,
+                    "content": "편의점",
+                    "color": "3",
+                    "scheduleIdx": 3
+                }
+              ]
+          type: object
+    description: Create Personal Timetable data
+  responses:
+    '201':
+      description: 시간표 - 개인일정만들기
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              status:
+                type: integer
+                example: 201
+              success:
+                type: boolean
+                example: true
+              message:
+                type: string
+                example: 일정 생성 성공
+              data:
+                type: object
+                example: {
+                  "idx": 16
+                }
+    '400':
+      description: 'invalid input, object invalid'
+      content:
+        application/json:
+          schema:
+            type: object
+            $ref: '../schema/fail.yaml'

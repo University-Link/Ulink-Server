@@ -1,0 +1,87 @@
+put:
+  tags:
+    - Schedule
+  summary: 시간표 - 메인 시간표 수정(변경)
+  operationId: updateMainTimeTable
+  description: 시간표 - 메인 시간표 수정(변경)
+  parameters:
+    - in: header
+      name: token
+      required: true
+      schema:
+        type: string
+      description: JWT 토큰
+    - in: path
+      name: idx
+      required: true
+      schema:
+        type: string
+      description: 시간표 idx
+  responses:
+    '201':
+      description: 시간표 - 메인 시간표 수정(변경)
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              status:
+                type: integer
+                example: 201
+              success:
+                type: boolean
+                example: true
+              message:
+                type: string
+                example: 일정 수정 성공
+              data:
+                type: object
+                example: {
+                    "idx": "7"
+                }
+    '400':
+      description: 'invalid input, object invalid'
+      content:
+        application/json:
+          schema:
+            type: object
+            $ref: '../schema/fail.yaml'
+
+delete: 
+  tags:
+    - Schedule
+  summary: 메인 시간표 삭제하기
+  operationId: deleteMainTimeTable
+  description: 메인 시간표 삭제하기
+  parameters:
+    - in: header
+      name: token
+      required: true
+      schema:
+        type: string
+      description: JWT 토큰
+    - in: path
+      name: idx
+      required: true
+      schema:
+        type: string
+      description: 시간표 idx
+  responses:
+    '204':
+      description: 메인 시간표 삭제하기
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              status:
+                type: integer
+                example: 204
+
+    '400':
+      description: 'invalid input, object invalid'
+      content:
+        application/json:
+          schema:
+            type: object
+            $ref: '../schema/fail.yaml'

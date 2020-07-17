@@ -1,0 +1,62 @@
+put:
+  tags:
+    - Schedule
+  summary: 시간표 - 시간표 이름 수정(변경)
+  operationId: updateTimeTableName
+  description: 시간표 - 시간표 이름 수정(변경)
+  parameters:
+    - in: header
+      name: token
+      required: true
+      schema:
+        type: string
+      description: JWT 토큰
+    - in: path
+      name: idx
+      required: true
+      schema:
+        type: number
+      description: 시간표 idx
+
+  requestBody:
+    content:
+      application/json:
+        schema:
+          required:
+            - name
+          properties:
+            name:
+              type: string
+              example: "이번에는 1등하자!"
+          type: object
+    description: Update Main Timetable Name data
+  responses:
+    '201':
+      description: 시간표 - 시간표 이름 수정
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              status:
+                type: integer
+                example: 201
+              success:
+                type: boolean
+                example: true
+              message:
+                type: string
+                example: 일정 수정 성공
+              data:
+                type: object
+                example: {
+                  "idx": "1",
+                  "name": "이번에는 1등하자!"
+                }
+    '400':
+      description: 'invalid input, object invalid'
+      content:
+        application/json:
+          schema:
+            type: object
+            $ref: '../schema/fail.yaml'

@@ -1,0 +1,55 @@
+delete: 
+  tags:
+    - Cart
+  summary: 장바구니 과목 삭제하기
+  operationId: deleteCart
+  description: 장바구니 과목 삭제하기
+  parameters:
+    - in: header
+      name: token
+      required: true
+      schema:
+        type: string
+      description: JWT 토큰
+    - in: path
+      name: idx
+      required: true
+      schema:
+        type: string
+      description: 과목 idx
+  requestBody:
+    content:
+      application/json:
+        schema:
+          required:
+            - semester
+          properties:
+            semester:
+              type: string
+              example: "2020-1"
+          type: object        
+    description: Delete Cart data
+  responses:
+    '204':
+      description: 장바구니 과목 삭제하기
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              status:
+                type: integer
+                example: 204
+              success:
+                type: boolean
+                example: true
+              message:
+                type: string
+                example: 장바구니 삭제 성공
+    '400':
+      description: 'invalid input, object invalid'
+      content:
+        application/json:
+          schema:
+            type: object
+            $ref: '../schema/fail.yaml'

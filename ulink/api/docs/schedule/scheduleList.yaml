@@ -1,0 +1,82 @@
+get:
+  tags:
+    - Schedule
+  summary: 학기 시간표 목록 가져오기
+  operationId: timeTableList
+  description: 학기 시간표 목록 가져오기
+  parameters:
+    - in: header
+      name: token
+      required: true
+      schema:
+        type: string
+      description: JWT 토큰
+    - in: query
+      name: semester
+      schema:
+        type: string
+      description: 학기정보 (2020-1, 2020-2, 2020-3, ...)
+  responses:
+    '200':
+      description: 모든 학기 시간표 목록 가져오기
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              status:
+                type: integer
+                example: 200
+              success:
+                type: boolean
+                example: true
+              message:
+                type: string
+                example: 시간표 조회 성공
+              data:
+                type: object
+                example: [
+                    {
+                        "semester": "2020-1",
+                        "timeTableList": [
+                            {
+                                "scheduleIdx": 2,
+                                "name": "보배스 시간표",
+                                "isMain": 1
+                            },
+                            {
+                                "scheduleIdx": 3,
+                                "name": "이번학점은 4.5",
+                                "isMain": 0
+                            },
+                            {
+                                "scheduleIdx": 5,
+                                "name": "1학기 예정",
+                                "isMain": 0
+                            }
+                        ]
+                    },
+                    {
+                        "semester": "2020-2",
+                        "timeTableList": [
+                            {
+                                "scheduleIdx": 6,
+                                "name": "2학기 시간표",
+                                "isMain": 0
+                            },
+                            {
+                                "scheduleIdx": 7,
+                                "name": "2학기 예정",
+                                "isMain": 1
+                            }
+                        ]
+                    }
+                ]
+
+    '400':
+      description: 'invalid input, object invalid'
+      content:
+        application/json:
+          schema:
+            type: object
+            $ref: '../schema/fail.yaml'

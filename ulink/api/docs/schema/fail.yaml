@@ -1,0 +1,15 @@
+required:
+  - status
+  - success
+  - message
+properties:
+  status:
+    type: int
+    example: status code number (400~)
+  success:
+    type: boolean
+    example: false
+  message:
+    type: string
+    example: Fail message
+type: object

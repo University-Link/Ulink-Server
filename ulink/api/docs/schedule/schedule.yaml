@@ -1,0 +1,58 @@
+post:
+  tags:
+    - Schedule
+  summary: 시간표 - 시간표 만들기
+  operationId: createTimeTable
+  description: 시간표 - 시간표 만들기
+  parameters:
+    - in: header
+      name: token
+      required: true
+      schema:
+        type: string
+      description: JWT 토큰
+  requestBody:
+    content:
+      application/json:
+        schema:
+          required:
+            - semester
+            - name
+          properties:
+            semester:
+              type: string
+              example: "2020-1"
+            name:
+              type: string
+              example: "새로운 시간표"
+          type: object
+    description: Create Timetable data
+  responses:
+    '201':
+      description: 시간표 - 시간표 만들기
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              status:
+                type: integer
+                example: 201
+              success:
+                type: boolean
+                example: true
+              message:
+                type: string
+                example: 시간표 생성 성공
+              data:
+                type: object
+                example: {
+                  "idx": 16
+                }
+    '400':
+      description: 'invalid input, object invalid'
+      content:
+        application/json:
+          schema:
+            type: object
+            $ref: '../schema/fail.yaml'

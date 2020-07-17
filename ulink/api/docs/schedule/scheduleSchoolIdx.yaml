@@ -1,0 +1,119 @@
+get:
+  tags:
+    - Schedule
+  summary: 특정 시간표 - 학교수업일정 상세정보 조회
+  operationId: getSpecificSchoolTimeTable
+  description: 특정 시간표 - 학교수업일정 상세정보 조회
+  parameters:
+    - in: header
+      name: token
+      required: true
+      schema:
+        type: string
+      description: JWT 토큰
+    - in: path
+      name: idx
+      required: true
+      schema:
+        type: string
+      description: 학교수업일정 idx
+  responses:
+    '200':
+      description: 특정 시간표 - 학교수업일정 상세정보 조회
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              status:
+                type: integer
+                example: 200
+              success:
+                type: boolean
+                example: true
+              message:
+                type: string
+                example: 시간표 조회 성공
+              data:
+                type: object
+                example: {
+                  "color": 1,
+                  "subjectIdx": 52,
+                  "subjectCode": "PBL4007",
+                  "name": "전기공학전공캡스톤PBL(전력계통자원모델링연구)",
+                  "professor": "배성우",
+                  "credit": 3,
+                  "course": "전공심화",
+                  "startTime": [
+                    "16:00",
+                    "18:00"
+                  ],
+                  "endTime": [
+                    "18:00",
+                    "20:00"
+                  ],
+                  "day": [
+                    0,
+                    0
+                  ],
+                  "content": [
+                    "서울 공업센터 전기제어창의적연구실(601)",
+                    "서울 공업센터 전기제어창의적연구실(601)"
+                  ]
+                }
+    '400':
+      description: 'invalid input, object invalid'
+      content:
+        application/json:
+          schema:
+            type: object
+            $ref: '../schema/fail.yaml'
+
+delete: 
+  tags:
+    - Schedule
+  summary: 특정 시간표 - 학교수업일정 삭제
+  operationId: deleteSpecificSchoolTimeTable
+  description: 특정 시간표 - 학교수업일정 삭제
+  parameters:
+    - in: header
+      name: token
+      required: true
+      schema:
+        type: string
+      description: JWT 토큰
+    - in: path
+      name: idx
+      required: true
+      schema:
+        type: string
+      description: 학교수업일정 idx
+  responses:
+    '204':
+      description: 특정 시간표- 학교수업일정 삭제
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              status:
+                type: integer
+                example: 204
+              success:
+                type: boolean
+                example: true
+              message:
+                type: string
+                example: 일정 삭제 성공
+              data:
+                type: object
+                example: {
+                    "idx": "15"
+                }
+    '400':
+      description: 'invalid input, object invalid'
+      content:
+        application/json:
+          schema:
+            type: object
+            $ref: '../schema/fail.yaml'

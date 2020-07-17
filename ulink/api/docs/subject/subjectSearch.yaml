@@ -1,0 +1,90 @@
+get:
+  tags:
+    - Subject
+  summary: 수업(과목)검색 자동완성 - 단어
+  operationId: getSearchSubject
+  description: 수업(과목)검색 자동완성 - 단어
+  parameters:
+    - in: header
+      name: token
+      required: true
+      schema:
+        type: string
+      description: JWT 토큰
+    - in: query
+      name: name
+      required: true
+      schema:
+        type: string
+      description: 검색어(전자, 네트워크 등)
+  responses:
+    '200':
+      description: 수업(과목)검색 자동완성 - 단어
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              status:
+                type: integer
+                example: 200
+              success:
+                type: boolean
+                example: true
+              message:
+                type: string
+                example: 과목 조회 성공
+              data:
+                type: object
+                example: [
+                    {
+                      "subjectIdx": 2166,
+                      "name": "고체전자물리개론",
+                      "professor": "정재경",
+                      "credit": 3,
+                      "course": "전공핵심",
+                      "startTime": [
+                        "13:00"
+                      ],
+                      "endTime": [
+                        "14:30"
+                      ],
+                      "day": [
+                        1
+                      ],
+                      "content": [
+                        "서울 제1공학관 602강의실"
+                      ]
+                    },
+                    {
+                      "subjectIdx": 309,
+                      "name": "고체전자물리개론",
+                      "professor": "박재근",
+                      "credit": 3,
+                      "course": "전공핵심",
+                      "startTime": [
+                        "13:00",
+                        "13:00"
+                      ],
+                      "endTime": [
+                        "14:30",
+                        "14:30"
+                      ],
+                      "day": [
+                        0,
+                        1
+                      ],
+                      "content": [
+                        "서울 제2공학관 204강의실",
+                        "서울 제2공학관 210강의실"
+                      ]
+                    },
+                    ...
+                  ]
+    '400':
+      description: 'invalid input, object invalid'
+      content:
+        application/json:
+          schema:
+            type: object
+            $ref: '../schema/fail.yaml'
