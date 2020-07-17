@@ -177,7 +177,7 @@ const subject = {
      * @return 단어가 포함된 수업 리스트
      */
     getSearchSubject: async (school, name) => {
-        const query1 = `SELECT subjectIdx, name, professor, credit, course FROM subject 
+        const query1 = `SELECT subjectIdx, subjectCode, name, professor, credit, course FROM subject 
         WHERE school = "${school}" AND name LIKE "%${name}%"`;
         const query2 = `SELECT q1.*, q2.startTime, q2.endTime, q2.day, q2.content
         FROM (${query1}) q1 INNER JOIN subject_timeplace q2

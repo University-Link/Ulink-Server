@@ -104,7 +104,7 @@ put:
           required:
             - color
           properties:
-            name:
+            color:
               type: number
               example: 2
           type: object
