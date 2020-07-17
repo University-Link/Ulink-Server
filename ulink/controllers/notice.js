@@ -28,6 +28,12 @@ const notice = {
             return res.status(statusCode.INTERNAL_SERVER_ERROR)
                 .send(util.fail(statusCode.INTERNAL_SERVER_ERROR, resMessage.DB_ERROR));
         }
+        
+        if (mainScheduleList.length === 0){
+            return res.status(statusCode.BAD_REQUEST)
+                .send(util.fail(statusCode.BAD_REQUEST, resMessage.READ_NOTICE_LIST_FAIL));
+        }
+
         const notices = await noticeModel.getNoticeList(mainScheduleList[0].scheduleIdx, start, end);
         if (notices.length === 0) {
             return res.status(statusCode.OK)

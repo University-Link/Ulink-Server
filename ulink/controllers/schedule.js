@@ -243,6 +243,8 @@ const schedule = {
             if(typeof(schedule) === typeof('jihye')){
                 schedule = JSON.parse(schedule);
             }
+            schedule.startTime = await moment.timeToStrTime(schedule.startTime);
+            schedule.endTime = await moment.timeToStrTime(schedule.endTime);
             result = await scheduleModel.createSchedulePersonal(schedule.name, schedule.startTime, schedule.endTime,
                 schedule.day, schedule.content, schedule.color, schedule.scheduleIdx);
             if (result < 0) {
@@ -459,7 +461,7 @@ const schedule = {
 
             const scheduleList = [];
             for(let schedule2 of semesterScheduleList){
-                scheduleIdx = schedule2.scheduleIdx;
+                let scheduleIdx = schedule2.scheduleIdx;
                 let scheduleInfo = await scheduleModel.getSchedule(scheduleIdx);
                 if (scheduleInfo < 0) {
                     return res.status(statusCode.INTERNAL_SERVER_ERROR)
@@ -538,7 +540,8 @@ const schedule = {
             return res.status(statusCode.BAD_REQUEST)
                 .send(util.fail(statusCode.BAD_REQUEST, resMessage.NULL_VALUE));
         }
-
+        startTime = await moment.timeToStrTime(startTime);
+        endTime = await moment.timeToStrTime(endTime);
         const schedulePersonal = await scheduleModel.updateSchedulePersonal(schedulePersonalIdx, name, content, startTime, endTime, day);
 
         if (schedulePersonal) {
@@ -598,7 +601,7 @@ const schedule = {
                 return res.status(statusCode.INTERNAL_SERVER_ERROR)
                     .send(util.fail(statusCode.INTERNAL_SERVER_ERROR, resMessage.DB_ERROR));
             }
-            const updateMainOffSchedule = await scheduleModel.updateMainOffSchedule(getScheduleSemester[0].semester);
+            const updateMainOffSchedule = await scheduleModel.updateMainOffSchedule(getScheduleSemester[0].semester, userIdx);
             if (updateMainOffSchedule) {
                 const updateMainOnSchedule = await scheduleModel.updateMainOnSchedule(scheduleIdx);
                 if (updateMainOnSchedule === -1) {

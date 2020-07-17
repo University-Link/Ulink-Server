@@ -1,5 +1,6 @@
 const pool = require('../modules/pool');
 const connect = require('../modules/connect');
+const moment = require('../modules/moment');
 const table = 'schedule';
 
 const schedule = {
@@ -505,8 +506,8 @@ const schedule = {
      * @param 학기
      * @return 수정여부
      */
-    updateMainOffSchedule: async (semester) => {
-        const query = `UPDATE schedule SET main=0 WHERE main=1 AND semester="${semester}"`;
+    updateMainOffSchedule: async (semester, userIdx) => {
+        const query = `UPDATE schedule SET main=0 WHERE main=1 AND semester="${semester}" AND userIdx=${userIdx}`;
         try {
             const result = await pool.queryParam(query);
             if (result.affectedRows > 0) return true;
@@ -551,7 +552,7 @@ const schedule = {
         const query = `SELECT * FROM ${table} WHERE scheduleIdx = ${idx} AND main = 1`;
         try {
             const result = await pool.queryParam(query);
-            if (result.length === 1) {
+            if (result.length >= 1) {
                 return true;
             } else {
                 return false;
@@ -641,9 +642,7 @@ const schedule = {
         try {
             const result1 = await pool.queryParam(query1);
             const result2 = await pool.queryParam(query3);
-            if (result1[0].minTime > result2[0].minTime) {
-                return result2[0].minTime;
-            } else return result1[0].minTime;
+            return await moment.getMinStrTime(result1[0].minTime, result2[0].minTime);
         } catch (err) {
             if (err.errno == 1062) {
                 console.log('getMinTime ERROR : ', err.errno, err.code);
@@ -667,9 +666,7 @@ const schedule = {
         try {
             const result1 = await pool.queryParam(query1);
             const result2 = await pool.queryParam(query3);
-            if (result1[0].maxTime > result2[0].maxTime) {
-                return result1[0].maxTime;
-            } else return result2[0].maxTime;
+            return await moment.getMaxStrTime(result1[0].maxTime, result2[0].maxTime);
         } catch (err) {
             if (err.errno == 1062) {
                 console.log('getMaxTime ERROR : ', err.errno, err.code);
