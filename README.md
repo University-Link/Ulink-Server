@@ -40,11 +40,9 @@
 
 시간표 작성 후, 시간표 데이터를 기반으로 이번 학기 수업 별 소통방이 생성됩니다. 생성된 소통방에서는 클라이언트와의 원활한 소통을 위해 Firebase RealTime Database를 이용한 채팅 서비스를 합니다.
 
-
-
 ## 🧾 기능명세서
 
-	[기능명세서 링크](https://drive.google.com/file/d/1u7du9skX05OcvschoJgtZPMauRzk6MZG/view?usp=sharing)
+* [기능명세서](https://drive.google.com/file/d/1u7du9skX05OcvschoJgtZPMauRzk6MZG/view?usp=sharing)
 
 ## 📗 Architecture
 
@@ -272,7 +270,7 @@
 - 채팅 (Firebase) 기능
 - DB 설계
 
-  ## 🔎 Ulink의 연관 프로젝트
+### 🔎 Ulink의 연관 프로젝트
 
   * [Ulink-Android](https://github.com/University-Link/Ulink-Android)
   * [Ulink-iOS](https://github.com/University-Link/Ulink-iOS)
