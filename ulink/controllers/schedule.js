@@ -598,7 +598,7 @@ const schedule = {
                 return res.status(statusCode.INTERNAL_SERVER_ERROR)
                     .send(util.fail(statusCode.INTERNAL_SERVER_ERROR, resMessage.DB_ERROR));
             }
-            const updateMainOffSchedule = await scheduleModel.updateMainOffSchedule(getScheduleSemester[0].semester);
+            const updateMainOffSchedule = await scheduleModel.updateMainOffSchedule(getScheduleSemester[0].semester, userIdx);
             if (updateMainOffSchedule) {
                 const updateMainOnSchedule = await scheduleModel.updateMainOnSchedule(scheduleIdx);
                 if (updateMainOnSchedule === -1) {

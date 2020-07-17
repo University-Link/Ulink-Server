@@ -505,8 +505,8 @@ const schedule = {
      * @param 학기
      * @return 수정여부
      */
-    updateMainOffSchedule: async (semester) => {
-        const query = `UPDATE schedule SET main=0 WHERE main=1 AND semester="${semester}"`;
+    updateMainOffSchedule: async (semester, userIdx) => {
+        const query = `UPDATE schedule SET main=0 WHERE main=1 AND semester="${semester}" AND userIdx=${userIdx}`;
         try {
             const result = await pool.queryParam(query);
             if (result.affectedRows > 0) return true;
@@ -551,7 +551,7 @@ const schedule = {
         const query = `SELECT * FROM ${table} WHERE scheduleIdx = ${idx} AND main = 1`;
         try {
             const result = await pool.queryParam(query);
-            if (result.length === 1) {
+            if (result.length >= 1) {
                 return true;
             } else {
                 return false;
