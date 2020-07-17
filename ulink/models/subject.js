@@ -36,7 +36,7 @@ const subject = {
         FROM subject WHERE school = "${school}"`;
         const query2 = `SELECT q1.*, q2.startTime, q2.endTime, q2.day, q2.content
         FROM (${query1}) q1 INNER JOIN subject_timeplace q2
-        ON q1.subjectIdx = q2.subjectIdx ORDER BY q1.name, q2.startTime`;
+        ON q1.subjectIdx = q2.subjectIdx ORDER BY q1.subjectIdx, q2.day, q2.startTime`;
         try {
             const subjects = await pool.queryParam(query2);
             return await connect.connectTimePlace(subjects);
@@ -133,7 +133,7 @@ const subject = {
         FROM subject WHERE school = "${school}" and course = "${course}"`;
         const query2 = `SELECT q1.*, q2.startTime, q2.endTime, q2.day, q2.content
         FROM (${query1}) q1 INNER JOIN subject_timeplace q2
-        ON q1.subjectIdx = q2.subjectIdx ORDER BY q1.name, q2.startTime`;
+        ON q1.subjectIdx = q2.subjectIdx ORDER BY q1.subjectIdx, q2.day, q2.startTime`;
         try {
             const subjects = await pool.queryParam(query2);
             return await connect.connectTimePlace(subjects);
@@ -157,7 +157,7 @@ const subject = {
         FROM subject WHERE school = "${school}" and grade = "${grade}"`;
         const query2 = `SELECT q1.*, q2.startTime, q2.endTime, q2.day, q2.content
         FROM (${query1}) q1 INNER JOIN subject_timeplace q2
-        ON q1.subjectIdx = q2.subjectIdx ORDER BY q1.name, q2.startTime`;
+        ON q1.subjectIdx = q2.subjectIdx ORDER BY q1.subjectIdx, q2.day, q2.startTime`;
         try {
             const subjects = await pool.queryParam(query2);
             return await connect.connectTimePlace(subjects);
@@ -181,7 +181,7 @@ const subject = {
         WHERE school = "${school}" AND name LIKE "%${name}%"`;
         const query2 = `SELECT q1.*, q2.startTime, q2.endTime, q2.day, q2.content
         FROM (${query1}) q1 INNER JOIN subject_timeplace q2
-        ON q1.subjectIdx = q2.subjectIdx ORDER BY q1.name, q2.startTime`;
+        ON q1.subjectIdx = q2.subjectIdx ORDER BY q1.subjectIdx, q2.day, q2.startTime`;
         try {
             const subjects = await pool.queryParam(query2);
             return await connect.connectTimePlace(subjects);
