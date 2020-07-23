@@ -89,26 +89,6 @@ const user = {
         }
     },
     /** 
-    * 유저 리스트
-    * @type SELECT
-    * @param None
-    * @return 모든 유저 정보
-    */
-    getUserList: async () => {
-        const query = `SELECT * FROM ${table}`;
-        try {
-            const result = await pool.queryParam(query);
-            return result;
-        } catch (err) {
-            if (err.errno == 1062) {
-                console.log('getUserList ERROR : ', err.errno, err.code);
-                return -1;
-            }
-            console.log('getUserList ERROR: ', err);
-            throw err;
-        }
-    },
-    /** 
     * 프로필 사진 업데이트
     * @type UPDATE
     * @param 유저 인덱스, 프로필 사진 주소

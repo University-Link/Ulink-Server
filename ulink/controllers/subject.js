@@ -119,30 +119,6 @@ const subject = {
             .send(util.success(statusCode.OK, resMessage.READ_SUBJECT_SUCCESS, subjectList));
     },
     /** 
-     * 특정 학년 수업목록 가져오기
-     * @summary 특정 학년 수업 목록 가져오기
-     * @param 토큰, 학년
-     * @return 학년에 해당하는 수업 목록
-     */
-    getGradeSubject: async (req, res) => {
-        const user = req.decoded;
-        const grade = req.query.grade;
-        if(grade === undefined){
-            return res.status(statusCode.BAD_REQUEST)
-                .send(util.fail(statusCode.BAD_REQUEST, resMessage.NULL_VALUE));
-        }
-
-        let subjectList = await subjectModel.getGradeSubject(user.school, grade);
-
-        if (subjectList < 0) {
-            return res.status(statusCode.BAD_REQUEST)
-                .send(util.fail(statusCode.BAD_REQUEST, resMessage.READ_SUBJECT_FAIL));
-        }
-
-        return res.status(statusCode.OK)
-            .send(util.success(statusCode.OK, resMessage.READ_SUBJECT_SUCCESS, subjectList));
-    },
-    /** 
      * 특정 단어 포함 수업목록 가져오기
      * @summary 특정 단어 포함 수업목록 가져오기
      * @param 토큰, 검색 단어

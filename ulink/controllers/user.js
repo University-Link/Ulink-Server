@@ -135,19 +135,6 @@ const user = {
             }));
     },
     /** 
-    * 모든 프로필 정보
-    * @summary 모든 회원의 프로필 정보 가져오기
-    * @param None
-    * @return 모든 회원의 프로필 정보
-    */
-    getProfile: async (req, res) => {
-        const userList = await userModel.getUserList()
-        return res.status(statusCode.OK)
-            .send(util.success(statusCode.OK, resMessage.READ_PROFILE_SUCCESS, {
-                userList
-            }));
-    },
-    /** 
     * 프로필 사진 업데이트
     * @summary 프로필 사진을 업데이트 (AWS S3 사용)
     * @param 토큰, 프로필 사진
