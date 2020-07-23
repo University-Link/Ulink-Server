@@ -147,30 +147,6 @@ const subject = {
         }
     },
     /** 
-     * 학년 별 수업목록 조회
-     * @type SELECT
-     * @param 학교명, 학년
-     * @return 학년 별 수업목록
-     */
-    getGradeSubject: async (school, grade) => {
-        const query1 = `SELECT subjectIdx, subjectCode, name, professor, credit, course
-        FROM subject WHERE school = "${school}" and grade = "${grade}"`;
-        const query2 = `SELECT q1.*, q2.startTime, q2.endTime, q2.day, q2.content
-        FROM (${query1}) q1 INNER JOIN subject_timeplace q2
-        ON q1.subjectIdx = q2.subjectIdx ORDER BY q1.subjectIdx, q2.day, q2.startTime`;
-        try {
-            const subjects = await pool.queryParam(query2);
-            return await connect.connectTimePlace(subjects);
-        } catch (err) {
-            if (err.errno == 1062) {
-                console.log('getGradeSubject ERROR : ', err.errno, err.code);
-                return -1;
-            }
-            console.log('getGradeSubject ERROR: ', err);
-            throw err;
-        }
-    },
-    /** 
      * 특정 단어 포함 수업 데이터 조회
      * @type SELECT
      * @param 학교명, 단어
