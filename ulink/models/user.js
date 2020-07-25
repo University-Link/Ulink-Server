@@ -10,7 +10,7 @@ const user = {
     * @return 추가된 Idx
     */
     signUp: async (id, password, salt, name, email, nickname, school, gender) => {
-        const fields = 'id, password, salt, name, email, nickname, school, gender';
+        const fields = 'username, password, salt, name, email, nickname, school, gender';
         const questions = '?, ?, ?, ?, ?, ?, ?, ?';
         const values = [id, password, salt, name, email, nickname, school, gender];
         const query = `INSERT INTO ${table}(${fields}) VALUES(${questions})`;
@@ -34,7 +34,7 @@ const user = {
     * @return 존재여부 (Boolean)
     */
     checkUser: async (id) => {
-        const query = `SELECT * FROM ${table} WHERE id = "${id}"`;
+        const query = `SELECT * FROM ${table} WHERE username = "${id}"`;
         try {
             const result = await pool.queryParam(query);
             if (result.length === 0) {
@@ -57,7 +57,7 @@ const user = {
     * @return 아이디에 해당하는 유저정보
     */
     getUserById: async (id) => {
-        const query = `SELECT * FROM ${table} WHERE id = "${id}"`;
+        const query = `SELECT * FROM ${table} WHERE username = "${id}"`;
         try {
             return await pool.queryParam(query);
         } catch (err) {
@@ -98,7 +98,7 @@ const user = {
         let query = `UPDATE ${table} SET profileImage="${profile}" WHERE userIdx="${userIdx}"`;
         try {
             await pool.queryParam(query);
-            query = `SELECT id, name, email, school, profileImage FROM ${table} WHERE userIdx="${userIdx}"`;
+            query = `SELECT username, name, email, school, profileImage FROM ${table} WHERE userIdx="${userIdx}"`;
             const result = await pool.queryParam(query);
             return result;
         } catch (err) {

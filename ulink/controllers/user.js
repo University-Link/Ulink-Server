@@ -33,7 +33,7 @@ const user = {
         // duplicated id
         if (await userModel.checkUser(id)) {
             return res.status(statusCode.BAD_REQUEST)
-                .send(util.fail(statusCode.BAD_REQUEST, resMessage.ALREADY_ID));
+                .send(util.fail(statusCode.BAD_REQUEST, resMessage.ALREADY_USERNAME));
         }
 
         // invalid school
