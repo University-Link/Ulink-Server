@@ -163,7 +163,26 @@ const user = {
         const result = await userModel.updateProfile(userIdx, profileImg);
         return res.status(statusCode.CREATED)
             .send(util.success(statusCode.CREATED, resMessage.PROFILE_SUCCESS, result[0]));
-    }
+    },
+    /** 
+    * 아이디 중복 체크
+    * @summary 아이디가 이미 사용 중인지 체크해준다.
+    * @param 아이디
+    * @return 중복인지 아닌지 확인하는 success 값
+    */
+    verifyUsername: async (req, res) => {
+        const { id } = req.params;
+        if (id === undefined) {
+            return res.status(statusCode.BAD_REQUEST)
+                .send(util.fail(statusCode.BAD_REQUEST, resMessage.NULL_VALUE));
+        }
+        if (await userModel.checkUser(id)) {
+            return res.status(statusCode.BAD_REQUEST)
+                .send(util.fail(statusCode.BAD_REQUEST, resMessage.ALREADY_USERNAME));
+        }
+        res.status(statusCode.OK)
+            .send(util.success(statusCode.OK, resMessage.AVAILABLE_USERNAME));
+    },
 }
 
 module.exports = user;
